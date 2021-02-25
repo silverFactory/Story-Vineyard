@@ -35,3 +35,6 @@
   text-decoration: none;
   cursor: pointer;
 }
+#storiesContainer{
+  display: none;
+}

@@ -4,6 +4,8 @@ window.addEventListener("load", ()=>{
   // Get the <span> element that closes the modal
   const modalClose = document.querySelector("span");
   const logInButton = document.querySelector("#logIn")
+  const storiesContainer = document.querySelector("#storiesContainer")
+  const storiesMenu = document.querySelector("#storiesMenu")
 
   // When the user clicks on the button, open the modal
   userButton.onclick = function() {
@@ -44,6 +46,13 @@ window.addEventListener("load", ()=>{
       let welcome = document.querySelector("div#welcome  h1")
       welcome.innerText = `${object["username"]}'s Story Vineyard`
       userButton.style.display = "none"
+      storiesContainer.style.display = "inline"
+      object.stories.forEach(function(story){
+        let option = document.createElement("option")
+        option.value = story
+        option.innerText = story
+        storiesMenu.appendChild(option)
+      })
       console.log(object)
     })
   }, false)
