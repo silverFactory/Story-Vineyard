@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script type="application/javascript" src="src/index.js" charset="UTF-8"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <title>Story Vineyard</title>
+  </head>
+  <body>
+   Welcome to the Story Vineyard!
+   <!-- Trigger/Open The Modal -->
+  <button id="userButton">Sign In/Sign Up</button>
+  <!-- The Modal -->
+  <div id="userForm" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span id="close">&times;</span>
+      <form action="http://localhost:3000/login" method="POST">
+      <label>Username: <input type="text" name="username" id="username"></label><br>
+      <label>Password: <input type="password" name="password" id="password"></label><br>
+      <input type="submit" name="submit" id="logIn" value="Log In">
+      </form>
+    </div>
+
+  </div>
+  </body>
+</html>
