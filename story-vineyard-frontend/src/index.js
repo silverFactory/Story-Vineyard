@@ -38,6 +38,7 @@ window.addEventListener("load", ()=>{
       },
       body: JSON.stringify(logInInfo)
     }
+    //get all stories associated with user
     fetch("http://localhost:3000/login", configObj)
     .then(function(response) {
       return response.json()
@@ -52,6 +53,11 @@ window.addEventListener("load", ()=>{
         option.value = story.title
         option.innerText = story.title
         storiesMenu.appendChild(option)
+      })
+      //get all story elements associated with selected story
+      storiesMenu.addEventListener('change', (element)=>{
+        console.log(storiesMenu.value)
+        
       })
       console.log(object)
     })
