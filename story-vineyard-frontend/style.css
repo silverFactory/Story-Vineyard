@@ -38,3 +38,7 @@
 #storiesContainer{
   display: none;
 }
+#canvas {
+  border: 2px solid black;
+  display: block;
+}

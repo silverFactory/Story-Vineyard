@@ -6,6 +6,12 @@ window.addEventListener("load", ()=>{
   const logInButton = document.querySelector("#logIn")
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
+  const canvas = document.querySelector("#canvas")
+  const zoomIn = document.querySelector(".zoomIn")
+  const zoomOut = document.querySelector(".zoomOut")
+  const canvasLeft = canvas.offsetLeft + canvas.clientLeft
+  const canvasTop = canvas.offsetTop + canvas.clientTop
+  const ctx = canvas.getContext("2d")
 
   // When the user clicks on the button, open the modal
   userButton.onclick = function() {
@@ -57,10 +63,58 @@ window.addEventListener("load", ()=>{
       //get all story elements associated with selected story
       storiesMenu.addEventListener('change', (element)=>{
         console.log(storiesMenu.value)
-        
+
       })
       console.log(object)
     })
   }, false)
 
+    canvas.height = 600
+    canvas.width = 600
+    elements = []
+    elements.push({
+      width: 200,
+      height: 200,
+      top: 150,
+      left: 150
+    })
+    let scaleFactor = 1
+    zoomIn.addEventListener("click", ()=>{
+    //ctx.restore()
+    ctx.resetTransform()
+    scaleFactor += 0.25
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.scale(scaleFactor, scaleFactor)
+    console.log(scaleFactor)
+  //  ctx.save()
+    draw()
+  })
+  zoomOut.addEventListener("click", ()=>{
+  //  ctx.restore()
+    ctx.resetTransform()
+    scaleFactor -= 0.25
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.scale(scaleFactor, scaleFactor)
+    console.log(scaleFactor)
+  //  ctx.save()
+    draw()
+  })
+  function draw(){
+    //ctx.beginPath()
+    //ctx.moveTo(0,0)
+    ctx.fillRect(150, 150, 200, 200)
+  }
+  canvas.addEventListener('click', ()=> {
+    console.log(event)
+    var x = event.pageX - canvasLeft,
+        y = event.pageY - canvasTop;
+        elements.forEach(function(element) {
+        if (y > (element.top * scaleFactor) && y < (element.top + element.height)* scaleFactor
+            && x > (element.left * scaleFactor) && x < (element.left + element.width)* scaleFactor) {
+                alert('clicked an element');
+            }
+        });
+        }, false);
+    ctx.save()
+    draw()
 })
