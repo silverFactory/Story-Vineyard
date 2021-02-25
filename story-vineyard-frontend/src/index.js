@@ -36,7 +36,7 @@ window.addEventListener("load", ()=>{
       body: JSON.stringify(logInInfo)
     }
 
-    fetch("http://localhost:3000/logIn", configObj)
+    fetch("http://localhost:3000/login", configObj)
     .then(function(response) {
       return response.json()
     })
