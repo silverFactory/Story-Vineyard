@@ -43,6 +43,7 @@ window.addEventListener("load", ()=>{
     .then(function(object) {
       let welcome = document.querySelector("div#welcome  h1")
       welcome.innerText = `${object["username"]}'s Story Vineyard`
+      userButton.style.display = "none"
       console.log(object)
     })
   }, false)
