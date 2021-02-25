@@ -49,8 +49,8 @@ window.addEventListener("load", ()=>{
       storiesContainer.style.display = "inline"
       object.stories.forEach(function(story){
         let option = document.createElement("option")
-        option.value = story
-        option.innerText = story
+        option.value = story.title
+        option.innerText = story.title
         storiesMenu.appendChild(option)
       })
       console.log(object)

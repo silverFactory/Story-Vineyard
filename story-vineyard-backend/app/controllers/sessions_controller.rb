@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
         render json: {
           message: "it worked!",
           username: @user.username,
-          stories: ["Sleeping Beauty", "The Jungle Book", "Cinderella"]
+          stories: @user.stories
         }
       else
         render json: {message: "invalid password"}
