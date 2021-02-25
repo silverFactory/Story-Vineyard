@@ -4,7 +4,11 @@ class SessionsController < ApplicationController
       if @user == nil
         render json: {message: "no user found"}
       elsif @user.authenticate(params[:password])
-        render json: {message: "it worked!"}
+        render json: {
+          message: "it worked!",
+          username: @user.username,
+          stories: ""
+        }
       else
         render json: {message: "invalid password"}
       end

@@ -16,11 +16,12 @@ window.addEventListener("load", ()=>{
   }
 
   // When the user clicks anywhere outside of the modal, close it
-  // window.onclick = function(event) {
-  //   if (event.target == modal) {
-  //     modal.style.display = "none";
-  //   }
-  // }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+  //logIn form default-submit prevented and fetch data from API
   logInButton.addEventListener("click", (event)=>{
     event.preventDefault()
     let logInInfo = {
@@ -35,15 +36,15 @@ window.addEventListener("load", ()=>{
       },
       body: JSON.stringify(logInInfo)
     }
-
     fetch("http://localhost:3000/login", configObj)
     .then(function(response) {
       return response.json()
     })
     .then(function(object) {
+      let welcome = document.querySelector("div#welcome  h1")
+      welcome.innerText = `${object["username"]}'s Story Vineyard`
       console.log(object)
     })
-
   }, false)
 
 })
