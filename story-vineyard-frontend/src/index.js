@@ -6,12 +6,14 @@ window.addEventListener("load", ()=>{
   const logInButton = document.querySelector("#logIn")
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
-  const canvas = document.querySelector("#canvas")
   const zoomIn = document.querySelector(".zoomIn")
   const zoomOut = document.querySelector(".zoomOut")
+  const canvas = document.querySelector("#canvas")
   const canvasLeft = canvas.offsetLeft + canvas.clientLeft
   const canvasTop = canvas.offsetTop + canvas.clientTop
   const ctx = canvas.getContext("2d")
+  const vine = document.getElementById("vine")
+  const grapes = document.getElementById("grapes")
 
   // When the user clicks on the button, open the modal
   userButton.onclick = function() {
@@ -69,14 +71,14 @@ window.addEventListener("load", ()=>{
     })
   }, false)
 
-    canvas.height = 600
-    canvas.width = 600
+    canvas.height = 1000
+    canvas.width = 1000
     elements = []
     elements.push({
       width: 200,
-      height: 200,
-      top: 150,
-      left: 150
+      height: 80,
+      top: 100,
+      left: 100
     })
     let scaleFactor = 1
     zoomIn.addEventListener("click", ()=>{
@@ -100,9 +102,8 @@ window.addEventListener("load", ()=>{
     draw()
   })
   function draw(){
-    //ctx.beginPath()
-    //ctx.moveTo(0,0)
-    ctx.fillRect(150, 150, 200, 200)
+    //ctx.fillRect(150, 150, 200, 200)
+    ctx.drawImage(vine, 100, 100)
   }
   canvas.addEventListener('click', ()=> {
     console.log(event)
