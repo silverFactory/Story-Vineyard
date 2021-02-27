@@ -14,6 +14,7 @@ window.addEventListener("load", ()=>{
   const ctx = canvas.getContext("2d")
   const vine = document.getElementById("vine")
   const grapes = document.getElementById("grapes")
+  const scenesArray = []
 
   // When the user clicks on the button, open the modal
   userButton.onclick = function() {
@@ -48,9 +49,7 @@ window.addEventListener("load", ()=>{
     }
     //get all stories associated with user
     fetch("http://localhost:3000/login", configObj)
-    .then(function(response) {
-      return response.json()
-    })
+    .then(resp => resp.json())
     .then(function(object) {
       let welcome = document.querySelector("div#welcome  h1")
       welcome.innerText = `${object["username"]}'s Story Vineyard`
@@ -65,12 +64,35 @@ window.addEventListener("load", ()=>{
       })
       //get all story elements associated with selected story
       storiesMenu.addEventListener('change', (element)=>{
-        console.log(storiesMenu.value)
+        //console.log(storiesMenu.value)
         let storyId = parseInt(storiesMenu.value.split(" ")[0], 10)
         fetch(`http://localhost:3000/stories/${storyId}`)
           .then(resp => resp.json())
-          .then(json => console.log(json))
+          .then(function(json) {
+            //make a scene object for each scene and add to scenesArray
+            json.scenes.forEach(function(scene){
+              let characters = []
+              scene.characters.forEach(function(char){
+                //make a new character object
+              })
+              let meta_contents =[]
+              scene.meta_contents.forEach(function(meta){
+                //make a new meta object
+              })
+              let newScene = new Scene(
+                scene.id,
+                scene.name,
+                scene.location,
+                scene.x_pos,
+                scene.y_pos,
+                characters,
+                meta_contents
+              )
 
+              scenesArray.push(newScene)
+            })
+            console.log(scenesArray)
+          })
       })
       console.log(object)
     })
@@ -108,7 +130,8 @@ window.addEventListener("load", ()=>{
   })
   function draw(){
     //ctx.fillRect(150, 150, 200, 200)
-    ctx.drawImage(vine, 100, 100)
+    //ctx.drawImage(vine, 100, 100)
+    //draw each element in scenesArray
   }
   canvas.addEventListener('click', ()=> {
     console.log(event)
@@ -121,6 +144,6 @@ window.addEventListener("load", ()=>{
             }
         });
         }, false);
-    ctx.save()
-    draw()
+  //  ctx.save()
+    //draw()
 })

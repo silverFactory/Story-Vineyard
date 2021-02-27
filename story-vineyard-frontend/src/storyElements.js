@@ -5,12 +5,14 @@
    }
  }
 class Scene {
-  constructor(id, name, location, x_pos, y_pos){
+  constructor(id, name, location, x_pos, y_pos, characters, meta_contents){
     this.id = id
     this.name = name
     this.location = location
     this.x_pos = x_pos
     this.y_pos = y_pos
+    this.characters = characters
+    this.meta_contents = meta_contents
   }
 }
 class Character{

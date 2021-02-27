@@ -8,6 +8,7 @@ class StoriesController < ApplicationController
     #return JSON with all of a Story's Scenes, all of a Scene's Characters, all of a Scene's MetaContent
     story.scenes.each do |scene|
       full_scene = {
+        id: scene.id,
         name: scene.name,
         location: scene.location,
         x_pos: scene.x_pos,
