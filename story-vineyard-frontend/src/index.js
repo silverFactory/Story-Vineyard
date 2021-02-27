@@ -74,10 +74,21 @@ window.addEventListener("load", ()=>{
               let characters = []
               scene.characters.forEach(function(char){
                 //make a new character object
+                let newChar = new Character(
+                  char.id,
+                  char.name
+                  )
+                  characters.push(newChar)
               })
               let meta_contents =[]
               scene.meta_contents.forEach(function(meta){
                 //make a new meta object
+                let newMeta = new MetaContent(
+                  meta.id,
+                  meta.content,
+                  meta.theme_or_pp
+                )
+                meta_contents.push(newMeta)
               })
               let newScene = new Scene(
                 scene.id,
