@@ -13,6 +13,8 @@ window.addEventListener("load", ()=>{
   const canvasTop = canvas.offsetTop + canvas.clientTop
   const ctx = canvas.getContext("2d")
   const vine = document.getElementById("vine")
+  const vinePNGHeight = 80
+  const vinePNGWidth = 200
   const grapes = document.getElementById("grapes")
   const scenesArray = []
 
@@ -112,13 +114,6 @@ window.addEventListener("load", ()=>{
 
     canvas.height = 1000
     canvas.width = 1000
-    elements = []
-    elements.push({
-      width: 200,
-      height: 80,
-      top: 100,
-      left: 100
-    })
     let scaleFactor = 1
     zoomIn.addEventListener("click", ()=>{
     //ctx.restore()
@@ -148,14 +143,21 @@ window.addEventListener("load", ()=>{
       ctx.drawImage(vine, scene.x_pos, scene.y_pos)
     })
   }
+  // elements = []
+  // elements.push({
+  //   width: 200,
+  //   height: 80,
+  //   top: 100,
+  //   left: 100
+  // })
   canvas.addEventListener('click', ()=> {
     console.log(event)
-    var x = event.pageX - canvasLeft,
-        y = event.pageY - canvasTop;
-        elements.forEach(function(element) {
-        if (y > (element.top * scaleFactor) && y < (element.top + element.height)* scaleFactor
-            && x > (element.left * scaleFactor) && x < (element.left + element.width)* scaleFactor) {
-                alert('clicked an element');
+    let x = event.pageX - canvasLeft
+    let y = event.pageY - canvasTop
+        scenesArray.forEach(function(scene) {
+        if (y > (scene.y_pos * scaleFactor) && y < (scene.y_pos + vinePNGHeight)* scaleFactor
+            && x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor) {
+                alert(`clicked on ${scene.name}`);
             }
         });
         }, false);
