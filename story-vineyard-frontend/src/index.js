@@ -59,14 +59,17 @@ window.addEventListener("load", ()=>{
       //console.log(objext.stories)
       object.stories.forEach(function(story){
         let option = document.createElement("option")
-        const (story.title) = new Story(story.id, story.title)
-        option.value = story.title
+        option.value = story.id + " " + story.title
         option.innerText = story.title
         storiesMenu.appendChild(option)
       })
       //get all story elements associated with selected story
       storiesMenu.addEventListener('change', (element)=>{
         console.log(storiesMenu.value)
+        let storyId = parseInt(storiesMenu.value.split(" ")[0], 10)
+        fetch(`http://localhost:3000/stories/${storyId}`)
+          .then(resp => resp.json())
+          .then(json => console.log(json))
 
       })
       console.log(object)
