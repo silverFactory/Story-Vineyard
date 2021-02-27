@@ -91,6 +91,7 @@ window.addEventListener("load", ()=>{
 
               scenesArray.push(newScene)
             })
+            draw()
             console.log(scenesArray)
           })
       })
@@ -132,6 +133,9 @@ window.addEventListener("load", ()=>{
     //ctx.fillRect(150, 150, 200, 200)
     //ctx.drawImage(vine, 100, 100)
     //draw each element in scenesArray
+    scenesArray.forEach(function(scene){
+      ctx.drawImage(vine, scene.x_pos, scene.y_pos)
+    })
   }
   canvas.addEventListener('click', ()=> {
     console.log(event)
