@@ -56,8 +56,10 @@ window.addEventListener("load", ()=>{
       welcome.innerText = `${object["username"]}'s Story Vineyard`
       userButton.style.display = "none"
       storiesContainer.style.display = "inline"
+      //console.log(objext.stories)
       object.stories.forEach(function(story){
         let option = document.createElement("option")
+        const (story.title) = new Story(story.id, story.title)
         option.value = story.title
         option.innerText = story.title
         storiesMenu.appendChild(option)
