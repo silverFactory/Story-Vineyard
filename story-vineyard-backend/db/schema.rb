@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_26_183342) do
+ActiveRecord::Schema.define(version: 2021_02_27_132052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,11 +21,21 @@ ActiveRecord::Schema.define(version: 2021_02_26_183342) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "metas", force: :cascade do |t|
+  create_table "characters_scenes", id: false, force: :cascade do |t|
+    t.bigint "character_id", null: false
+    t.bigint "scene_id", null: false
+  end
+
+  create_table "meta_contents", force: :cascade do |t|
     t.string "content"
     t.integer "theme_or_pp"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "meta_contents_scenes", id: false, force: :cascade do |t|
+    t.bigint "meta_content_id", null: false
+    t.bigint "scene_id", null: false
   end
 
   create_table "scenes", force: :cascade do |t|

@@ -1,6 +1,6 @@
-class CreateMetas < ActiveRecord::Migration[6.1]
+class CreateMetaContents < ActiveRecord::Migration[6.1]
   def change
-    create_table :metas do |t|
+    create_table :meta_contents do |t|
       t.string :content
       t.integer :theme_or_pp
 
