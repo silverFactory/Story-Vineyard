@@ -13,10 +13,29 @@ window.addEventListener("load", ()=>{
   const canvasTop = canvas.offsetTop + canvas.clientTop
   const ctx = canvas.getContext("2d")
   const vine = document.getElementById("vine")
-  const vinePNGHeight = 80
-  const vinePNGWidth = 200
   const grapes = document.getElementById("grapes")
   const scenesArray = []
+  //dimensions of entire vine png
+  const vinePNGHeight = 80
+  const vinePNGWidth = 200
+  //location of grapes relative to origin of vine png
+  const grapesLeft = 79
+  const grapesRight = 105
+  const grapesTop = 24
+  const grapesBottom = 65
+  //location of left red leaf relative to origin of vine png
+  //left red leaf represents themes
+  const themeLeft = 48
+  const themeRight = 68
+  const themeTop = 15
+  const themeBottom = 38
+  //location of right red leaf relative to origin of vine png
+  //right red leaf represents plot points
+  const ppLeft = 162
+  const ppRight = 182
+  const ppTop = 1
+  const ppBottom = 19
+
 
   // When the user clicks on the button, open the modal
   userButton.onclick = function() {
@@ -155,12 +174,28 @@ window.addEventListener("load", ()=>{
     let x = event.pageX - canvasLeft
     let y = event.pageY - canvasTop
         scenesArray.forEach(function(scene) {
-        if (y > (scene.y_pos * scaleFactor) && y < (scene.y_pos + vinePNGHeight)* scaleFactor
-            && x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor) {
-                alert(`clicked on ${scene.name}`);
+          //registers a click on the grapes
+          if (x > ((scene.x_pos+grapesLeft)*scaleFactor) && x < ((scene.x_pos+grapesRight)*scaleFactor)
+              && y > ((scene.y_pos+grapesTop)*scaleFactor) && y < ((scene.y_pos+grapesBottom)*scaleFactor)) {
+                alert(`clicked on the grapes for ${scene.name}`)
+          }
+          //registers a click on left red leaf
+          else if (x > ((scene.x_pos+themeLeft)*scaleFactor) && x < ((scene.x_pos+themeRight)*scaleFactor)
+                  && y > ((scene.y_pos+themeTop)*scaleFactor) && y < ((scene.y_pos+themeBottom)*scaleFactor)) {
+            alert(`clicked on the left red leaf of ${scene.name}`)
+          }
+          //registers a click on right red leaf
+          else if (x > ((scene.x_pos+ppLeft)*scaleFactor) && x < ((scene.x_pos+ppRight)*scaleFactor)
+                  && y > ((scene.y_pos+ppTop)*scaleFactor) && y < ((scene.y_pos+ppBottom)*scaleFactor)){
+            alert(`clicked on the right red leaf of ${scene.name}`)
+          }
+          //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
+          else if (x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor 
+                  && y > (scene.y_pos * scaleFactor) && y < (scene.y_pos + vinePNGHeight)* scaleFactor) {
+                alert(`clicked on ${scene.name}`)
             }
-        });
-        }, false);
+        })
+        }, false)
   //  ctx.save()
     //draw()
 })
