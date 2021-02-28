@@ -50,3 +50,6 @@
 #grapes{
   transform: scale(0.25)
 }
+#editToolsContainer{
+  display: none;
+}

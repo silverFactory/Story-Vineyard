@@ -14,10 +14,10 @@
    <!-- Trigger/Open The Modal -->
   <button id="userButton">Sign In/Sign Up</button>
   <!-- The Modal -->
-  <div id="userForm" class="modal">
+  <div class="modal" id="userForm">
     <!-- Modal content -->
     <div class="modal-content">
-      <span id="close">&times;</span>
+      <span id="closeLogIn">&times;</span>
       <form action="http://localhost:3000/login" method="POST">
       <label>Username: <input type="text" name="username" id="username"></label><br>
       <label>Password: <input type="password" name="password" id="password"></label><br>
@@ -30,6 +30,15 @@
     <select name="stories" id="storiesMenu">
         <option value="">--Please choose an option--</option>
     </select>
+  </div>
+  <div id="editToolsContainer">
+    <button type="button" class="editThemes">Edit Themes</button>
+  </div>
+  <div class="modal" id="themesForm">
+    <div class="modal-content">
+      <span id="close">&times;</span>
+      Let's add some shit!!!
+    </div>
   </div>
   <div id="images">
   <image src="./images/vine_alt_xs.png" id="vine">

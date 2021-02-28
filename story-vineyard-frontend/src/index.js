@@ -1,11 +1,14 @@
 window.addEventListener("load", ()=>{
-  const modal = document.querySelector("#userForm");
+  const modalLogIn = document.querySelector("#userForm");
   const userButton = document.querySelector("#userButton");
   // Get the <span> element that closes the modal
-  const modalClose = document.querySelector("span");
+  const modalClose = document.querySelector("#closeLogIn");
   const logInButton = document.querySelector("#logIn")
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
+  const editToolsContainer = document.querySelector("#editToolsContainer")
+  const editThemesButton = document.querySelector(".editThemes")
+  const editThemesModal = document.querySelector("#themesForm")
   const zoomIn = document.querySelector(".zoomIn")
   const zoomOut = document.querySelector(".zoomOut")
   const canvas = document.querySelector("#canvas")
@@ -39,18 +42,18 @@ window.addEventListener("load", ()=>{
 
   // When the user clicks on the button, open the modal
   userButton.onclick = function() {
-    modal.style.display = "block";
+    modalLogIn.style.display = "block";
   }
 
   // When the user clicks on <span> (x), close the modal
   modalClose.onclick = function() {
-    modal.style.display = "none";
+    modalLogIn.style.display = "none";
   }
 
   // When the user clicks anywhere outside of the modal, close it
   window.onclick = function(event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
+    if (event.target == modalLogIn) {
+      modalLogIn.style.display = "none";
     }
   }
   //logIn form default-submit prevented and fetch data from API
@@ -185,6 +188,7 @@ window.addEventListener("load", ()=>{
                 //alert(`clicked on the grapes for ${scene.name}`)
                 // let bubbleX = 150
                 // let bubbleY = 265
+                //draw info bubble
                 let bubbleX = (scene.x_pos+grapesLeft) - 29
                 let bubbleY = (scene.y_pos+grapesTop) + 141
                ctx.beginPath();
@@ -196,6 +200,7 @@ window.addEventListener("load", ()=>{
                ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
                ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
                ctx.stroke();
+               //fill in bubble with character names
                ctx.font = "8px sans-serif"
                let xTextPos = bubbleX - 40
                let yTextPos = bubbleY - 50
@@ -211,6 +216,7 @@ window.addEventListener("load", ()=>{
             //alert(`clicked on the left red leaf of ${scene.name}`)
             // let bubbleX = 210
             // let bubbleY = 20
+            //draw info bubble
             let bubbleX = (scene.x_pos+themeLeft) + 62
             let bubbleY = (scene.y_pos+themeTop) - 95
              ctx.beginPath();
@@ -222,6 +228,7 @@ window.addEventListener("load", ()=>{
              ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
              ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
              ctx.stroke();
+             //fill in info bubble with MetaContent(theme) data
              ctx.font = "8px sans-serif"
              let sceneThemes = scene.meta_contents.filter(meta => meta.theme_or_pp === 0)
              let xTextPos = bubbleX - 45
@@ -230,6 +237,10 @@ window.addEventListener("load", ()=>{
                ctx.fillText(theme.content, xTextPos, yTextPos)
                //create a new line as a factor of text size
                yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+             })
+             editToolsContainer.style.display = "inline"
+             editThemesButton.addEventListener('click',() => {
+             editThemesModal.style.display = "block"
              })
           }
           //registers a click on right red leaf
@@ -240,6 +251,7 @@ window.addEventListener("load", ()=>{
             // let bubbleY = 10
             // console.log(scene.x_pos+ppLeft)
             // console.log(scene.y_pos+ppTop)
+            //draw info bubble
             let bubbleX = (scene.x_pos+ppLeft) + 58
             let bubbleY = (scene.y_pos+ppTop) - 101
            ctx.beginPath();
@@ -251,6 +263,7 @@ window.addEventListener("load", ()=>{
            ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
            ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
            ctx.stroke();
+           //fill in info bubble with MetaContent(plot point) data
            ctx.font = "8px sans-serif"
            let scenePlotPoints = scene.meta_contents.filter(meta => meta.theme_or_pp === 1)
            let xTextPos = bubbleX - 45
