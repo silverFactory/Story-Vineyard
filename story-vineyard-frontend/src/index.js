@@ -125,6 +125,10 @@ window.addEventListener("load", ()=>{
             })
             draw()
             console.log(scenesArray)
+            //make variables to click and unclick info bubbles
+            // scenesArray.forEach(function(scene){
+            //
+            // })
           })
       })
       console.log(object)
@@ -173,6 +177,7 @@ window.addEventListener("load", ()=>{
     console.log(event)
     let x = event.pageX - canvasLeft
     let y = event.pageY - canvasTop
+
         scenesArray.forEach(function(scene) {
           //registers a click on the grapes
           if (x > ((scene.x_pos+grapesLeft)*scaleFactor) && x < ((scene.x_pos+grapesRight)*scaleFactor)
@@ -195,8 +200,8 @@ window.addEventListener("load", ()=>{
                let xTextPos = bubbleX - 40
                let yTextPos = bubbleY - 50
                scene.characters.forEach(function(char){
-                 //console.log(char.name)
                  ctx.fillText(char.name, xTextPos, yTextPos)
+                 //create a new line as a factor of text size
                  yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
                })
           }
@@ -206,8 +211,6 @@ window.addEventListener("load", ()=>{
             //alert(`clicked on the left red leaf of ${scene.name}`)
             // let bubbleX = 210
             // let bubbleY = 20
-            // console.log(scene.x_pos+themeLeft)
-            // console.log(scene.y_pos+themeTop)
             let bubbleX = (scene.x_pos+themeLeft) + 62
             let bubbleY = (scene.y_pos+themeTop) - 95
              ctx.beginPath();
@@ -223,7 +226,6 @@ window.addEventListener("load", ()=>{
              let sceneThemes = scene.meta_contents.filter(meta => meta.theme_or_pp === 0)
              let xTextPos = bubbleX - 45
              let yTextPos = bubbleY + 30
-             //console.log(sceneThemes)
              sceneThemes.forEach(function(theme){
                ctx.fillText(theme.content, xTextPos, yTextPos)
                //create a new line as a factor of text size
@@ -238,8 +240,8 @@ window.addEventListener("load", ()=>{
             // let bubbleY = 10
             // console.log(scene.x_pos+ppLeft)
             // console.log(scene.y_pos+ppTop)
-            let bubbleX = (scene.x_pos+ppLeft) + 68
-            let bubbleY = (scene.y_pos+ppTop) - 91
+            let bubbleX = (scene.x_pos+ppLeft) + 58
+            let bubbleY = (scene.y_pos+ppTop) - 101
            ctx.beginPath();
            ctx.moveTo(bubbleX, bubbleY);
            ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
