@@ -177,20 +177,69 @@ window.addEventListener("load", ()=>{
           //registers a click on the grapes
           if (x > ((scene.x_pos+grapesLeft)*scaleFactor) && x < ((scene.x_pos+grapesRight)*scaleFactor)
               && y > ((scene.y_pos+grapesTop)*scaleFactor) && y < ((scene.y_pos+grapesBottom)*scaleFactor)) {
-                alert(`clicked on the grapes for ${scene.name}`)
+                //alert(`clicked on the grapes for ${scene.name}`)
+                // let bubbleX = 150
+                // let bubbleY = 265
+                // console.log(scene.x_pos+grapesLeft)
+                // console.log(scene.x_pos+grapesRight)
+                // console.log(scene.y_pos+grapesTop)
+                // console.log(scene.y_pos+grapesBottom)
+                let bubbleX = (scene.x_pos+grapesLeft) - 29
+                let bubbleY = (scene.y_pos+grapesTop) + 141
+               ctx.beginPath();
+               ctx.moveTo(bubbleX, bubbleY);
+               ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX+50, bubbleY-37.5);
+               ctx.quadraticCurveTo(bubbleX+50, bubbleY-75, bubbleX+25, bubbleY-75);
+               ctx.quadraticCurveTo(bubbleX+25, bubbleY-95, bubbleX+45, bubbleY-100);
+               ctx.quadraticCurveTo(bubbleX+15, bubbleY-95, bubbleX+10, bubbleY-75);
+               ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
+               ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
+               ctx.stroke();
           }
           //registers a click on left red leaf
           else if (x > ((scene.x_pos+themeLeft)*scaleFactor) && x < ((scene.x_pos+themeRight)*scaleFactor)
                   && y > ((scene.y_pos+themeTop)*scaleFactor) && y < ((scene.y_pos+themeBottom)*scaleFactor)) {
-            alert(`clicked on the left red leaf of ${scene.name}`)
+            //alert(`clicked on the left red leaf of ${scene.name}`)
+            // let bubbleX = 210
+            // let bubbleY = 20
+            // console.log(scene.x_pos+themeLeft)
+            // console.log(scene.y_pos+themeTop)
+            let bubbleX = (scene.x_pos+themeLeft) + 62
+            let bubbleY = (scene.y_pos+themeTop) - 95
+           ctx.beginPath();
+           ctx.moveTo(bubbleX, bubbleY);
+           ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
+           ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
+           ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
+           ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
+           ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
+           ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
+           ctx.stroke();
+
+
           }
           //registers a click on right red leaf
           else if (x > ((scene.x_pos+ppLeft)*scaleFactor) && x < ((scene.x_pos+ppRight)*scaleFactor)
                   && y > ((scene.y_pos+ppTop)*scaleFactor) && y < ((scene.y_pos+ppBottom)*scaleFactor)){
-            alert(`clicked on the right red leaf of ${scene.name}`)
+            //alert(`clicked on the right red leaf of ${scene.name}`)
+            // let bubbleX = 330
+            // let bubbleY = 10
+            // console.log(scene.x_pos+ppLeft)
+            // console.log(scene.y_pos+ppTop)
+            let bubbleX = (scene.x_pos+ppLeft) + 68
+            let bubbleY = (scene.y_pos+ppTop) - 91
+           ctx.beginPath();
+           ctx.moveTo(bubbleX, bubbleY);
+           ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
+           ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
+           ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
+           ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
+           ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
+           ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
+           ctx.stroke();
           }
           //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
-          else if (x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor 
+          else if (x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor
                   && y > (scene.y_pos * scaleFactor) && y < (scene.y_pos + vinePNGHeight)* scaleFactor) {
                 alert(`clicked on ${scene.name}`)
             }
@@ -198,4 +247,16 @@ window.addEventListener("load", ()=>{
         }, false)
   //  ctx.save()
     //draw()
+   //  let bubbleX = 150
+   //  let bubbleY = 265
+   // ctx.beginPath();
+   // ctx.moveTo(bubbleX, bubbleY);
+   // ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX+50, bubbleY-37.5);
+   // ctx.quadraticCurveTo(bubbleX+50, bubbleY-75, bubbleX+25, bubbleY-75);
+   // ctx.quadraticCurveTo(bubbleX+25, bubbleY-95, bubbleX+45, bubbleY-100);
+   // ctx.quadraticCurveTo(bubbleX+15, bubbleY-95, bubbleX+10, bubbleY-75);
+   // ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
+   // ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
+   // ctx.stroke();
+
 })
