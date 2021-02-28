@@ -2,13 +2,14 @@ window.addEventListener("load", ()=>{
   const modalLogIn = document.querySelector("#userForm");
   const userButton = document.querySelector("#userButton");
   // Get the <span> element that closes the modal
-  const modalClose = document.querySelector("#closeLogIn");
+  const modalLogInClose = document.querySelector("#closeLogIn");
   const logInButton = document.querySelector("#logIn")
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
   const editToolsContainer = document.querySelector("#editToolsContainer")
   const editThemesButton = document.querySelector(".editThemes")
   const editThemesModal = document.querySelector("#themesForm")
+  const editThemesModalClose = document.querySelector("#closeEditThemes")
   const zoomIn = document.querySelector(".zoomIn")
   const zoomOut = document.querySelector(".zoomOut")
   const canvas = document.querySelector("#canvas")
@@ -46,7 +47,7 @@ window.addEventListener("load", ()=>{
   }
 
   // When the user clicks on <span> (x), close the modal
-  modalClose.onclick = function() {
+  modalLogInClose.onclick = function() {
     modalLogIn.style.display = "none";
   }
 
@@ -54,6 +55,9 @@ window.addEventListener("load", ()=>{
   window.onclick = function(event) {
     if (event.target == modalLogIn) {
       modalLogIn.style.display = "none";
+    }
+    else if (event.target == editThemesModal){
+      editThemesModal.style.display = "none"
     }
   }
   //logIn form default-submit prevented and fetch data from API
@@ -240,7 +244,10 @@ window.addEventListener("load", ()=>{
              })
              editToolsContainer.style.display = "inline"
              editThemesButton.addEventListener('click',() => {
-             editThemesModal.style.display = "block"
+               editThemesModal.style.display = "block"
+             })
+             editThemesModalClose.addEventListener('click', ()=>{
+               editThemesModal.style.display = "none"
              })
           }
           //registers a click on right red leaf
