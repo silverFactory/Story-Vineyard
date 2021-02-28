@@ -180,10 +180,6 @@ window.addEventListener("load", ()=>{
                 //alert(`clicked on the grapes for ${scene.name}`)
                 // let bubbleX = 150
                 // let bubbleY = 265
-                // console.log(scene.x_pos+grapesLeft)
-                // console.log(scene.x_pos+grapesRight)
-                // console.log(scene.y_pos+grapesTop)
-                // console.log(scene.y_pos+grapesBottom)
                 let bubbleX = (scene.x_pos+grapesLeft) - 29
                 let bubbleY = (scene.y_pos+grapesTop) + 141
                ctx.beginPath();
@@ -195,6 +191,14 @@ window.addEventListener("load", ()=>{
                ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
                ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
                ctx.stroke();
+               ctx.font = "8px sans-serif"
+               let xTextPos = bubbleX - 40
+               let yTextPos = bubbleY - 50
+               scene.characters.forEach(function(char){
+                 //console.log(char.name)
+                 ctx.fillText(char.name, xTextPos, yTextPos)
+                 yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+               })
           }
           //registers a click on left red leaf
           else if (x > ((scene.x_pos+themeLeft)*scaleFactor) && x < ((scene.x_pos+themeRight)*scaleFactor)
@@ -206,17 +210,25 @@ window.addEventListener("load", ()=>{
             // console.log(scene.y_pos+themeTop)
             let bubbleX = (scene.x_pos+themeLeft) + 62
             let bubbleY = (scene.y_pos+themeTop) - 95
-           ctx.beginPath();
-           ctx.moveTo(bubbleX, bubbleY);
-           ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
-           ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
-           ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
-           ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
-           ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
-           ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
-           ctx.stroke();
-
-
+             ctx.beginPath();
+             ctx.moveTo(bubbleX, bubbleY);
+             ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
+             ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
+             ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
+             ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
+             ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
+             ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
+             ctx.stroke();
+             ctx.font = "8px sans-serif"
+             let sceneThemes = scene.meta_contents.filter(meta => meta.theme_or_pp === 0)
+             let xTextPos = bubbleX - 45
+             let yTextPos = bubbleY + 30
+             //console.log(sceneThemes)
+             sceneThemes.forEach(function(theme){
+               ctx.fillText(theme.content, xTextPos, yTextPos)
+               //create a new line as a factor of text size
+               yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+             })
           }
           //registers a click on right red leaf
           else if (x > ((scene.x_pos+ppLeft)*scaleFactor) && x < ((scene.x_pos+ppRight)*scaleFactor)
@@ -237,6 +249,15 @@ window.addEventListener("load", ()=>{
            ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
            ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
            ctx.stroke();
+           ctx.font = "8px sans-serif"
+           let scenePlotPoints = scene.meta_contents.filter(meta => meta.theme_or_pp === 1)
+           let xTextPos = bubbleX - 45
+           let yTextPos = bubbleY + 30
+           scenePlotPoints.forEach(function(pp){
+             ctx.fillText(pp.content, xTextPos, yTextPos)
+             //create a new line as a factor of text size
+             yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+           })
           }
           //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
           else if (x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor
@@ -247,16 +268,4 @@ window.addEventListener("load", ()=>{
         }, false)
   //  ctx.save()
     //draw()
-   //  let bubbleX = 150
-   //  let bubbleY = 265
-   // ctx.beginPath();
-   // ctx.moveTo(bubbleX, bubbleY);
-   // ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX+50, bubbleY-37.5);
-   // ctx.quadraticCurveTo(bubbleX+50, bubbleY-75, bubbleX+25, bubbleY-75);
-   // ctx.quadraticCurveTo(bubbleX+25, bubbleY-95, bubbleX+45, bubbleY-100);
-   // ctx.quadraticCurveTo(bubbleX+15, bubbleY-95, bubbleX+10, bubbleY-75);
-   // ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
-   // ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
-   // ctx.stroke();
-
 })
