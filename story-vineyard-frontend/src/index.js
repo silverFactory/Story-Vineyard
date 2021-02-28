@@ -264,7 +264,9 @@ window.addEventListener("load", ()=>{
           //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
           else if (x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor
                   && y > (scene.y_pos * scaleFactor) && y < (scene.y_pos + vinePNGHeight)* scaleFactor) {
-                alert(`clicked on ${scene.name}`)
+                //alert(`clicked on ${scene.name}`)
+                ctx.clearRect(0, 0, canvas.width, canvas.height)
+                draw()
             }
         })
         }, false)
