@@ -4,17 +4,24 @@ window.addEventListener("load", ()=>{
   // Get the <span> element that closes the modal
   const modalLogInClose = document.querySelector("#closeLogIn");
   const logInButton = document.querySelector("#logIn")
+
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
+
   const editToolsContainer = document.querySelector("#editToolsContainer")
+
   const currentSceneId = document.querySelector("#scene-id")
+
   const addThemesButton = document.querySelector(".add-theme")
-  const addThemesModal = document.querySelector("#add-themes-form")
+  const addThemesModal = document.querySelector("#add-themes-modal")
   const addThemesModalClose = document.querySelector("#close-add-themes")
   const submitNewThemeButton = document.querySelector("#submit-new-theme")
+
   const editThemesButton = document.querySelector(".edit-themes")
-  const editThemesModal = document.querySelector("#edit-themes-form")
+  const editThemesModal = document.querySelector("#edit-themes-modal")
   const editThemesModalClose = document.querySelector("#close-edit-themes")
+  const editThemesForm = document.querySelector("#edit-themes-form")
+
   const zoomIn = document.querySelector(".zoomIn")
   const zoomOut = document.querySelector(".zoomOut")
   const canvas = document.querySelector("#canvas")
@@ -297,6 +304,16 @@ window.addEventListener("load", ()=>{
              })
              editThemesButton.addEventListener('click',() => {
                editThemesModal.style.display = "block"
+               //modal is populated with input elements that contain the current values for the relevant meta_contents
+               scenesArray[currentSceneId.value-1].meta_contents.forEach(function(theme){
+                 let themeElement = document.createElement("input")
+                 let lineBreak = document.createElement("br")
+                 themeElement.type = "text"
+                 themeElement.name = theme.content
+                 themeElement.value = theme.content
+                 editThemesForm.insertBefore(themeElement, document.getElementById("edit-themes"))
+                 editThemesForm.insertBefore(lineBreak, document.getElementById("edit-themes"))                 
+               })
              })
              editThemesModalClose.addEventListener('click', ()=>{
                editThemesModal.style.display = "none"
