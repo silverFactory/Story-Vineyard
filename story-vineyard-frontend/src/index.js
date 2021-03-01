@@ -171,7 +171,11 @@ window.addEventListener("load", ()=>{
     //ctx.drawImage(vine, 100, 100)
     //draw each element in scenesArray
     scenesArray.forEach(function(scene){
+      //console.log(`${scene.x_pos} ${scene.y_pos}`)
       ctx.drawImage(vine, scene.x_pos, scene.y_pos)
+      ctx.fillRect(scene.x_pos, scene.y_pos+60, 80, 35)
+      ctx.clearRect(scene.x_pos+5, scene.y_pos+65, 70, 25)
+      ctx.strokeRect(scene.x_pos+7, scene.y_pos+67, 66, 21)
     })
   }
   // elements = []
@@ -299,5 +303,5 @@ window.addEventListener("load", ()=>{
     // let sceneBoxHeight =
     // ctx.fillRect(100, 160, 80, 35)
     // ctx.clearRect(105, 165, 70, 25)
-    //ctx.strokeRect(107, 167, 66, 21)
+    // ctx.strokeRect(107, 167, 66, 21)
 })
