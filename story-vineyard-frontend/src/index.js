@@ -305,14 +305,15 @@ window.addEventListener("load", ()=>{
              editThemesButton.addEventListener('click',() => {
                editThemesModal.style.display = "block"
                //modal is populated with input elements that contain the current values for the relevant meta_contents
-               scenesArray[currentSceneId.value-1].meta_contents.forEach(function(theme){
+               let themesArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === 0)               
+               themesArray.forEach(function(theme){
                  let themeElement = document.createElement("input")
                  let lineBreak = document.createElement("br")
                  themeElement.type = "text"
                  themeElement.name = theme.content
                  themeElement.value = theme.content
                  editThemesForm.insertBefore(themeElement, document.getElementById("edit-themes"))
-                 editThemesForm.insertBefore(lineBreak, document.getElementById("edit-themes"))                 
+                 editThemesForm.insertBefore(lineBreak, document.getElementById("edit-themes"))
                })
              })
              editThemesModalClose.addEventListener('click', ()=>{
