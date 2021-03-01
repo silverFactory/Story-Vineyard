@@ -314,6 +314,7 @@ window.addEventListener("load", ()=>{
                  themeElement.type = "text"
                  themeElement.name = theme.content
                  themeElement.value = theme.content
+                 themeElement.id = theme.id
                  editThemesForm.appendChild(themeElement)
                  editThemesForm.appendChild(lineBreak)
                })
@@ -323,8 +324,19 @@ window.addEventListener("load", ()=>{
                submitThemes.name = "edit-themes"
                submitThemes.id = "edit-themes"
                submitThemes.value = "Confirm Edits"
-               submitThemes.addEventListener('click', ()=>{
-                 console.log(click)
+               submitThemes.addEventListener('click', (event)=>{
+                 event.preventDefault()
+                 // go through theme inputs and update if they have been changed
+                 while (editThemesForm.firstChild){
+                   // if first theme has been changed
+                   if (editThemesForm.firstChild.value !== themesArray.find(theme => theme.id === parseInt(editThemesForm.firstChild.id, 10)).content){
+                     //fetch request to post new info
+                     //remove child node
+                     //when response happens, update the old js object to reflect changes
+                   } else {
+                     //just remove node without interacting with db
+                   }
+                 }
                })
                editThemesForm.appendChild(submitThemes)
              })
