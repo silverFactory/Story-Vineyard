@@ -7,9 +7,12 @@ window.addEventListener("load", ()=>{
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
   const editToolsContainer = document.querySelector("#editToolsContainer")
-  const editThemesButton = document.querySelector(".editThemes")
-  const editThemesModal = document.querySelector("#themesForm")
-  const editThemesModalClose = document.querySelector("#closeEditThemes")
+  const addThemesButton = document.querySelector(".add-theme")
+  const addThemesModal = document.querySelector("#add-themes-form")
+  const addThemesModalClose = document.querySelector("#close-add-themes")
+  const editThemesButton = document.querySelector(".edit-themes")
+  const editThemesModal = document.querySelector("#edit-themes-form")
+  const editThemesModalClose = document.querySelector("#close-edit-themes")
   const zoomIn = document.querySelector(".zoomIn")
   const zoomOut = document.querySelector(".zoomOut")
   const canvas = document.querySelector("#canvas")
@@ -253,7 +256,14 @@ window.addEventListener("load", ()=>{
                //create a new line as a factor of text size
                yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
              })
+             //display add/edit buttons
              editToolsContainer.style.display = "inline"
+             addThemesButton.addEventListener('click',() => {
+               addThemesModal.style.display = "block"
+             })
+             addThemesModalClose.addEventListener('click', ()=>{
+               addThemesModal.style.display = "none"
+             })
              editThemesButton.addEventListener('click',() => {
                editThemesModal.style.display = "block"
              })

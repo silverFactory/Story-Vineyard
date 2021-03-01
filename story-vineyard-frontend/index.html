@@ -32,12 +32,31 @@
     </select>
   </div>
   <div id="editToolsContainer">
-    <button type="button" class="editThemes">Edit Themes</button>
+    <button type="button" class="add-theme">Add Theme</button>
+    <button type="button" class="edit-themes">Edit Themes</button>
   </div>
-  <div class="modal" id="themesForm">
+  <div class="modal" id="edit-themes-form">
     <div class="modal-content">
-      <span id="closeEditThemes">&times;</span>
-      Let's add some shit!!!
+      <span id="close-edit-themes">&times;</span>
+      <!-- make sure route is editing proper theme!! -->
+      <form action="http://localhost:3000/meta_contents/:id/edit" method="POST">
+        <!-- programatically add input fields for each existing theme,
+        populated with their current value -->
+      <label>(Theme Name) <input type="text" name="" id=""></label><br>
+
+      <input type="hidden" name="theme-or-pp" id="theme-or-pp" value="0">
+      <input type="submit" name="edit-themes" id="edit-themes" value="Confirm Edits">
+      </form>
+    </div>
+  </div>
+  <div class="modal" id="add-themes-form">
+    <div class="modal-content">
+      <span id="close-add-themes">&times;</span>
+      <form action="http://localhost:3000/meta_contents/new" method="POST">
+      <label>New Theme: <input type="text" name="new-theme" id="new-theme"></label><br>
+      <input type="hidden" name="theme-or-pp" id="theme-or-pp" value="0">
+      <input type="submit" name="add-theme" id="add-theme" value="Add Theme">
+      </form>
     </div>
   </div>
   <div id="images">
