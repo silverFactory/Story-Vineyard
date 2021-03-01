@@ -173,9 +173,11 @@ window.addEventListener("load", ()=>{
     scenesArray.forEach(function(scene){
       //console.log(`${scene.x_pos} ${scene.y_pos}`)
       ctx.drawImage(vine, scene.x_pos, scene.y_pos)
-      ctx.fillRect(scene.x_pos, scene.y_pos+60, 80, 35)
-      ctx.clearRect(scene.x_pos+5, scene.y_pos+65, 70, 25)
-      ctx.strokeRect(scene.x_pos+7, scene.y_pos+67, 66, 21)
+      ctx.fillRect(scene.x_pos, scene.y_pos+60, 80, 40)
+      ctx.clearRect(scene.x_pos+5, scene.y_pos+65, 70, 30)
+      ctx.strokeRect(scene.x_pos+7, scene.y_pos+67, 66, 26)
+      ctx.fillText(`${scene.name}:`, scene.x_pos+10, scene.y_pos+77)
+      ctx.fillText(scene.location, scene.x_pos+10, scene.y_pos+90)
     })
   }
   // elements = []
