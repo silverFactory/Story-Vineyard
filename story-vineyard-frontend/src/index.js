@@ -7,6 +7,7 @@ window.addEventListener("load", ()=>{
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
   const editToolsContainer = document.querySelector("#editToolsContainer")
+  const currentSceneId = document.querySelector("#scene-id")
   const addThemesButton = document.querySelector(".add-theme")
   const addThemesModal = document.querySelector("#add-themes-form")
   const addThemesModalClose = document.querySelector("#close-add-themes")
@@ -78,6 +79,14 @@ window.addEventListener("load", ()=>{
       },
       body: JSON.stringify(logInInfo)
     }
+    addThemesButton.addEventListener('click', (event)=>{
+      event.preventDefault()
+      let newThemeInfo = {
+        content: document.querySelector("#new-theme").value,
+        theme_or_pp: 0,
+        sceneId: currentSceneId
+      }
+    })
     //get all stories associated with user
     fetch("http://localhost:3000/login", configObj)
     .then(resp => resp.json())
@@ -270,6 +279,8 @@ window.addEventListener("load", ()=>{
              editThemesModalClose.addEventListener('click', ()=>{
                editThemesModal.style.display = "none"
              })
+             currentSceneId.value = scene.id
+             console.log(currentSceneId.value)
           }
           //registers a click on right red leaf
           else if (x > ((scene.x_pos+ppLeft)*scaleFactor) && x < ((scene.x_pos+ppRight)*scaleFactor)
