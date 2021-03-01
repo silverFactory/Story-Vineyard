@@ -11,6 +11,7 @@ window.addEventListener("load", ()=>{
   const addThemesButton = document.querySelector(".add-theme")
   const addThemesModal = document.querySelector("#add-themes-form")
   const addThemesModalClose = document.querySelector("#close-add-themes")
+  const submitNewThemeButton = document.querySelector("#submit-new-theme")
   const editThemesButton = document.querySelector(".edit-themes")
   const editThemesModal = document.querySelector("#edit-themes-form")
   const editThemesModalClose = document.querySelector("#close-edit-themes")
@@ -79,14 +80,6 @@ window.addEventListener("load", ()=>{
       },
       body: JSON.stringify(logInInfo)
     }
-    addThemesButton.addEventListener('click', (event)=>{
-      event.preventDefault()
-      let newThemeInfo = {
-        content: document.querySelector("#new-theme").value,
-        theme_or_pp: 0,
-        sceneId: currentSceneId
-      }
-    })
     //get all stories associated with user
     fetch("http://localhost:3000/login", configObj)
     .then(resp => resp.json())
@@ -154,7 +147,27 @@ window.addEventListener("load", ()=>{
       console.log(object)
     })
   }, false)
-
+  submitNewThemeButton.addEventListener('click', (event)=>{
+    event.preventDefault()
+    let newThemeInfo = {
+      content: document.querySelector("#new-theme").value,
+      theme_or_pp: 0,
+      sceneId: currentSceneId.value
+    }
+    let configObj = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(newThemeInfo)
+    }
+    fetch("http://localhost:3000/meta-contents", configObj)
+    .then(resp => resp.json())
+    .then(function(object){
+      console.log(object)
+    })
+  }, false)
     canvas.height = 1000
     canvas.width = 1000
     let scaleFactor = 1
