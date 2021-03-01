@@ -83,6 +83,7 @@ window.addEventListener("load", ()=>{
       welcome.innerText = `${object["username"]}'s Story Vineyard`
       userButton.style.display = "none"
       storiesContainer.style.display = "inline"
+      modalLogIn.style.display = "none";
       //console.log(objext.stories)
       object.stories.forEach(function(story){
         let option = document.createElement("option")
@@ -292,4 +293,11 @@ window.addEventListener("load", ()=>{
         }, false)
   //  ctx.save()
     //draw()
+    // let sceneBoxX =
+    // let sceneBoxY =
+    // let sceneBoxWidth =
+    // let sceneBoxHeight =
+    // ctx.fillRect(100, 160, 80, 35)
+    // ctx.clearRect(105, 165, 70, 25)
+    //ctx.strokeRect(107, 167, 66, 21)
 })
