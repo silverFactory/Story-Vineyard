@@ -173,11 +173,11 @@ window.addEventListener("load", ()=>{
     scenesArray.forEach(function(scene){
       //console.log(`${scene.x_pos} ${scene.y_pos}`)
       ctx.drawImage(vine, scene.x_pos, scene.y_pos)
-      ctx.fillRect(scene.x_pos, scene.y_pos+60, 80, 40)
-      ctx.clearRect(scene.x_pos+5, scene.y_pos+65, 70, 30)
-      ctx.strokeRect(scene.x_pos+7, scene.y_pos+67, 66, 26)
-      ctx.fillText(`${scene.name}:`, scene.x_pos+10, scene.y_pos+77)
-      ctx.fillText(scene.location, scene.x_pos+10, scene.y_pos+90)
+      ctx.fillRect(scene.x_pos-5, scene.y_pos+60, 80, 40)
+      ctx.clearRect(scene.x_pos, scene.y_pos+65, 70, 30)
+      ctx.strokeRect(scene.x_pos+2, scene.y_pos+67, 66, 26)
+      ctx.fillText(`${scene.name}:`, scene.x_pos+5, scene.y_pos+77)
+      ctx.fillText(scene.location, scene.x_pos+5, scene.y_pos+90)
     })
   }
   // elements = []
@@ -200,14 +200,18 @@ window.addEventListener("load", ()=>{
                 // let bubbleX = 150
                 // let bubbleY = 265
                 //draw info bubble
-                let bubbleX = (scene.x_pos+grapesLeft) - 29
+                let bubbleX = (scene.x_pos+grapesLeft) + 30
                 let bubbleY = (scene.y_pos+grapesTop) + 141
+                //ctx.fillRect(bubbleX, bubbleY, 10, 10)
+                // ctx.fillRect(bubbleX, bubbleY, 10, 10)
                ctx.beginPath();
                ctx.moveTo(bubbleX, bubbleY);
                ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX+50, bubbleY-37.5);
                ctx.quadraticCurveTo(bubbleX+50, bubbleY-75, bubbleX+25, bubbleY-75);
-               ctx.quadraticCurveTo(bubbleX+25, bubbleY-95, bubbleX+45, bubbleY-100);
-               ctx.quadraticCurveTo(bubbleX+15, bubbleY-95, bubbleX+10, bubbleY-75);
+               //ctx.quadraticCurveTo(bubbleX+25, bubbleY-95, bubbleX+45, bubbleY-100);
+               ctx.lineTo(bubbleX-10, bubbleY-100);
+               //ctx.quadraticCurveTo(bubbleX+15, bubbleY-95, bubbleX+10, bubbleY-75);
+               ctx.lineTo(bubbleX+10, bubbleY-75);
                ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
                ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
                ctx.stroke();
