@@ -165,7 +165,16 @@ window.addEventListener("load", ()=>{
     fetch("http://localhost:3000/meta-contents", configObj)
     .then(resp => resp.json())
     .then(function(object){
-      console.log(object)
+      //make a new js object for the theme and add it to correct scene in scenesArray
+      let newTheme = new MetaContent(
+        object.id,
+        object.content,
+        object.theme_or_pp
+      )
+      console.log(newTheme)
+      scenesArray[currentSceneId.value-1].meta_contents.push(newTheme)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      draw()
     })
   }, false)
     canvas.height = 1000
