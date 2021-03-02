@@ -8,7 +8,8 @@ window.addEventListener("load", ()=>{
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
 
-  const editToolsContainer = document.querySelector("#editToolsContainer")
+  const editThemesContainer = document.querySelector("#editThemesContainer")
+  const editPPsContainer = document.querySelector("#editPPsContainer")
 
   const currentSceneId = document.querySelector("#scene-id")
 
@@ -21,6 +22,11 @@ window.addEventListener("load", ()=>{
   const editThemesModal = document.querySelector("#edit-themes-modal")
   const editThemesModalClose = document.querySelector("#close-edit-themes")
   const editThemesForm = document.querySelector("#edit-themes-form")
+
+  const addPPsButton = document.querySelector(".add-plot-point")
+  const addPPsModal = document.querySelector("#add-pps-modal")
+  const addPPsModalClose = document.querySelector("#close-add-pps")
+  const submitNewPPButton = document.querySelector("#submit-new-pp")
 
   const zoomIn = document.querySelector(".zoomIn")
   const zoomOut = document.querySelector(".zoomOut")
@@ -184,6 +190,11 @@ window.addEventListener("load", ()=>{
       draw()
     })
   }, false)
+
+
+
+
+
     canvas.height = 1000
     canvas.width = 1000
     let scaleFactor = 1
@@ -295,7 +306,7 @@ window.addEventListener("load", ()=>{
                yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
              })
              //display add/edit buttons
-             editToolsContainer.style.display = "inline"
+             editThemesContainer.style.display = "inline"
              addThemesButton.addEventListener('click',() => {
                addThemesModal.style.display = "block"
              })
@@ -409,6 +420,14 @@ window.addEventListener("load", ()=>{
              ctx.fillText(pp.content, xTextPos, yTextPos)
              //create a new line as a factor of text size
              yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+           })
+           //display add/edit buttons
+           editPPsContainer.style.display = "inline"
+           addPPsButton.addEventListener('click',() => {
+             addPPsModal.style.display = "block"
+           })
+           addPPsModalClose.addEventListener('click', ()=>{
+             addPPsModal.style.display = "none"
            })
           }
           //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
