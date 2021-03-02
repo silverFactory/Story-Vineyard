@@ -50,9 +50,6 @@
 #grapes{
   transform: scale(0.25)
 }
-#editThemesContainer{
-  display: none;
-}
-#editPPsContainer{
+#editMetaContentsContainer{
   display: none;
 }

@@ -31,36 +31,32 @@
         <option value="">--Please choose an option--</option>
     </select>
   </div>
-  <div id="editThemesContainer">
-    <button type="button" class="add-theme">Add Theme</button>
-    <button type="button" class="edit-themes">Edit Themes</button>
+  <div id="editMetaContentsContainer">
+    <button type="button" class="add-meta-content"></button>
+    <button type="button" class="edit-meta-content"></button>
   </div>
-  <div id="editPPsContainer">
-    <button type="button" class="add-plot-point">Add Plot Point</button>
-    <button type="button" class="edit-plot-point">Edit Plot Points</button>
-  </div>
-  <div class="modal" id="add-themes-modal">
+  <div class="modal" id="add-meta-modal">
     <div class="modal-content">
-      <span id="close-add-themes">&times;</span>
+      <span id="close-add-meta">&times;</span>
       <form action="http://localhost:3000/meta-contents" method="POST">
       <label>New Theme: <input type="text" name="new-theme" id="new-theme"></label><br>
       <input type="hidden" name="scene-id" id="scene-id" value="">
-      <input type="submit" name="submit-new-theme" id="submit-new-theme" value="Submit Theme">
+      <input type="submit" name="submit-new-meta" id="submit-new-meta" value="Submit">
       </form>
     </div>
   </div>
-  <div class="modal" id="edit-themes-modal">
+  <div class="modal" id="edit-meta-modal">
     <div class="modal-content">
-      <span id="close-edit-themes">&times;</span>
+      <span id="close-edit-meta">&times;</span>
       <!-- make sure route is editing proper theme!! -->
-      <form action="http://localhost:3000/meta_contents/:id/edit" method="POST" id="edit-themes-form">
+      <form action="http://localhost:3000/meta_contents/:id/edit" method="POST" id="edit-meta-form">
         <!-- programatically add input fields for each existing theme,
         populated with their current value -->
       <!-- <input type="submit" name="edit-themes" id="edit-themes" value="Confirm Edits"> -->
       </form>
     </div>
   </div>
-  <div class="modal" id="add-pps-modal">
+  <!-- <div class="modal" id="add-pps-modal">
     <div class="modal-content">
       <span id="close-add-pps">&times;</span>
       <form action="http://localhost:3000/meta-contents" method="POST">
@@ -68,7 +64,7 @@
       <input type="submit" name="submit-new-pp" id="submit-new-pp" value="Submit Plot Point">
       </form>
     </div>
-  </div>
+  </div> -->
   <div id="images">
   <image src="./images/vine_alt_xs.png" id="vine">
   </div>

@@ -8,25 +8,26 @@ window.addEventListener("load", ()=>{
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
 
-  const editThemesContainer = document.querySelector("#editThemesContainer")
-  const editPPsContainer = document.querySelector("#editPPsContainer")
+  const editMetaContentsContainer = document.querySelector("#editMetaContentsContainer")
+  // const editThemesContainer = document.querySelector("#editThemesContainer")
+  // const editPPsContainer = document.querySelector("#editPPsContainer")
 
   const currentSceneId = document.querySelector("#scene-id")
 
-  const addThemesButton = document.querySelector(".add-theme")
-  const addThemesModal = document.querySelector("#add-themes-modal")
-  const addThemesModalClose = document.querySelector("#close-add-themes")
-  const submitNewThemeButton = document.querySelector("#submit-new-theme")
+  const addMetaButton = document.querySelector(".add-meta-content")
+  const addMetaModal = document.querySelector("#add-meta-modal")
+  const addMetaModalClose = document.querySelector("#close-add-meta")
+  const submitNewMetaButton = document.querySelector("#submit-new-meta")
 
-  const editThemesButton = document.querySelector(".edit-themes")
-  const editThemesModal = document.querySelector("#edit-themes-modal")
-  const editThemesModalClose = document.querySelector("#close-edit-themes")
-  const editThemesForm = document.querySelector("#edit-themes-form")
+  const editMetaButton = document.querySelector(".edit-meta-content")
+  const editMetaModal = document.querySelector("#edit-meta-modal")
+  const editMetaModalClose = document.querySelector("#close-edit-meta")
+  const editMetaForm = document.querySelector("#edit-meta-form")
 
-  const addPPsButton = document.querySelector(".add-plot-point")
-  const addPPsModal = document.querySelector("#add-pps-modal")
-  const addPPsModalClose = document.querySelector("#close-add-pps")
-  const submitNewPPButton = document.querySelector("#submit-new-pp")
+  // const addPPsButton = document.querySelector(".add-plot-point")
+  // const addPPsModal = document.querySelector("#add-pps-modal")
+  // const addPPsModalClose = document.querySelector("#close-add-pps")
+  // const submitNewPPButton = document.querySelector("#submit-new-pp")
 
   const zoomIn = document.querySelector(".zoomIn")
   const zoomOut = document.querySelector(".zoomOut")
@@ -74,8 +75,8 @@ window.addEventListener("load", ()=>{
     if (event.target == modalLogIn) {
       modalLogIn.style.display = "none";
     }
-    else if (event.target == editThemesModal){
-      editThemesModal.style.display = "none"
+    else if (event.target == editMetaModal){
+      editMetaModal.style.display = "none"
     }
   }
   //logIn form default-submit prevented and fetch data from API
@@ -160,7 +161,7 @@ window.addEventListener("load", ()=>{
       console.log(object)
     })
   }, false)
-  submitNewThemeButton.addEventListener('click', (event)=>{
+  submitNewMetaButton.addEventListener('click', (event)=>{
     event.preventDefault()
     let newThemeInfo = {
       content: document.querySelector("#new-theme").value,
@@ -306,17 +307,19 @@ window.addEventListener("load", ()=>{
                yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
              })
              //display add/edit buttons
-             editThemesContainer.style.display = "inline"
-             addThemesButton.addEventListener('click',() => {
-               addThemesModal.style.display = "block"
+             addMetaButton.innerText = "Add Theme"
+             editMetaButton.innerText = "Edit Themes"
+             editMetaContentsContainer.style.display = "inline"
+             addMetaButton.addEventListener('click',() => {
+               addMetaModal.style.display = "block"
              })
-             addThemesModalClose.addEventListener('click', ()=>{
-               addThemesModal.style.display = "none"
+             addMetaModalClose.addEventListener('click', ()=>{
+               addMetaModal.style.display = "none"
              })
-             editThemesButton.addEventListener('click',() => {
-               editThemesModal.style.display = "block"
+             editMetaButton.addEventListener('click',() => {
+               editMetaModal.style.display = "block"
                // clear form of all previous theme inputs/elements
-               removeAllChildNodes(editThemesForm)
+               removeAllChildNodes(editMetaForm)
                //modal is populated with input elements that contain the current values for the relevant meta_contents
                let themesArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === 0)
                themesArray.forEach(function(theme){
@@ -326,8 +329,8 @@ window.addEventListener("load", ()=>{
                  themeElement.name = theme.content
                  themeElement.value = theme.content
                  themeElement.id = theme.id
-                 editThemesForm.appendChild(themeElement)
-                 editThemesForm.appendChild(lineBreak)
+                 editMetaForm.appendChild(themeElement)
+                 editMetaForm.appendChild(lineBreak)
                })
                //create submit button
                let submitThemes = document.createElement("input")
@@ -335,20 +338,20 @@ window.addEventListener("load", ()=>{
                submitThemes.name = "edit-themes"
                submitThemes.id = "edit-themes"
                submitThemes.value = "Confirm Edits"
-               editThemesForm.appendChild(submitThemes)
+               editMetaForm.appendChild(submitThemes)
                submitThemes.addEventListener('click', (event)=>{
                  //close modal
-                 editThemesModal.style.display = "none"
+                 editMetaModal.style.display = "none"
                  event.preventDefault()
                  // go through theme inputs and update if they have been changed
-                 while (editThemesForm.firstChild != submitThemes){
+                 while (editMetaForm.firstChild != submitThemes){
 
                    // if first theme has been changed
-                   if (editThemesForm.firstChild.value !== themesArray.find(theme => theme.id === parseInt(editThemesForm.firstChild.id, 10)).content){
+                   if (editMetaForm.firstChild.value !== themesArray.find(theme => theme.id === parseInt(editMetaForm.firstChild.id, 10)).content){
                      //fetch request to post new info
                      let updatedThemeInfo = {
-                       id: editThemesForm.firstChild.id,
-                       content: editThemesForm.firstChild.value,
+                       id: editMetaForm.firstChild.id,
+                       content: editMetaForm.firstChild.value,
                        theme_or_pp: 0,
                        sceneId: currentSceneId.value
                      }
@@ -369,14 +372,14 @@ window.addEventListener("load", ()=>{
                         themeToBeUpdated.content = object.content
                      }, false)
                      //remove child node
-                     editThemesForm.removeChild(editThemesForm.firstChild)
+                     editMetaForm.removeChild(editMetaForm.firstChild)
                      //remove <br>
-                     editThemesForm.removeChild(editThemesForm.firstChild)
+                     editMetaForm.removeChild(editMetaForm.firstChild)
                    } else {
                      //just remove node without interacting with db
-                     editThemesForm.removeChild(editThemesForm.firstChild)
+                     editMetaForm.removeChild(editMetaForm.firstChild)
                      //remove <br>
-                     editThemesForm.removeChild(editThemesForm.firstChild)
+                     editMetaForm.removeChild(editMetaForm.firstChild)
                    }
                  }
                  //when all is said and done, clear and redraw
@@ -385,8 +388,8 @@ window.addEventListener("load", ()=>{
                })
 
              })
-             editThemesModalClose.addEventListener('click', ()=>{
-               editThemesModal.style.display = "none"
+             editMetaModalClose.addEventListener('click', ()=>{
+               editMetaModal.style.display = "none"
              })
              currentSceneId.value = scene.id
              console.log(currentSceneId.value)
@@ -422,18 +425,22 @@ window.addEventListener("load", ()=>{
              yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
            })
            //display add/edit buttons
-           editPPsContainer.style.display = "inline"
-           addPPsButton.addEventListener('click',() => {
-             addPPsModal.style.display = "block"
-           })
-           addPPsModalClose.addEventListener('click', ()=>{
-             addPPsModal.style.display = "none"
-           })
+           addMetaButton.innerText = "Add Plot Point"
+           editMetaButton.innerText = "Edit Plot Points"
+           editMetaContentsContainer.style.display = "inline"
+           // editPPsContainer.style.display = "inline"
+           // addPPsButton.addEventListener('click',() => {
+           //   addPPsModal.style.display = "block"
+           // })
+           // addPPsModalClose.addEventListener('click', ()=>{
+           //   addPPsModal.style.display = "none"
+           // })
           }
           //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
           else if (x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor
                   && y > (scene.y_pos * scaleFactor) && y < (scene.y_pos + vinePNGHeight)* scaleFactor) {
                 //alert(`clicked on ${scene.name}`)
+                editMetaContentsContainer.style.display = "none"
                 ctx.clearRect(0, 0, canvas.width, canvas.height)
                 draw()
             }
