@@ -163,39 +163,51 @@ window.addEventListener("load", ()=>{
       console.log(object)
     })
   }, false)
+  //submits new MetaContent or Character to DB
   submitNewMetaButton.addEventListener('click', (event)=>{
     event.preventDefault()
-    //determine if new theme or plot point
-    // let theme_or_pp
-    // if (addMetaButton.innerText === "Add Theme"){
-    //   theme_or_pp = 0
-    // } else{
-    //   theme_or_pp = 1
-    // }
-    let newMetaInfo = {
-      content: newMetaInputField.value,
-      theme_or_pp: themeOrPP(),
-      sceneId: currentSceneId.value
-    }
+    let url
+    let elementInfo
+        if (elementType() === "character"){
+          url = "http://localhost:3000/characters"
+          elementInfo = {
+            name: newMetaInputField.value,
+            sceneId: currentSceneId.value
+          }
+        }
+        else {
+          url = "http://localhost:3000/meta-contents"
+          elementInfo = {
+            content: newMetaInputField.value,
+            theme_or_pp: elementType(),
+            sceneId: currentSceneId.value
+        }}
     let configObj = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify(newMetaInfo)
+      body: JSON.stringify(elementInfo)
     }
-    fetch("http://localhost:3000/meta-contents", configObj)
+    fetch(url, configObj)
     .then(resp => resp.json())
     .then(function(object){
-      //make a new js object for the theme and add it to correct scene in scenesArray
-      let newTheme = new MetaContent(
-        object.id,
-        object.content,
-        object.theme_or_pp
-      )
-      console.log(newTheme)
-      scenesArray[currentSceneId.value-1].meta_contents.push(newTheme)
+      if (Object.keys(object).includes("content")){
+        //make a new js object for the meta_content and add it to correct scene in scenesArray
+        let newMeta = new MetaContent(
+          object.id,
+          object.content,
+          object.theme_or_pp
+        )
+        console.log(newMeta)
+        scenesArray[currentSceneId.value-1].meta_contents.push(newMeta)
+      } else{
+        //make a new js object for the character and add it to correct scene in scenesArray
+        let newCharacter = new Character(object.id, object.name)
+        console.log(newCharacter)
+        scenesArray[currentSceneId.value-1].characters.push(newCharacter)
+      }
       addMetaModal.style.display = "none"
       newMetaInputField.value = ""
       ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -218,7 +230,7 @@ window.addEventListener("load", ()=>{
     removeAllChildNodes(editMetaForm)
 
     //modal is populated with input elements that contain the current values for the relevant meta_contents
-    let metaContentsArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === themeOrPP())
+    let metaContentsArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === elementType())
     metaContentsArray.forEach(function(meta){
       let metaElement = document.createElement("input")
       let lineBreak = document.createElement("br")
@@ -236,6 +248,7 @@ window.addEventListener("load", ()=>{
     submitMeta.id = "edit-themes"
     submitMeta.value = "Confirm Edits"
     editMetaForm.appendChild(submitMeta)
+    //event listener nested b/c button will get cleared and recreated
     submitMeta.addEventListener('click', (event)=>{
       //close modal
       editMetaModal.style.display = "none"
@@ -371,6 +384,8 @@ window.addEventListener("load", ()=>{
                  //create a new line as a factor of text size
                  yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
                })
+               setButtons("Character")
+               currentSceneId.value = scene.id
           }
           //registers a click on left red leaf
           else if (x > ((scene.x_pos+themeLeft)*scaleFactor) && x < ((scene.x_pos+themeRight)*scaleFactor)
@@ -400,10 +415,7 @@ window.addEventListener("load", ()=>{
                //create a new line as a factor of text size
                yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
              })
-             //display add/edit buttons
-             addMetaButton.innerText = "Add Theme"
-             editMetaButton.innerText = "Edit Themes"
-             editMetaContentsContainer.style.display = "inline"
+             setButtons("Theme")
              //set scene id to one connected to leaf
              currentSceneId.value = scene.id
           }
@@ -437,10 +449,7 @@ window.addEventListener("load", ()=>{
              //create a new line as a factor of text size
              yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
            })
-           //display add/edit buttons
-           addMetaButton.innerText = "Add Plot Point"
-           editMetaButton.innerText = "Edit Plot Points"
-           editMetaContentsContainer.style.display = "inline"
+           setButtons("Plot Point")
            //set scene id to one connected to leaf
            currentSceneId.value = scene.id
 
@@ -460,15 +469,23 @@ window.addEventListener("load", ()=>{
                 parent.removeChild(parent.firstChild);
             }
         }
-        function themeOrPP(){
+        function elementType(){
           //determine if currently editing themes or plot points
-          let theme_or_pp
+          let elementType
           if (addMetaButton.innerText === "Add Theme"){
-            theme_or_pp = 0
-          } else{
-            theme_or_pp = 1
+            elementType = 0
+          } else if (addMetaButton.innerText === "Add Plot Point"){
+            elementType = 1
+          } else {
+            elementType = "character"
           }
-          return theme_or_pp
+          return elementType
+        }
+        function setButtons(element){
+          //display add/edit buttons
+          addMetaButton.innerText = `Add ${element}`
+          editMetaButton.innerText = `Edit ${element}s`
+          editMetaContentsContainer.style.display = "inline"
         }
   //  ctx.save()
     //draw()

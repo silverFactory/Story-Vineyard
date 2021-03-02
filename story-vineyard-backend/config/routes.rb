@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   get '/stories/:id' => 'stories#show'
   post '/meta-contents' => 'meta_contents#create'
   post '/meta-contents/:id/update' => 'meta_contents#update'
+  post '/characters' => 'characters#create'
 end
