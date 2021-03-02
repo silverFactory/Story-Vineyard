@@ -18,6 +18,7 @@ window.addEventListener("load", ()=>{
   const addMetaModal = document.querySelector("#add-meta-modal")
   const addMetaLabel = document.querySelector("#add-meta-form label")
   const addMetaModalClose = document.querySelector("#close-add-meta")
+  const newMetaInputField = document.querySelector("#new-meta")
   const submitNewMetaButton = document.querySelector("#submit-new-meta")
 
   const editMetaButton = document.querySelector(".edit-meta-content")
@@ -164,9 +165,16 @@ window.addEventListener("load", ()=>{
   }, false)
   submitNewMetaButton.addEventListener('click', (event)=>{
     event.preventDefault()
-    let newThemeInfo = {
-      content: document.querySelector("#new-theme").value,
-      theme_or_pp: 0,
+    //determine if new theme or plot point
+    // let theme_or_pp
+    // if (addMetaButton.innerText === "Add Theme"){
+    //   theme_or_pp = 0
+    // } else{
+    //   theme_or_pp = 1
+    // }
+    let newMetaInfo = {
+      content: newMetaInputField.value,
+      theme_or_pp: themeOrPP(),
       sceneId: currentSceneId.value
     }
     let configObj = {
@@ -175,7 +183,7 @@ window.addEventListener("load", ()=>{
         "Content-Type": "application/json",
         "Accept": "application/json"
       },
-      body: JSON.stringify(newThemeInfo)
+      body: JSON.stringify(newMetaInfo)
     }
     fetch("http://localhost:3000/meta-contents", configObj)
     .then(resp => resp.json())
@@ -188,6 +196,8 @@ window.addEventListener("load", ()=>{
       )
       console.log(newTheme)
       scenesArray[currentSceneId.value-1].meta_contents.push(newTheme)
+      addMetaModal.style.display = "none"
+      newMetaInputField.value = ""
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       draw()
     })
@@ -200,41 +210,43 @@ window.addEventListener("load", ()=>{
   })
   addMetaModalClose.addEventListener('click', ()=>{
     addMetaModal.style.display = "none"
+    newMetaInputField.value = ""
   })
   editMetaButton.addEventListener('click',() => {
     editMetaModal.style.display = "block"
     // clear form of all previous theme inputs/elements
     removeAllChildNodes(editMetaForm)
+
     //modal is populated with input elements that contain the current values for the relevant meta_contents
-    let themesArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === 0)
-    themesArray.forEach(function(theme){
-      let themeElement = document.createElement("input")
+    let metaContentsArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === themeOrPP())
+    metaContentsArray.forEach(function(meta){
+      let metaElement = document.createElement("input")
       let lineBreak = document.createElement("br")
-      themeElement.type = "text"
-      themeElement.name = theme.content
-      themeElement.value = theme.content
-      themeElement.id = theme.id
-      editMetaForm.appendChild(themeElement)
+      metaElement.type = "text"
+      metaElement.name = meta.content
+      metaElement.value = meta.content
+      metaElement.id = meta.id
+      editMetaForm.appendChild(metaElement)
       editMetaForm.appendChild(lineBreak)
     })
     //create submit button
-    let submitThemes = document.createElement("input")
-    submitThemes.type = "submit"
-    submitThemes.name = "edit-themes"
-    submitThemes.id = "edit-themes"
-    submitThemes.value = "Confirm Edits"
-    editMetaForm.appendChild(submitThemes)
-    submitThemes.addEventListener('click', (event)=>{
+    let submitMeta = document.createElement("input")
+    submitMeta.type = "submit"
+    submitMeta.name = "edit-themes"
+    submitMeta.id = "edit-themes"
+    submitMeta.value = "Confirm Edits"
+    editMetaForm.appendChild(submitMeta)
+    submitMeta.addEventListener('click', (event)=>{
       //close modal
       editMetaModal.style.display = "none"
       event.preventDefault()
       // go through theme inputs and update if they have been changed
-      while (editMetaForm.firstChild != submitThemes){
+      while (editMetaForm.firstChild != submitMeta){
 
         // if first theme has been changed
-        if (editMetaForm.firstChild.value !== themesArray.find(theme => theme.id === parseInt(editMetaForm.firstChild.id, 10)).content){
+        if (editMetaForm.firstChild.value !== metaContentsArray.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10)).content){
           //fetch request to post new info
-          let updatedThemeInfo = {
+          let updatedMetaInfo = {
             id: editMetaForm.firstChild.id,
             content: editMetaForm.firstChild.value,
             theme_or_pp: 0,
@@ -246,15 +258,15 @@ window.addEventListener("load", ()=>{
               "Content-Type": "application/json",
               "Accept": "application/json"
             },
-            body: JSON.stringify(updatedThemeInfo)
+            body: JSON.stringify(updatedMetaInfo)
           }
-          fetch(`http://localhost:3000/meta-contents/${updatedThemeInfo.id}/update`, configObj)
+          fetch(`http://localhost:3000/meta-contents/${updatedMetaInfo.id}/update`, configObj)
           .then(resp => resp.json())
           .then(function(object){
             console.log(object)
              //when response happens, update the old js object to reflect changes
-             let themeToBeUpdated = themesArray.find(theme => theme.id === object.id)
-             themeToBeUpdated.content = object.content
+             let metaToBeUpdated = metaContentsArray.find(theme => theme.id === object.id)
+             metaToBeUpdated.content = object.content
           }, false)
           //remove child node
           editMetaForm.removeChild(editMetaForm.firstChild)
@@ -275,6 +287,7 @@ window.addEventListener("load", ()=>{
   })
   editMetaModalClose.addEventListener('click', ()=>{
     editMetaModal.style.display = "none"
+    newMetaInputField.value = ""
   })
 
     canvas.height = 1000
@@ -446,6 +459,16 @@ window.addEventListener("load", ()=>{
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
             }
+        }
+        function themeOrPP(){
+          //determine if currently editing themes or plot points
+          let theme_or_pp
+          if (addMetaButton.innerText === "Add Theme"){
+            theme_or_pp = 0
+          } else{
+            theme_or_pp = 1
+          }
+          return theme_or_pp
         }
   //  ctx.save()
     //draw()
