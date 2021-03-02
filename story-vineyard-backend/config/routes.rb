@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   get '/stories/:id' => 'stories#show'
   post '/meta-contents' => 'meta_contents#create'
+  post '/meta-contents/:id/update' => 'meta_contents#update'
 end

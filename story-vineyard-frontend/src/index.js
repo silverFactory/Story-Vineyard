@@ -324,21 +324,55 @@ window.addEventListener("load", ()=>{
                submitThemes.name = "edit-themes"
                submitThemes.id = "edit-themes"
                submitThemes.value = "Confirm Edits"
+               editThemesForm.appendChild(submitThemes)
                submitThemes.addEventListener('click', (event)=>{
+                 //close modal
+                 editThemesModal.style.display = "none"
                  event.preventDefault()
                  // go through theme inputs and update if they have been changed
-                 while (editThemesForm.firstChild){
+                 while (editThemesForm.firstChild != submitThemes){
+
                    // if first theme has been changed
                    if (editThemesForm.firstChild.value !== themesArray.find(theme => theme.id === parseInt(editThemesForm.firstChild.id, 10)).content){
                      //fetch request to post new info
+                     let updatedThemeInfo = {
+                       id: editThemesForm.firstChild.id,
+                       content: editThemesForm.firstChild.value,
+                       theme_or_pp: 0,
+                       sceneId: currentSceneId.value
+                     }
+                     let configObj = {
+                       method: "POST",
+                       headers: {
+                         "Content-Type": "application/json",
+                         "Accept": "application/json"
+                       },
+                       body: JSON.stringify(updatedThemeInfo)
+                     }
+                     fetch(`http://localhost:3000/meta-contents/${updatedThemeInfo.id}/update`, configObj)
+                     .then(resp => resp.json())
+                     .then(function(object){
+                       console.log(object)
+                        //when response happens, update the old js object to reflect changes
+                        let themeToBeUpdated = themesArray.find(theme => theme.id === object.id)
+                        themeToBeUpdated.content = object.content
+                     }, false)
                      //remove child node
-                     //when response happens, update the old js object to reflect changes
+                     editThemesForm.removeChild(editThemesForm.firstChild)
+                     //remove <br>
+                     editThemesForm.removeChild(editThemesForm.firstChild)
                    } else {
                      //just remove node without interacting with db
+                     editThemesForm.removeChild(editThemesForm.firstChild)
+                     //remove <br>
+                     editThemesForm.removeChild(editThemesForm.firstChild)
                    }
                  }
+                 //when all is said and done, clear and redraw
+                 ctx.clearRect(0, 0, canvas.width, canvas.height)
+                 draw()
                })
-               editThemesForm.appendChild(submitThemes)
+
              })
              editThemesModalClose.addEventListener('click', ()=>{
                editThemesModal.style.display = "none"
