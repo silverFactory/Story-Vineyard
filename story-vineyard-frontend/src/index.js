@@ -16,6 +16,7 @@ window.addEventListener("load", ()=>{
 
   const addMetaButton = document.querySelector(".add-meta-content")
   const addMetaModal = document.querySelector("#add-meta-modal")
+  const addMetaLabel = document.querySelector("#add-meta-form label")
   const addMetaModalClose = document.querySelector("#close-add-meta")
   const submitNewMetaButton = document.querySelector("#submit-new-meta")
 
@@ -192,9 +193,89 @@ window.addEventListener("load", ()=>{
     })
   }, false)
 
+  addMetaButton.addEventListener('click',() => {
+    //set the text for the new form
+    addMetaLabel.innerText = addMetaButton.innerText
+    addMetaModal.style.display = "block"
+  })
+  addMetaModalClose.addEventListener('click', ()=>{
+    addMetaModal.style.display = "none"
+  })
+  editMetaButton.addEventListener('click',() => {
+    editMetaModal.style.display = "block"
+    // clear form of all previous theme inputs/elements
+    removeAllChildNodes(editMetaForm)
+    //modal is populated with input elements that contain the current values for the relevant meta_contents
+    let themesArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === 0)
+    themesArray.forEach(function(theme){
+      let themeElement = document.createElement("input")
+      let lineBreak = document.createElement("br")
+      themeElement.type = "text"
+      themeElement.name = theme.content
+      themeElement.value = theme.content
+      themeElement.id = theme.id
+      editMetaForm.appendChild(themeElement)
+      editMetaForm.appendChild(lineBreak)
+    })
+    //create submit button
+    let submitThemes = document.createElement("input")
+    submitThemes.type = "submit"
+    submitThemes.name = "edit-themes"
+    submitThemes.id = "edit-themes"
+    submitThemes.value = "Confirm Edits"
+    editMetaForm.appendChild(submitThemes)
+    submitThemes.addEventListener('click', (event)=>{
+      //close modal
+      editMetaModal.style.display = "none"
+      event.preventDefault()
+      // go through theme inputs and update if they have been changed
+      while (editMetaForm.firstChild != submitThemes){
 
+        // if first theme has been changed
+        if (editMetaForm.firstChild.value !== themesArray.find(theme => theme.id === parseInt(editMetaForm.firstChild.id, 10)).content){
+          //fetch request to post new info
+          let updatedThemeInfo = {
+            id: editMetaForm.firstChild.id,
+            content: editMetaForm.firstChild.value,
+            theme_or_pp: 0,
+            sceneId: currentSceneId.value
+          }
+          let configObj = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify(updatedThemeInfo)
+          }
+          fetch(`http://localhost:3000/meta-contents/${updatedThemeInfo.id}/update`, configObj)
+          .then(resp => resp.json())
+          .then(function(object){
+            console.log(object)
+             //when response happens, update the old js object to reflect changes
+             let themeToBeUpdated = themesArray.find(theme => theme.id === object.id)
+             themeToBeUpdated.content = object.content
+          }, false)
+          //remove child node
+          editMetaForm.removeChild(editMetaForm.firstChild)
+          //remove <br>
+          editMetaForm.removeChild(editMetaForm.firstChild)
+        } else {
+          //just remove node without interacting with db
+          editMetaForm.removeChild(editMetaForm.firstChild)
+          //remove <br>
+          editMetaForm.removeChild(editMetaForm.firstChild)
+        }
+      }
+      //when all is said and done, clear and redraw
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      draw()
+    })
 
-
+  })
+  editMetaModalClose.addEventListener('click', ()=>{
+    editMetaModal.style.display = "none"
+  })
 
     canvas.height = 1000
     canvas.width = 1000
@@ -310,89 +391,8 @@ window.addEventListener("load", ()=>{
              addMetaButton.innerText = "Add Theme"
              editMetaButton.innerText = "Edit Themes"
              editMetaContentsContainer.style.display = "inline"
-             addMetaButton.addEventListener('click',() => {
-               addMetaModal.style.display = "block"
-             })
-             addMetaModalClose.addEventListener('click', ()=>{
-               addMetaModal.style.display = "none"
-             })
-             editMetaButton.addEventListener('click',() => {
-               editMetaModal.style.display = "block"
-               // clear form of all previous theme inputs/elements
-               removeAllChildNodes(editMetaForm)
-               //modal is populated with input elements that contain the current values for the relevant meta_contents
-               let themesArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === 0)
-               themesArray.forEach(function(theme){
-                 let themeElement = document.createElement("input")
-                 let lineBreak = document.createElement("br")
-                 themeElement.type = "text"
-                 themeElement.name = theme.content
-                 themeElement.value = theme.content
-                 themeElement.id = theme.id
-                 editMetaForm.appendChild(themeElement)
-                 editMetaForm.appendChild(lineBreak)
-               })
-               //create submit button
-               let submitThemes = document.createElement("input")
-               submitThemes.type = "submit"
-               submitThemes.name = "edit-themes"
-               submitThemes.id = "edit-themes"
-               submitThemes.value = "Confirm Edits"
-               editMetaForm.appendChild(submitThemes)
-               submitThemes.addEventListener('click', (event)=>{
-                 //close modal
-                 editMetaModal.style.display = "none"
-                 event.preventDefault()
-                 // go through theme inputs and update if they have been changed
-                 while (editMetaForm.firstChild != submitThemes){
-
-                   // if first theme has been changed
-                   if (editMetaForm.firstChild.value !== themesArray.find(theme => theme.id === parseInt(editMetaForm.firstChild.id, 10)).content){
-                     //fetch request to post new info
-                     let updatedThemeInfo = {
-                       id: editMetaForm.firstChild.id,
-                       content: editMetaForm.firstChild.value,
-                       theme_or_pp: 0,
-                       sceneId: currentSceneId.value
-                     }
-                     let configObj = {
-                       method: "POST",
-                       headers: {
-                         "Content-Type": "application/json",
-                         "Accept": "application/json"
-                       },
-                       body: JSON.stringify(updatedThemeInfo)
-                     }
-                     fetch(`http://localhost:3000/meta-contents/${updatedThemeInfo.id}/update`, configObj)
-                     .then(resp => resp.json())
-                     .then(function(object){
-                       console.log(object)
-                        //when response happens, update the old js object to reflect changes
-                        let themeToBeUpdated = themesArray.find(theme => theme.id === object.id)
-                        themeToBeUpdated.content = object.content
-                     }, false)
-                     //remove child node
-                     editMetaForm.removeChild(editMetaForm.firstChild)
-                     //remove <br>
-                     editMetaForm.removeChild(editMetaForm.firstChild)
-                   } else {
-                     //just remove node without interacting with db
-                     editMetaForm.removeChild(editMetaForm.firstChild)
-                     //remove <br>
-                     editMetaForm.removeChild(editMetaForm.firstChild)
-                   }
-                 }
-                 //when all is said and done, clear and redraw
-                 ctx.clearRect(0, 0, canvas.width, canvas.height)
-                 draw()
-               })
-
-             })
-             editMetaModalClose.addEventListener('click', ()=>{
-               editMetaModal.style.display = "none"
-             })
+             //set scene id to one connected to leaf
              currentSceneId.value = scene.id
-             console.log(currentSceneId.value)
           }
           //registers a click on right red leaf
           else if (x > ((scene.x_pos+ppLeft)*scaleFactor) && x < ((scene.x_pos+ppRight)*scaleFactor)
@@ -428,13 +428,9 @@ window.addEventListener("load", ()=>{
            addMetaButton.innerText = "Add Plot Point"
            editMetaButton.innerText = "Edit Plot Points"
            editMetaContentsContainer.style.display = "inline"
-           // editPPsContainer.style.display = "inline"
-           // addPPsButton.addEventListener('click',() => {
-           //   addPPsModal.style.display = "block"
-           // })
-           // addPPsModalClose.addEventListener('click', ()=>{
-           //   addPPsModal.style.display = "none"
-           // })
+           //set scene id to one connected to leaf
+           currentSceneId.value = scene.id
+
           }
           //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
           else if (x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor

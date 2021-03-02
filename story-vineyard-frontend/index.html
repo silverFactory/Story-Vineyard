@@ -38,8 +38,9 @@
   <div class="modal" id="add-meta-modal">
     <div class="modal-content">
       <span id="close-add-meta">&times;</span>
-      <form action="http://localhost:3000/meta-contents" method="POST">
-      <label>New Theme: <input type="text" name="new-theme" id="new-theme"></label><br>
+      <form action="http://localhost:3000/meta-contents" method="POST" id="add-meta-form">
+      <label for="new-theme"></label>
+      <input type="text" name="new-theme" id="new-theme"><br>
       <input type="hidden" name="scene-id" id="scene-id" value="">
       <input type="submit" name="submit-new-meta" id="submit-new-meta" value="Submit">
       </form>
