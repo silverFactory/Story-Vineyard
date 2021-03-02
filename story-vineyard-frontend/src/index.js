@@ -228,19 +228,34 @@ window.addEventListener("load", ()=>{
     editMetaModal.style.display = "block"
     // clear form of all previous theme inputs/elements
     removeAllChildNodes(editMetaForm)
-
-    //modal is populated with input elements that contain the current values for the relevant meta_contents
-    let metaContentsArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === elementType())
-    metaContentsArray.forEach(function(meta){
-      let metaElement = document.createElement("input")
-      let lineBreak = document.createElement("br")
-      metaElement.type = "text"
-      metaElement.name = meta.content
-      metaElement.value = meta.content
-      metaElement.id = meta.id
-      editMetaForm.appendChild(metaElement)
-      editMetaForm.appendChild(lineBreak)
-    })
+    let charactersArray
+    let metaContentsArray
+    if (elementType() === "character"){
+      charactersArray = scenesArray[currentSceneId.value-1].characters
+      charactersArray.forEach(function(character){
+        let characterElement = document.createElement("input")
+        let lineBreak = document.createElement("br")
+        characterElement.type = "text"
+        characterElement.name = character.name
+        characterElement.value = character.name
+        characterElement.id = character.id
+        editMetaForm.appendChild(characterElement)
+        editMetaForm.appendChild(lineBreak)
+      })
+    } else {
+      //modal is populated with input elements that contain the current values for the relevant meta_contents
+      metaContentsArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === elementType())
+      metaContentsArray.forEach(function(meta){
+        let metaElement = document.createElement("input")
+        let lineBreak = document.createElement("br")
+        metaElement.type = "text"
+        metaElement.name = meta.content
+        metaElement.value = meta.content
+        metaElement.id = meta.id
+        editMetaForm.appendChild(metaElement)
+        editMetaForm.appendChild(lineBreak)
+      })
+    }
     //create submit button
     let submitMeta = document.createElement("input")
     submitMeta.type = "submit"
@@ -253,43 +268,82 @@ window.addEventListener("load", ()=>{
       //close modal
       editMetaModal.style.display = "none"
       event.preventDefault()
-      // go through theme inputs and update if they have been changed
-      while (editMetaForm.firstChild != submitMeta){
-
-        // if first theme has been changed
-        if (editMetaForm.firstChild.value !== metaContentsArray.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10)).content){
-          //fetch request to post new info
-          let updatedMetaInfo = {
-            id: editMetaForm.firstChild.id,
-            content: editMetaForm.firstChild.value,
-            theme_or_pp: 0,
-            sceneId: currentSceneId.value
+      if (metaContentsArray != undefined){
+        // go through metaContent inputs and update if they have been changed
+        while (editMetaForm.firstChild != submitMeta){
+          // if first theme has been changed
+          if (editMetaForm.firstChild.value !== metaContentsArray.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10)).content){
+            //fetch request to post new info
+            let updatedMetaInfo = {
+              id: editMetaForm.firstChild.id,
+              content: editMetaForm.firstChild.value,
+              theme_or_pp: 0,
+              sceneId: currentSceneId.value
+            }
+            let configObj = {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+              body: JSON.stringify(updatedMetaInfo)
+            }
+            fetch(`http://localhost:3000/meta-contents/${updatedMetaInfo.id}/update`, configObj)
+            .then(resp => resp.json())
+            .then(function(object){
+              console.log(object)
+               //when response happens, update the old js object to reflect changes
+               let metaToBeUpdated = metaContentsArray.find(theme => theme.id === object.id)
+               metaToBeUpdated.content = object.content
+            }, false)
+            //remove child node
+            editMetaForm.removeChild(editMetaForm.firstChild)
+            //remove <br>
+            editMetaForm.removeChild(editMetaForm.firstChild)
+          } else {
+            //just remove node without interacting with db
+            editMetaForm.removeChild(editMetaForm.firstChild)
+            //remove <br>
+            editMetaForm.removeChild(editMetaForm.firstChild)
           }
-          let configObj = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-            },
-            body: JSON.stringify(updatedMetaInfo)
+        }
+      } else {
+        // go through metaContent inputs and update if they have been changed
+        while (editMetaForm.firstChild != submitMeta){
+          // if first theme has been changed
+          if (editMetaForm.firstChild.value !== charactersArray.find(character => character.id === parseInt(editMetaForm.firstChild.id, 10)).content){
+            //fetch request to post new info
+            let updatedCharacterInfo = {
+              id: editMetaForm.firstChild.id,
+              name: editMetaForm.firstChild.value,
+              sceneId: currentSceneId.value
+            }
+            let configObj = {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+              body: JSON.stringify(updatedCharacterInfo)
+            }
+            fetch(`http://localhost:3000/characters/${updatedCharacterInfo.id}/update`, configObj)
+            .then(resp => resp.json())
+            .then(function(object){
+              console.log(object)
+               //when response happens, update the old js object to reflect changes
+               let characterToBeUpdated = charactersArray.find(char => char.id === object.id)
+               characterToBeUpdated.name = object.name
+            }, false)
+            //remove child node
+            editMetaForm.removeChild(editMetaForm.firstChild)
+            //remove <br>
+            editMetaForm.removeChild(editMetaForm.firstChild)
+          } else {
+            //just remove node without interacting with db
+            editMetaForm.removeChild(editMetaForm.firstChild)
+            //remove <br>
+            editMetaForm.removeChild(editMetaForm.firstChild)
           }
-          fetch(`http://localhost:3000/meta-contents/${updatedMetaInfo.id}/update`, configObj)
-          .then(resp => resp.json())
-          .then(function(object){
-            console.log(object)
-             //when response happens, update the old js object to reflect changes
-             let metaToBeUpdated = metaContentsArray.find(theme => theme.id === object.id)
-             metaToBeUpdated.content = object.content
-          }, false)
-          //remove child node
-          editMetaForm.removeChild(editMetaForm.firstChild)
-          //remove <br>
-          editMetaForm.removeChild(editMetaForm.firstChild)
-        } else {
-          //just remove node without interacting with db
-          editMetaForm.removeChild(editMetaForm.firstChild)
-          //remove <br>
-          editMetaForm.removeChild(editMetaForm.firstChild)
         }
       }
       //when all is said and done, clear and redraw

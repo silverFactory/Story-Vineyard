@@ -6,7 +6,6 @@ class MetaContentsController < ApplicationController
     render json: meta_content
   end
   def update
-    #byebug
     meta_content = MetaContent.find(params[:id])
     meta_content.update(content: params[:content])
     render json: meta_content
