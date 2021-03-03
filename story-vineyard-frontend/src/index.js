@@ -55,6 +55,8 @@ window.addEventListener("load", ()=>{
   const vine = document.getElementById("vine")
   const grapes = document.getElementById("grapes")
   const scenesArray = []
+  const allCharacters = []
+  const allThemes = []
   //dimensions of entire vine png
   const vinePNGHeight = 80
   const vinePNGWidth = 200
@@ -136,6 +138,23 @@ window.addEventListener("load", ()=>{
         fetch(`http://localhost:3000/stories/${storyId}`)
           .then(resp => resp.json())
           .then(function(json) {
+            json.all_characters.forEach(function(char){
+              let newChar = new Character(
+                char.id,
+                char.name
+                )
+                allCharacters.push(newChar)
+            })
+            console.log(allCharacters)
+            json.all_themes.forEach(function(theme){
+              let newTheme = new MetaContent(
+                theme.id,
+                theme.content,
+                theme.theme_or_pp
+              )
+              allThemes.push(newTheme)
+            })
+            console.log(allThemes)
             //make a scene object for each scene and add to scenesArray
             json.scenes.forEach(function(scene){
               let characters = []
@@ -607,6 +626,14 @@ window.addEventListener("load", ()=>{
     })
     //on fetch response make a new object and add to scenes array
   })
+
+  // const allCharacters = []
+  // scenesArray.forEach(function(char){
+  //
+  // })
+
+
+  //HELPER FUNCTIONS
     function handlePointerMove (event){
       canvas.addEventListener('click', (event)=>{
           canvas.removeEventListener('pointermove', handlePointerMove)
@@ -647,13 +674,27 @@ window.addEventListener("load", ()=>{
         function currentUser(){
           return welcome.innerText.split(`'`)[0]
         }
-  //  ctx.save()
-    //draw()
-    // let sceneBoxX =
-    // let sceneBoxY =
-    // let sceneBoxWidth =
-    // let sceneBoxHeight =
-    // ctx.fillRect(100, 160, 80, 35)
-    // ctx.clearRect(105, 165, 70, 25)
-    // ctx.strokeRect(107, 167, 66, 21)
+        function currentStoryId(){
+          return storiesMenu.value.split(" ")[0]
+        }
+        // function allCharacters(){
+        //   let storyId = {
+        //     id: currentStoryId
+        //   }
+        //   let configObj = {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       "Accept": "application/json"
+        //     },
+        //     body: JSON.stringify(storyId)
+        //   }
+        //   //fetch post to add to db
+        //   fetch("http://localhost:3000/stories", configObj)
+        //   .then(resp => resp.json())
+        //   .then(function(object){
+        //
+        //   })
+        // }
+
 })

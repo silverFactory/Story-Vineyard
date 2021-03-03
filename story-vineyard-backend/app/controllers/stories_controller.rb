@@ -3,7 +3,9 @@ class StoriesController < ApplicationController
     story = Story.find(params[:id])
     full_story = {
       title: story.title,
-      scenes: []
+      scenes: [],
+      all_characters: story.characters,
+      all_themes: story.meta_contents.themes
     }
     #return JSON with all of a Story's Scenes, all of a Scene's Characters, all of a Scene's MetaContent
     story.scenes.each do |scene|
