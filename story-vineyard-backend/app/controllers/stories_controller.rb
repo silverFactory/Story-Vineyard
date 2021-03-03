@@ -19,6 +19,11 @@ class StoriesController < ApplicationController
       full_story[:scenes] << full_scene
     end
     render json: full_story
-
+  end
+  def create
+    user = User.find_by(username: params[:username])
+    story = user.stories.build(title: params[:title])
+    story.save
+    render json: story
   end
 end

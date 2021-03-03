@@ -1,9 +1,9 @@
- class Story {
-   constructor(id, title){
-     this.id = id
-     this.title = title
-   }
- }
+ // class Story {
+ //   constructor(id, title){
+ //     this.id = id
+ //     this.title = title
+ //   }
+ // }
 class Scene {
   constructor(id, name, location, x_pos, y_pos, characters, meta_contents){
     this.id = id

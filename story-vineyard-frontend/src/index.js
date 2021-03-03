@@ -1,13 +1,14 @@
 window.addEventListener("load", ()=>{
   const modalLogIn = document.querySelector("#userForm");
   const userButton = document.querySelector("#userButton");
+  const welcome = document.querySelector("div#welcome  h1")
   // Get the <span> element that closes the modal
   const modalLogInClose = document.querySelector("#closeLogIn");
   const logInButton = document.querySelector("#logIn")
 
   const newStoryModal = document.querySelector("#new-story-modal")
   const submitNewStoryButton = document.querySelector("#submit-new-story")
-  const newStoryName = document.querySelector("#new-story-name")
+  const newStoryTitle = document.querySelector("#new-story-title")
   const newStoryModalClose = document.querySelector("#close-new-story")
 
   const newSceneButton = document.querySelector("#new-scene")
@@ -114,7 +115,6 @@ window.addEventListener("load", ()=>{
     fetch("http://localhost:3000/login", configObj)
     .then(resp => resp.json())
     .then(function(object) {
-      let welcome = document.querySelector("div#welcome  h1")
       welcome.innerText = `${object["username"]}'s Story Vineyard`
       userButton.style.display = "none"
       storiesContainer.style.display = "inline"
@@ -182,6 +182,33 @@ window.addEventListener("load", ()=>{
       console.log(object)
     }) //end fetch response
   }, false)//end log in listener
+
+  //subnmits new story to db
+  submitNewStoryButton.addEventListener('click', (event)=>{
+    event.preventDefault()
+    let newStoryInfo = {
+      username: currentUser(),
+      title: newStoryTitle.value,
+    }
+    let configObj = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(newStoryInfo)
+    }
+    fetch("http://localhost:3000/stories", configObj)
+    .then(resp=>resp.json())
+    .then(function(object){
+      console.log(object)
+      let newStory = document.createElement("option")
+      newStory.value = object.id + " " + object.title
+      newStory.innerText = object.title
+      storiesMenu.appendChild(newStory)
+      newStory.selected = true
+    })
+  }, false)
   //submits new MetaContent or Character to DB
   submitNewMetaButton.addEventListener('click', (event)=>{
     event.preventDefault()
@@ -245,6 +272,9 @@ window.addEventListener("load", ()=>{
   })
   newSceneModalClose.addEventListener('click', ()=>{
     newSceneModal.style.display = "none"
+  })
+  newStoryModalClose.addEventListener('click', ()=>{
+    newStoryModal.style.display = "none"
   })
   editMetaButton.addEventListener('click',() => {
     editMetaModal.style.display = "block"
@@ -613,6 +643,9 @@ window.addEventListener("load", ()=>{
           addMetaButton.innerText = `Add ${element}`
           editMetaButton.innerText = `Edit ${element}s`
           editMetaContentsContainer.style.display = "inline"
+        }
+        function currentUser(){
+          return welcome.innerText.split(`'`)[0]
         }
   //  ctx.save()
     //draw()
