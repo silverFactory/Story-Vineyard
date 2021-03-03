@@ -5,6 +5,11 @@ window.addEventListener("load", ()=>{
   const modalLogInClose = document.querySelector("#closeLogIn");
   const logInButton = document.querySelector("#logIn")
 
+  const newStoryModal = document.querySelector("#new-story-modal")
+  const submitNewStoryButton = document.querySelector("#submit-new-story")
+  const newStoryName = document.querySelector("#new-story-name")
+  const newStoryModalClose = document.querySelector("#close-new-story")
+
   const newSceneButton = document.querySelector("#new-scene")
   const newSceneModal = document.querySelector("#new-scene-modal")
   const submitNewSceneButton = document.querySelector("#submit-new-scene")
@@ -124,6 +129,9 @@ window.addEventListener("load", ()=>{
       //get all story elements associated with selected story
       storiesMenu.addEventListener('change', (element)=>{
         //console.log(storiesMenu.value)
+        if (storiesMenu.value === "create-new-story"){
+          newStoryModal.style.display = "inline"
+        } else {
         let storyId = parseInt(storiesMenu.value.split(" ")[0], 10)
         fetch(`http://localhost:3000/stories/${storyId}`)
           .then(resp => resp.json())
@@ -169,10 +177,11 @@ window.addEventListener("load", ()=>{
             //
             // })
           })
-      })
+        }
+      }) //stories menu event listener change end
       console.log(object)
-    })
-  }, false)
+    }) //end fetch response
+  }, false)//end log in listener
   //submits new MetaContent or Character to DB
   submitNewMetaButton.addEventListener('click', (event)=>{
     event.preventDefault()

@@ -29,6 +29,7 @@
     <label for="storiesMenu">Choose a story:</label>
     <select name="stories" id="storiesMenu">
         <option value="">--Please choose an option--</option>
+        <option value="create-new-story">Create New Story</option>
     </select>
     <button id="new-scene">New Scene</button>
   </div>
@@ -67,6 +68,15 @@
         <input type="hidden" id="scene-x-pos" value="">
         <input type="hidden" id="scene-y-pos" value="">
       <input type="submit" name="submit-new-scene" id="submit-new-scene" value="Submit">
+      </form>
+    </div>
+  </div>
+  <div class="modal" id="new-story-modal">
+    <div class="modal-content">
+      <span id="close-new-story">&times;</span>
+      <form action="http://localhost:3000/stories" method="POST" id="new-scene-story">
+        <label>Story Name: <input type="text" name="new-story-name" id="new-story-name"></label><br>
+        <input type="submit" name="submit-new-story" id="submit-new-story" value="Submit">
       </form>
     </div>
   </div>
