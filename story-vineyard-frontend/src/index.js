@@ -56,6 +56,8 @@ window.addEventListener("load", ()=>{
   const grapes = document.getElementById("grapes")
   const scenesArray = []
   const allCharacters = []
+  const charactersContainer = document.querySelector("#characters-container")
+  const charactersMenu = document.querySelector("#all-characters")
   const allThemes = []
   //dimensions of entire vine png
   const vinePNGHeight = 80
@@ -144,6 +146,10 @@ window.addEventListener("load", ()=>{
                 char.name
                 )
                 allCharacters.push(newChar)
+                let charOption = document.createElement("option")
+                charOption.value = char.id + " " + char.name
+                charOption.innerText = char.name
+                charactersMenu.appendChild(charOption)
             })
             console.log(allCharacters)
             json.all_themes.forEach(function(theme){
