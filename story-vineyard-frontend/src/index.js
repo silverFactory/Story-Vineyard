@@ -162,6 +162,7 @@ window.addEventListener("load", ()=>{
               scenesArray.push(newScene)
             })
             draw()
+            newSceneButton.style.display = "inline"
             console.log(scenesArray)
             //make variables to click and unclick info bubbles
             // scenesArray.forEach(function(scene){
