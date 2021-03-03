@@ -59,6 +59,8 @@ window.addEventListener("load", ()=>{
   const charactersContainer = document.querySelector("#characters-container")
   const charactersMenu = document.querySelector("#all-characters")
   const allThemes = []
+  const themesContainer = document.querySelector("#themes-container")
+  const themesMenu = document.querySelector("#all-themes")
   //dimensions of entire vine png
   const vinePNGHeight = 80
   const vinePNGWidth = 200
@@ -159,6 +161,10 @@ window.addEventListener("load", ()=>{
                 theme.theme_or_pp
               )
               allThemes.push(newTheme)
+              let themeOption = document.createElement("option")
+              themeOption.value = theme.id + " " + theme.content
+              themeOption.innerText = theme.content
+              themesMenu.appendChild(themeOption)
             })
             console.log(allThemes)
             //make a scene object for each scene and add to scenesArray
