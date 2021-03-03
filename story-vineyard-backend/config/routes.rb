@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   post '/meta-contents/:id/update' => 'meta_contents#update'
   post '/characters' => 'characters#create'
   post '/characters/:id/update' => 'characters#update'
+  post '/scenes' => 'scenes#create'
 end

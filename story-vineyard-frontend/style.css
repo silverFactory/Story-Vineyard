@@ -53,3 +53,6 @@
 #editMetaContentsContainer{
   display: none;
 }
+#new-scene-modal{
+  display: none;
+}

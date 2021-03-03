@@ -4,7 +4,14 @@ window.addEventListener("load", ()=>{
   // Get the <span> element that closes the modal
   const modalLogInClose = document.querySelector("#closeLogIn");
   const logInButton = document.querySelector("#logIn")
+
   const newSceneButton = document.querySelector("#new-scene")
+  const newSceneModal = document.querySelector("#new-scene-modal")
+  const submitNewSceneButton = document.querySelector("#submit-new-scene")
+  const newSceneName = document.querySelector("#new-scene-name")
+  const newSceneLocation = document.querySelector("#new-scene-location")
+  const newSceneX = document.querySelector("#scene-x-pos")
+  const newSceneY = document.querySelector("#scene-y-pos")
 
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
@@ -513,14 +520,44 @@ window.addEventListener("load", ()=>{
             }
         })
         }, false)
-        
+
 //vine png follows pointer around screen, locks in place on click
   newSceneButton.onclick = function(){
     canvas.addEventListener('pointermove', handlePointerMove)
   }
+  submitNewSceneButton.addEventListener('click', (event)=>{
+    event.preventDefault()
+    let newSceneInfo = {
+      storyTitle: storiesMenu.value.split(" ")[1],
+      name: newSceneName.value,
+      location: newSceneLocation.value,
+      x_pos: newSceneX.value,
+      y_pos: newSceneY.value
+    }
+    let configObj = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(newSceneInfo)
+    }
+    //fetch post to add to db
+    fetch("http://localhost:3000/scenes", configObj)
+    .then(resp => resp.json())
+    .then(function(object){
+      console.log(object)
+    })
+    //on fetch response make a new object and add to scenes array
+  })
     function handlePointerMove (event){
       canvas.addEventListener('click', (event)=>{
           canvas.removeEventListener('pointermove', handlePointerMove)
+          //modal pops up to make a new scene with name and location fields (xpos and ypos hidden)
+          newSceneModal.style.display = "inline"
+          //set x & y pos inputs on form
+          newSceneX.value = Math.floor(event.clientX)
+          newSceneY.value = Math.floor(event.clientY)-100
       })
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         draw()

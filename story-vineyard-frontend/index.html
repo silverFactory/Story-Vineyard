@@ -58,15 +58,17 @@
       </form>
     </div>
   </div>
-  <!-- <div class="modal" id="add-pps-modal">
+  <div class="modal" id="new-scene-modal">
     <div class="modal-content">
-      <span id="close-add-pps">&times;</span>
-      <form action="http://localhost:3000/meta-contents" method="POST">
-      <label>New Plot Point: <input type="text" name="new-pp" id="new-pp"></label><br>
-      <input type="submit" name="submit-new-pp" id="submit-new-pp" value="Submit Plot Point">
+      <form action="http://localhost:3000/scenes" method="POST" id="new-scene-form">
+        <label>Scene Name: <input type="text" name="new-scene-name" id="new-scene-name"></label><br>
+        <label>Scene Location: <input type="text" name="new-scene-location" id="new-scene-location"></label><br>
+        <input type="hidden" id="scene-x-pos" value="">
+        <input type="hidden" id="scene-y-pos" value="">
+      <input type="submit" name="submit-new-scene" id="submit-new-scene" value="Submit">
       </form>
     </div>
-  </div> -->
+  </div>
   <div id="images">
   <image src="./images/vine_alt_xs.png" id="vine">
   </div>
