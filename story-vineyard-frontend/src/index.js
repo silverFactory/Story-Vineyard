@@ -9,6 +9,7 @@ window.addEventListener("load", ()=>{
   const newSceneModal = document.querySelector("#new-scene-modal")
   const submitNewSceneButton = document.querySelector("#submit-new-scene")
   const newSceneName = document.querySelector("#new-scene-name")
+  const newSceneModalClose = document.querySelector("#close-new-scene")
   const newSceneLocation = document.querySelector("#new-scene-location")
   const newSceneX = document.querySelector("#scene-x-pos")
   const newSceneY = document.querySelector("#scene-y-pos")
@@ -231,6 +232,9 @@ window.addEventListener("load", ()=>{
   addMetaModalClose.addEventListener('click', ()=>{
     addMetaModal.style.display = "none"
     newMetaInputField.value = ""
+  })
+  newSceneModalClose.addEventListener('click', ()=>{
+    newSceneModal.style.display = "none"
   })
   editMetaButton.addEventListener('click',() => {
     editMetaModal.style.display = "block"
@@ -546,7 +550,20 @@ window.addEventListener("load", ()=>{
     fetch("http://localhost:3000/scenes", configObj)
     .then(resp => resp.json())
     .then(function(object){
+      newSceneModal.style.display = "none"
       console.log(object)
+      //make a new scene obj and add to scenesArray
+      let scene = new Scene(
+        object.id,
+        object.name,
+        object.location,
+        object.x_pos,
+        object.y_pos,
+        [],
+        []
+      )
+      scenesArray.push(scene)
+      draw()
     })
     //on fetch response make a new object and add to scenes array
   })
