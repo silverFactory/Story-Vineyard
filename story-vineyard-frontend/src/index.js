@@ -4,6 +4,7 @@ window.addEventListener("load", ()=>{
   // Get the <span> element that closes the modal
   const modalLogInClose = document.querySelector("#closeLogIn");
   const logInButton = document.querySelector("#logIn")
+  const newSceneButton = document.querySelector("#new-scene")
 
   const storiesContainer = document.querySelector("#storiesContainer")
   const storiesMenu = document.querySelector("#storiesMenu")
@@ -394,13 +395,7 @@ window.addEventListener("load", ()=>{
       ctx.fillText(scene.location, scene.x_pos+5, scene.y_pos+90)
     })
   }
-  // elements = []
-  // elements.push({
-  //   width: 200,
-  //   height: 80,
-  //   top: 100,
-  //   left: 100
-  // })
+
   canvas.addEventListener('click', ()=> {
     console.log(event)
     let x = event.pageX - canvasLeft
@@ -518,6 +513,20 @@ window.addEventListener("load", ()=>{
             }
         })
         }, false)
+        
+//vine png follows pointer around screen, locks in place on click
+  newSceneButton.onclick = function(){
+    canvas.addEventListener('pointermove', handlePointerMove)
+  }
+    function handlePointerMove (event){
+      canvas.addEventListener('click', (event)=>{
+          canvas.removeEventListener('pointermove', handlePointerMove)
+      })
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        draw()
+        ctx.drawImage(vine, Math.floor(event.clientX), Math.floor(event.clientY)-100)
+      }
+
         function removeAllChildNodes(parent) {
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
