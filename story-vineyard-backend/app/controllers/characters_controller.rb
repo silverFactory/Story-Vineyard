@@ -10,4 +10,9 @@ class CharactersController < ApplicationController
     character.update(name: params[:name])
     render json: character
   end
+  def show
+    character = Character.find(params[:id])
+    scenes = character.scenes
+    render json: scenes
+  end
 end

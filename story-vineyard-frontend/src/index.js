@@ -307,6 +307,10 @@ window.addEventListener("load", ()=>{
   newStoryModalClose.addEventListener('click', ()=>{
     newStoryModal.style.display = "none"
   })
+  editMetaModalClose.addEventListener('click', ()=>{
+    editMetaModal.style.display = "none"
+    newMetaInputField.value = ""
+  })
   editMetaButton.addEventListener('click',() => {
     editMetaModal.style.display = "block"
     // clear form of all previous theme inputs/elements
@@ -435,9 +439,36 @@ window.addEventListener("load", ()=>{
     })
 
   })
-  editMetaModalClose.addEventListener('click', ()=>{
-    editMetaModal.style.display = "none"
-    newMetaInputField.value = ""
+
+  themesMenu.addEventListener('change', ()=>{
+    //console.log(themesMenu.value)
+    let selectedTheme = allThemes.find(theme => theme.id === parseInt(themesMenu.value.split(" ")[0], 10))
+  //  console.log(selectedTheme)
+    let scenesWithTheme = scenesArray.filter(scene => scene.meta_contents.includes(selectedTheme))
+    console.log(scenesWithTheme)
+  })
+  charactersMenu.addEventListener('change', ()=>{
+    //console.log("select some bubbles")
+    // let selectedCharacter = allCharacters.find(char => char.id === parseInt(charactersMenu.value.split(" ")[0], 10))
+    // //console.log(selectedCharacter)
+    // let scenesWithCharacter = scenesArray.filter(scene => scene.characters.includes(selectedCharacter))
+    // console.log(scenesWithCharacter)
+    let charId = parseInt(charactersMenu.value.split(" ")[0], 10)
+    fetch(`http://localhost:3000/characters/${charId}`)
+    .then(resp => resp.json())
+    .then(function(object){
+      let scenesWithCharacter = []
+      object.forEach(function(scene){
+        let sc = scenesArray.find(sceneObj => sceneObj.id === scene.id)
+        if (sc){
+          scenesWithCharacter.push(sc)
+        }
+      })
+      console.log(scenesWithCharacter)
+      scenesWithCharacter.forEach(function(scene){
+        drawCharactersBubble(scene)
+      })
+    })
   })
 
     canvas.height = 1000
@@ -487,36 +518,30 @@ window.addEventListener("load", ()=>{
           //registers a click on the grapes
           if (x > ((scene.x_pos+grapesLeft)*scaleFactor) && x < ((scene.x_pos+grapesRight)*scaleFactor)
               && y > ((scene.y_pos+grapesTop)*scaleFactor) && y < ((scene.y_pos+grapesBottom)*scaleFactor)) {
-                //alert(`clicked on the grapes for ${scene.name}`)
-                // let bubbleX = 150
-                // let bubbleY = 265
-                //draw info bubble
-                let bubbleX = (scene.x_pos+grapesLeft) + 30
-                let bubbleY = (scene.y_pos+grapesTop) + 141
-                //ctx.fillRect(bubbleX, bubbleY, 10, 10)
-                // ctx.fillRect(bubbleX, bubbleY, 10, 10)
-               ctx.beginPath();
-               ctx.moveTo(bubbleX, bubbleY);
-               ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX+50, bubbleY-37.5);
-               ctx.quadraticCurveTo(bubbleX+50, bubbleY-75, bubbleX+25, bubbleY-75);
-               //ctx.quadraticCurveTo(bubbleX+25, bubbleY-95, bubbleX+45, bubbleY-100);
-               ctx.lineTo(bubbleX-10, bubbleY-100);
-               //ctx.quadraticCurveTo(bubbleX+15, bubbleY-95, bubbleX+10, bubbleY-75);
-               ctx.lineTo(bubbleX+10, bubbleY-75);
-               ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
-               ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
-               ctx.stroke();
-               //fill in bubble with character names
-               ctx.font = "8px sans-serif"
-               let xTextPos = bubbleX - 40
-               let yTextPos = bubbleY - 50
-               scene.characters.forEach(function(char){
-                 ctx.fillText(char.name, xTextPos, yTextPos)
-                 //create a new line as a factor of text size
-                 yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
-               })
-               setButtons("Character")
-               currentSceneId.value = scene.id
+                drawCharactersBubble(scene)
+               //  //draw info bubble
+               //  let bubbleX = (scene.x_pos+grapesLeft) + 30
+               //  let bubbleY = (scene.y_pos+grapesTop) + 141
+               // ctx.beginPath();
+               // ctx.moveTo(bubbleX, bubbleY);
+               // ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX+50, bubbleY-37.5);
+               // ctx.quadraticCurveTo(bubbleX+50, bubbleY-75, bubbleX+25, bubbleY-75);
+               // ctx.lineTo(bubbleX-10, bubbleY-100);
+               // ctx.lineTo(bubbleX+10, bubbleY-75);
+               // ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
+               // ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
+               // ctx.stroke();
+               // //fill in bubble with character names
+               // ctx.font = "8px sans-serif"
+               // let xTextPos = bubbleX - 40
+               // let yTextPos = bubbleY - 50
+               // scene.characters.forEach(function(char){
+               //   ctx.fillText(char.name, xTextPos, yTextPos)
+               //   //create a new line as a factor of text size
+               //   yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+               // })
+               // setButtons("Character")
+               // currentSceneId.value = scene.id
           }
           //registers a click on left red leaf
           else if (x > ((scene.x_pos+themeLeft)*scaleFactor) && x < ((scene.x_pos+themeRight)*scaleFactor)
@@ -688,6 +713,31 @@ window.addEventListener("load", ()=>{
         }
         function currentStoryId(){
           return storiesMenu.value.split(" ")[0]
+        }
+        function drawCharactersBubble(scene){
+          //draw info bubble
+          let bubbleX = (scene.x_pos+grapesLeft) + 30
+          let bubbleY = (scene.y_pos+grapesTop) + 141
+         ctx.beginPath();
+         ctx.moveTo(bubbleX, bubbleY);
+         ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX+50, bubbleY-37.5);
+         ctx.quadraticCurveTo(bubbleX+50, bubbleY-75, bubbleX+25, bubbleY-75);
+         ctx.lineTo(bubbleX-10, bubbleY-100);
+         ctx.lineTo(bubbleX+10, bubbleY-75);
+         ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
+         ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
+         ctx.stroke();
+         //fill in bubble with character names
+         ctx.font = "8px sans-serif"
+         let xTextPos = bubbleX - 40
+         let yTextPos = bubbleY - 50
+         scene.characters.forEach(function(char){
+           ctx.fillText(char.name, xTextPos, yTextPos)
+           //create a new line as a factor of text size
+           yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+         })
+         setButtons("Character")
+         currentSceneId.value = scene.id
         }
         // function allCharacters(){
         //   let storyId = {
