@@ -441,18 +441,23 @@ window.addEventListener("load", ()=>{
   })
 
   themesMenu.addEventListener('change', ()=>{
-    //console.log(themesMenu.value)
-    let selectedTheme = allThemes.find(theme => theme.id === parseInt(themesMenu.value.split(" ")[0], 10))
-  //  console.log(selectedTheme)
-    let scenesWithTheme = scenesArray.filter(scene => scene.meta_contents.includes(selectedTheme))
-    console.log(scenesWithTheme)
+    let themeId = parseInt(themesMenu.value.split(" ")[0], 10)
+    fetch(`http://localhost:3000/meta_contents/${themeId}`)
+    .then(resp => resp.json())
+    .then(function(object){
+      let scenesWithTheme = []
+      object.forEach(function(scene){
+        let sc = scenesArray.find(sceneObj => sceneObj.id === scene.id)
+        if (sc){
+          scenesWithTheme.push(sc)
+        }
+      })
+      scenesWithTheme.forEach(function(scene){
+        drawThemesBubble(scene)
+      })
+    })
   })
   charactersMenu.addEventListener('change', ()=>{
-    //console.log("select some bubbles")
-    // let selectedCharacter = allCharacters.find(char => char.id === parseInt(charactersMenu.value.split(" ")[0], 10))
-    // //console.log(selectedCharacter)
-    // let scenesWithCharacter = scenesArray.filter(scene => scene.characters.includes(selectedCharacter))
-    // console.log(scenesWithCharacter)
     let charId = parseInt(charactersMenu.value.split(" ")[0], 10)
     fetch(`http://localhost:3000/characters/${charId}`)
     .then(resp => resp.json())
@@ -549,31 +554,32 @@ window.addEventListener("load", ()=>{
             //alert(`clicked on the left red leaf of ${scene.name}`)
             // let bubbleX = 210
             // let bubbleY = 20
-            //draw info bubble
-            let bubbleX = (scene.x_pos+themeLeft) + 62
-            let bubbleY = (scene.y_pos+themeTop) - 95
-             ctx.beginPath();
-             ctx.moveTo(bubbleX, bubbleY);
-             ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
-             ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
-             ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
-             ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
-             ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
-             ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
-             ctx.stroke();
-             //fill in info bubble with MetaContent(theme) data
-             ctx.font = "8px sans-serif"
-             let sceneThemes = scene.meta_contents.filter(meta => meta.theme_or_pp === 0)
-             let xTextPos = bubbleX - 45
-             let yTextPos = bubbleY + 30
-             sceneThemes.forEach(function(theme){
-               ctx.fillText(theme.content, xTextPos, yTextPos)
-               //create a new line as a factor of text size
-               yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
-             })
-             setButtons("Theme")
-             //set scene id to one connected to leaf
-             currentSceneId.value = scene.id
+            drawThemesBubble(scene)
+            // //draw info bubble
+            // let bubbleX = (scene.x_pos+themeLeft) + 62
+            // let bubbleY = (scene.y_pos+themeTop) - 95
+            //  ctx.beginPath();
+            //  ctx.moveTo(bubbleX, bubbleY);
+            //  ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
+            //  ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
+            //  ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
+            //  ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
+            //  ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
+            //  ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
+            //  ctx.stroke();
+            //  //fill in info bubble with MetaContent(theme) data
+            //  ctx.font = "8px sans-serif"
+            //  let sceneThemes = scene.meta_contents.filter(meta => meta.theme_or_pp === 0)
+            //  let xTextPos = bubbleX - 45
+            //  let yTextPos = bubbleY + 30
+            //  sceneThemes.forEach(function(theme){
+            //    ctx.fillText(theme.content, xTextPos, yTextPos)
+            //    //create a new line as a factor of text size
+            //    yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+            //  })
+            //  setButtons("Theme")
+            //  //set scene id to one connected to leaf
+            //  currentSceneId.value = scene.id
           }
           //registers a click on right red leaf
           else if (x > ((scene.x_pos+ppLeft)*scaleFactor) && x < ((scene.x_pos+ppRight)*scaleFactor)
@@ -583,31 +589,32 @@ window.addEventListener("load", ()=>{
             // let bubbleY = 10
             // console.log(scene.x_pos+ppLeft)
             // console.log(scene.y_pos+ppTop)
-            //draw info bubble
-            let bubbleX = (scene.x_pos+ppLeft) + 58
-            let bubbleY = (scene.y_pos+ppTop) - 101
-           ctx.beginPath();
-           ctx.moveTo(bubbleX, bubbleY);
-           ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
-           ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
-           ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
-           ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
-           ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
-           ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
-           ctx.stroke();
-           //fill in info bubble with MetaContent(plot point) data
-           ctx.font = "8px sans-serif"
-           let scenePlotPoints = scene.meta_contents.filter(meta => meta.theme_or_pp === 1)
-           let xTextPos = bubbleX - 45
-           let yTextPos = bubbleY + 30
-           scenePlotPoints.forEach(function(pp){
-             ctx.fillText(pp.content, xTextPos, yTextPos)
-             //create a new line as a factor of text size
-             yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
-           })
-           setButtons("Plot Point")
-           //set scene id to one connected to leaf
-           currentSceneId.value = scene.id
+            drawPlotPointsBubble(scene)
+           //  //draw info bubble
+           //  let bubbleX = (scene.x_pos+ppLeft) + 58
+           //  let bubbleY = (scene.y_pos+ppTop) - 101
+           // ctx.beginPath();
+           // ctx.moveTo(bubbleX, bubbleY);
+           // ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
+           // ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
+           // ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
+           // ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
+           // ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
+           // ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
+           // ctx.stroke();
+           // //fill in info bubble with MetaContent(plot point) data
+           // ctx.font = "8px sans-serif"
+           // let scenePlotPoints = scene.meta_contents.filter(meta => meta.theme_or_pp === 1)
+           // let xTextPos = bubbleX - 45
+           // let yTextPos = bubbleY + 30
+           // scenePlotPoints.forEach(function(pp){
+           //   ctx.fillText(pp.content, xTextPos, yTextPos)
+           //   //create a new line as a factor of text size
+           //   yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+           // })
+           // setButtons("Plot Point")
+           // //set scene id to one connected to leaf
+           // currentSceneId.value = scene.id
 
           }
           //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
@@ -737,6 +744,60 @@ window.addEventListener("load", ()=>{
            yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
          })
          setButtons("Character")
+         currentSceneId.value = scene.id
+        }
+        function drawThemesBubble(scene){
+          //draw info bubble
+          let bubbleX = (scene.x_pos+themeLeft) + 62
+          let bubbleY = (scene.y_pos+themeTop) - 95
+           ctx.beginPath();
+           ctx.moveTo(bubbleX, bubbleY);
+           ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
+           ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
+           ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
+           ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
+           ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
+           ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
+           ctx.stroke();
+           //fill in info bubble with MetaContent(theme) data
+           ctx.font = "8px sans-serif"
+           let sceneThemes = scene.meta_contents.filter(meta => meta.theme_or_pp === 0)
+           let xTextPos = bubbleX - 45
+           let yTextPos = bubbleY + 30
+           sceneThemes.forEach(function(theme){
+             ctx.fillText(theme.content, xTextPos, yTextPos)
+             //create a new line as a factor of text size
+             yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+           })
+           setButtons("Theme")
+           //set scene id to one connected to leaf
+           currentSceneId.value = scene.id
+        }
+        function drawPlotPointsBubble(scene){
+          //draw info bubble
+          let bubbleX = (scene.x_pos+ppLeft) + 58
+          let bubbleY = (scene.y_pos+ppTop) - 101
+         ctx.beginPath();
+         ctx.moveTo(bubbleX, bubbleY);
+         ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
+         ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
+         ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
+         ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
+         ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
+         ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
+         ctx.stroke();
+         //fill in info bubble with MetaContent(plot point) data
+         ctx.font = "8px sans-serif"
+         let scenePlotPoints = scene.meta_contents.filter(meta => meta.theme_or_pp === 1)
+         let xTextPos = bubbleX - 45
+         let yTextPos = bubbleY + 30
+         scenePlotPoints.forEach(function(pp){
+           ctx.fillText(pp.content, xTextPos, yTextPos)
+           //create a new line as a factor of text size
+           yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+         })
+         setButtons("Plot Point")
+         //set scene id to one connected to leaf
          currentSceneId.value = scene.id
         }
         // function allCharacters(){

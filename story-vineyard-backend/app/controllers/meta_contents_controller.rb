@@ -10,4 +10,9 @@ class MetaContentsController < ApplicationController
     meta_content.update(content: params[:content])
     render json: meta_content
   end
+  def show
+    theme = MetaContent.find(params[:id])
+    scenes = theme.scenes
+    render json: scenes
+  end
 end
