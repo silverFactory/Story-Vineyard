@@ -34,6 +34,7 @@ window.addEventListener("load", ()=>{
   const addMetaLabel = document.querySelector("#add-meta-form label")
   const addMetaModalClose = document.querySelector("#close-add-meta")
   const newMetaInputField = document.querySelector("#new-meta")
+  const chooseExisting = document.querySelector("#choose-existing")
   const submitNewMetaButton = document.querySelector("#submit-new-meta")
 
   const editMetaButton = document.querySelector(".edit-meta-content")
@@ -278,12 +279,12 @@ window.addEventListener("load", ()=>{
           object.theme_or_pp
         )
         console.log(newMeta)
-        scenesArray[currentSceneId.value-1].meta_contents.push(newMeta)
+        currentScene().meta_contents.push(newMeta)
       } else{
         //make a new js object for the character and add it to correct scene in scenesArray
         let newCharacter = new Character(object.id, object.name)
         console.log(newCharacter)
-        scenesArray[currentSceneId.value-1].characters.push(newCharacter)
+        currentScene().characters.push(newCharacter)
       }
       addMetaModal.style.display = "none"
       newMetaInputField.value = ""
@@ -296,6 +297,26 @@ window.addEventListener("load", ()=>{
     //set the text for the new form
     addMetaLabel.innerText = addMetaButton.innerText
     addMetaModal.style.display = "block"
+    // clear all previous options
+    removeAllChildNodes(chooseExisting)
+    //give menu for adding existing character or theme, hide if plot point
+    if (elementType() === "character"){
+      currentScene().characters.forEach(function(char){
+        let charOption = document.createElement("option")
+        charOption.value = char.id + " " + char.name
+        charOption.innerText = char.name
+        chooseExisting.appendChild(charOption)
+      })
+    } else if (elementType() === 0){
+      currentScene().meta_contents.forEach(function(theme){
+        let themeOption = document.createElement("option")
+        themeOption.value = theme.id + " " + theme.name
+        cthemeption.innerText = theme.name
+        chooseExisting.appendChild(themeOption)
+      })
+    } else {
+      chooseExisting.style.display = "none"
+    }
   })
   addMetaModalClose.addEventListener('click', ()=>{
     addMetaModal.style.display = "none"
@@ -318,7 +339,7 @@ window.addEventListener("load", ()=>{
     let charactersArray
     let metaContentsArray
     if (elementType() === "character"){
-      charactersArray = scenesArray[currentSceneId.value-1].characters
+      charactersArray = currentScene().characters
       charactersArray.forEach(function(character){
         let characterElement = document.createElement("input")
         let lineBreak = document.createElement("br")
@@ -331,7 +352,7 @@ window.addEventListener("load", ()=>{
       })
     } else {
       //modal is populated with input elements that contain the current values for the relevant meta_contents
-      metaContentsArray = scenesArray[currentSceneId.value-1].meta_contents.filter(meta => meta.theme_or_pp === elementType())
+      metaContentsArray = currentScene().meta_contents.filter(meta => meta.theme_or_pp === elementType())
       metaContentsArray.forEach(function(meta){
         let metaElement = document.createElement("input")
         let lineBreak = document.createElement("br")
@@ -524,6 +545,7 @@ window.addEventListener("load", ()=>{
           if (x > ((scene.x_pos+grapesLeft)*scaleFactor) && x < ((scene.x_pos+grapesRight)*scaleFactor)
               && y > ((scene.y_pos+grapesTop)*scaleFactor) && y < ((scene.y_pos+grapesBottom)*scaleFactor)) {
                 drawCharactersBubble(scene)
+                console.log("clicked grapes")
                //  //draw info bubble
                //  let bubbleX = (scene.x_pos+grapesLeft) + 30
                //  let bubbleY = (scene.y_pos+grapesTop) + 141
@@ -546,7 +568,7 @@ window.addEventListener("load", ()=>{
                //   yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
                // })
                // setButtons("Character")
-               // currentSceneId.value = scene.id
+               // currentScene()Id.value = scene.id
           }
           //registers a click on left red leaf
           else if (x > ((scene.x_pos+themeLeft)*scaleFactor) && x < ((scene.x_pos+themeRight)*scaleFactor)
@@ -579,7 +601,7 @@ window.addEventListener("load", ()=>{
             //  })
             //  setButtons("Theme")
             //  //set scene id to one connected to leaf
-            //  currentSceneId.value = scene.id
+            //  currentScene()Id.value = scene.id
           }
           //registers a click on right red leaf
           else if (x > ((scene.x_pos+ppLeft)*scaleFactor) && x < ((scene.x_pos+ppRight)*scaleFactor)
@@ -614,7 +636,7 @@ window.addEventListener("load", ()=>{
            // })
            // setButtons("Plot Point")
            // //set scene id to one connected to leaf
-           // currentSceneId.value = scene.id
+           // currentScene()Id.value = scene.id
 
           }
           //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
@@ -721,6 +743,9 @@ window.addEventListener("load", ()=>{
         function currentStoryId(){
           return storiesMenu.value.split(" ")[0]
         }
+        function currentScene(){
+          return scenesArray[currentSceneId.value-1]
+        }
         function drawCharactersBubble(scene){
           //draw info bubble
           let bubbleX = (scene.x_pos+grapesLeft) + 30
@@ -800,24 +825,6 @@ window.addEventListener("load", ()=>{
          //set scene id to one connected to leaf
          currentSceneId.value = scene.id
         }
-        // function allCharacters(){
-        //   let storyId = {
-        //     id: currentStoryId
-        //   }
-        //   let configObj = {
-        //     method: "POST",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //       "Accept": "application/json"
-        //     },
-        //     body: JSON.stringify(storyId)
-        //   }
-        //   //fetch post to add to db
-        //   fetch("http://localhost:3000/stories", configObj)
-        //   .then(resp => resp.json())
-        //   .then(function(object){
-        //
-        //   })
-        // }
+
 
 })

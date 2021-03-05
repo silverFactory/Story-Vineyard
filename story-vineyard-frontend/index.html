@@ -32,19 +32,20 @@
         <option value="create-new-story">Create New Story</option>
     </select>
     <button id="new-scene">New Scene</button>
+    <div id="characters-container">
+      <label for="all-characters">Choose a Character:</label>
+      <select name="all-characters" id="all-characters">
+          <option value="">--Please choose an option--</option>
+      </select>
+    </div>
+    <div id="themes-container">
+      <label for="all-themes">Choose a Theme:</label>
+      <select name="all-themes" id="all-themes">
+          <option value="">--Please choose an option--</option>
+      </select>
+    </div>
   </div>
-  <div id="characters-container">
-    <label for="all-characters">Choose a Character:</label>
-    <select name="all-characters" id="all-characters">
-        <option value="">--Please choose an option--</option>
-    </select>
-  </div>
-  <div id="themes-container">
-    <label for="all-themes">Choose a Theme:</label>
-    <select name="all-themes" id="all-themes">
-        <option value="">--Please choose an option--</option>
-    </select>
-  </div>
+
   <div id="editMetaContentsContainer">
     <button type="button" class="add-meta-content"></button>
     <button type="button" class="edit-meta-content"></button>
@@ -55,6 +56,10 @@
       <form action="http://localhost:3000/meta-contents" method="POST" id="add-meta-form">
       <label for="new-theme"></label>
       <input type="text" name="new-meta" id="new-meta"><br>
+      <label for="choose-existing">Choose from Existing:</label>
+      <select name="choose-existing" id="choose-existing">
+          <option value="">--Please choose an option--</option>
+      </select>
       <input type="hidden" name="scene-id" id="scene-id" value="">
       <input type="submit" name="submit-new-meta" id="submit-new-meta" value="Submit">
       </form>
