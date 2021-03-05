@@ -5,4 +5,10 @@ class ScenesController < ApplicationController
     scene.save
     render json: scene
   end
+  def update
+    scene = Scene.find(params[:id])
+    scene.update(x_pos: params[:x_pos], y_pos: params[:y_pos])
+    scene.save
+    render json: scene
+  end
 end

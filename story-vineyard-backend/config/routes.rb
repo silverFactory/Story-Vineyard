@@ -9,5 +9,6 @@ Rails.application.routes.draw do
   post '/characters/:id/update' => 'characters#update'
   get 'characters/:id' => 'characters#show'
   post '/scenes' => 'scenes#create'
+  post '/scenes/:id' => 'scenes#update'
   get 'meta_contents/:id' => 'meta_contents#show'
 end

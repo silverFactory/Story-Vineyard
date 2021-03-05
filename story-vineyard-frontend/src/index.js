@@ -11,6 +11,8 @@ window.addEventListener("load", ()=>{
   const newStoryTitle = document.querySelector("#new-story-title")
   const newStoryModalClose = document.querySelector("#close-new-story")
 
+  const moveSceneButton = document.querySelector("#move-scene")
+
   const newSceneButton = document.querySelector("#new-scene")
   const newSceneModal = document.querySelector("#new-scene-modal")
   const submitNewSceneButton = document.querySelector("#submit-new-scene")
@@ -656,6 +658,19 @@ window.addEventListener("load", ()=>{
         })
         }, false)
 
+moveSceneButton.addEventListener('click', ()=>{
+
+  // ctx.drawImage(vine, scene.x_pos, scene.y_pos)
+  // ctx.fillRect(scene.x_pos-5, scene.y_pos+60, 80, 40)
+  // ctx.clearRect(scene.x_pos, scene.y_pos+65, 70, 30)
+  // ctx.strokeRect(scene.x_pos+2, scene.y_pos+67, 66, 26)
+  // ctx.fillText(`${scene.name}:`, scene.x_pos+5, scene.y_pos+77)
+  // ctx.fillText(scene.location, scene.x_pos+5, scene.y_pos+90)
+  canvas.addEventListener('pointermove', handleMoveScene)
+
+  // ctx.drawImage(vine, Math.floor(event.clientX), Math.floor(event.clientY)-100)
+})
+
 //vine png follows pointer around screen, locks in place on click
   newSceneButton.onclick = function(){
     canvas.addEventListener('pointermove', handlePointerMove)
@@ -719,7 +734,35 @@ window.addEventListener("load", ()=>{
         draw()
         ctx.drawImage(vine, Math.floor(event.clientX), Math.floor(event.clientY)-100)
       }
+      function handleMoveScene(event){
+        canvas.addEventListener('click', setNewLocation)
 
+        currentScene().x_pos = Math.floor(event.clientX)
+        currentScene().y_pos = Math.floor(event.clientY)-100
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        draw()
+      }
+      function setNewLocation(){
+        canvas.removeEventListener('pointermove', handleMoveScene)
+        canvas.removeEventListener('click', setNewLocation)
+        let updatedLocation = {
+          x_pos: currentScene().x_pos,
+          y_pos: currentScene().y_pos
+        }
+        let configObj = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(updatedLocation)
+        }
+        fetch(`http://localhost:3000/scenes/${currentSceneId.value}`, configObj)
+        .then(resp=>resp.json())
+        .then(function(object){
+          console.log(object)
+        })
+      }
         function removeAllChildNodes(parent) {
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
@@ -750,7 +793,7 @@ window.addEventListener("load", ()=>{
           return storiesMenu.value.split(" ")[0]
         }
         function currentScene(){
-          return scenesArray[currentSceneId.value-1]
+          return scenesArray.find(scene => scene.id === parseInt(currentSceneId.value, 10))
         }
         function drawCharactersBubble(scene){
           //draw info bubble
