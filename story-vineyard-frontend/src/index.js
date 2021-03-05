@@ -279,12 +279,12 @@ window.addEventListener("load", ()=>{
           object.theme_or_pp
         )
         console.log(newMeta)
-        currentScene().meta_contents.push(newMeta)
+        currentScene.meta_contents.push(newMeta)
       } else{
         //make a new js object for the character and add it to correct scene in scenesArray
         let newCharacter = new Character(object.id, object.name)
         console.log(newCharacter)
-        currentScene().characters.push(newCharacter)
+        currentScene.characters.push(newCharacter)
       }
       addMetaModal.style.display = "none"
       newMetaInputField.value = ""
@@ -301,18 +301,24 @@ window.addEventListener("load", ()=>{
     removeAllChildNodes(chooseExisting)
     //give menu for adding existing character or theme, hide if plot point
     if (elementType() === "character"){
-      currentScene().characters.forEach(function(char){
-        let charOption = document.createElement("option")
-        charOption.value = char.id + " " + char.name
-        charOption.innerText = char.name
-        chooseExisting.appendChild(charOption)
+      //change so that only characters that aren't in this scene are gien as options
+      allCharacters.forEach(function(char){
+        if (currentScene().characters.find(ch => ch.id === char.id) === undefined){
+          let charOption = document.createElement("option")
+          charOption.value = char.id + " " + char.name
+          charOption.innerText = char.name
+          chooseExisting.appendChild(charOption)
+        }
       })
     } else if (elementType() === 0){
-      currentScene().meta_contents.forEach(function(theme){
-        let themeOption = document.createElement("option")
-        themeOption.value = theme.id + " " + theme.name
-        cthemeption.innerText = theme.name
-        chooseExisting.appendChild(themeOption)
+      console.log(allThemes)
+      allThemes.forEach(function(theme){
+        if (currentScene().meta_contents.find(meta => meta.id === theme.id) === undefined){
+          let themeOption = document.createElement("option")
+          themeOption.value = theme.id + " " + theme.content
+          themeOption.innerText = theme.content
+          chooseExisting.appendChild(themeOption)
+        }
       })
     } else {
       chooseExisting.style.display = "none"
