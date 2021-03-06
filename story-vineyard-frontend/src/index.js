@@ -387,8 +387,10 @@ window.addEventListener("load", ()=>{
       if (metaContentsArray != undefined){
         // go through metaContent inputs and update if they have been changed
         while (editMetaForm.firstChild != submitMeta){
-          // if first theme has been changed
-          if (editMetaForm.firstChild.value !== metaContentsArray.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10)).content){
+          // if first metaContent has been changed
+          if (hasBeenChanged(editMetaForm.firstChild.value, 0)){
+            // let previousValue = metaContentsArray.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10)).content
+            // console.log(previousValue)
             //fetch request to post new info
             let updatedMetaInfo = {
               id: editMetaForm.firstChild.id,
@@ -424,10 +426,10 @@ window.addEventListener("load", ()=>{
           }
         }
       } else {
-        // go through metaContent inputs and update if they have been changed
+        // go through character inputs and update if they have been changed
         while (editMetaForm.firstChild != submitMeta){
-          // if first theme has been changed
-          if (editMetaForm.firstChild.value !== charactersArray.find(character => character.id === parseInt(editMetaForm.firstChild.id, 10)).content){
+          // if first character has been changed
+          if (hasBeenChanged(editMetaForm.firstChild.value, 1)){
             //fetch request to post new info
             let updatedCharacterInfo = {
               id: editMetaForm.firstChild.id,
@@ -875,5 +877,16 @@ moveSceneButton.addEventListener('click', ()=>{
          currentSceneId.value = scene.id
         }
 
+        function hasBeenChanged(inputField, metaOrCharacter){
+          let currentValue = inputField
+          if (metaOrCharacter === 0){
+            let previousValue = currentScene().meta_contents.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10)).content
+            console.log(previousValue)
+            return currentValue != previousValue
+          } else {
+            let previousValue = currentScene().characters.find(char => char.id === parseInt(editMetaForm.firstChild.id, 10)).name
+            return currentValue != previousValue
+          }
+        }
 
 })
