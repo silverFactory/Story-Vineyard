@@ -414,15 +414,9 @@ window.addEventListener("load", ()=>{
                let metaToBeUpdated = metaContentsArray.find(theme => theme.id === object.id)
                metaToBeUpdated.content = object.content
             }, false)
-            //remove child node
-            editMetaForm.removeChild(editMetaForm.firstChild)
-            //remove <br>
-            editMetaForm.removeChild(editMetaForm.firstChild)
+            removeChildAndBr()
           } else {
-            //just remove node without interacting with db
-            editMetaForm.removeChild(editMetaForm.firstChild)
-            //remove <br>
-            editMetaForm.removeChild(editMetaForm.firstChild)
+            removeChildAndBr()
           }
         }
       } else {
@@ -452,15 +446,9 @@ window.addEventListener("load", ()=>{
                let characterToBeUpdated = charactersArray.find(char => char.id === object.id)
                characterToBeUpdated.name = object.name
             }, false)
-            //remove child node
-            editMetaForm.removeChild(editMetaForm.firstChild)
-            //remove <br>
-            editMetaForm.removeChild(editMetaForm.firstChild)
+            removeChildAndBr()
           } else {
-            //just remove node without interacting with db
-            editMetaForm.removeChild(editMetaForm.firstChild)
-            //remove <br>
-            editMetaForm.removeChild(editMetaForm.firstChild)
+            removeChildAndBr()
           }
         }
       }
@@ -887,6 +875,12 @@ moveSceneButton.addEventListener('click', ()=>{
             let previousValue = currentScene().characters.find(char => char.id === parseInt(editMetaForm.firstChild.id, 10)).name
             return currentValue != previousValue
           }
+        }
+        function removeChildAndBr(){
+          //remove child node
+          editMetaForm.removeChild(editMetaForm.firstChild)
+          //remove <br>
+          editMetaForm.removeChild(editMetaForm.firstChild)
         }
 
 })
