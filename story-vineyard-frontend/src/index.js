@@ -358,21 +358,24 @@ window.addEventListener("load", ()=>{
       //close modal
       editMetaModal.style.display = "none"
       event.preventDefault()
+      evaluateForm()
       //if there's anything in the form to evaluate
       //if (metaContentsArray != undefined){
         // while the first child is not the submit button
-        while (editMetaForm.firstChild != submitMeta){
-          // if first metaContent has been changed
-          if (editMetaForm.firstChild.value === ""){
-              fetchDelete()
-              removeChildAndBr()
-            } else if (hasBeenChanged(editMetaForm.firstChild.value)){
-              fetchUpdate(elementType())
-              removeChildAndBr()
-            } else {
-              removeChildAndBr()
-            }
-        }
+        // while (editMetaForm.firstChild != submitMeta){
+        //   console.log(editMetaForm.firstChild.value)
+        //   removeChildAndBr()
+        //   // if first metaContent has been changed
+        //   // if (editMetaForm.firstChild.value === ""){
+        //   //     fetchDelete()
+        //   //     removeChildAndBr()
+        //   //   } else if (hasBeenChanged(editMetaForm.firstChild.value)){
+        //   //     fetchUpdate(elementType())
+        //   //     removeChildAndBr()
+        //   //   } else {
+        //   //     removeChildAndBr()
+        //   //   }
+        // }
       //}
       // else {
       //   // go through character inputs and update if they have been changed
@@ -800,20 +803,25 @@ moveSceneButton.addEventListener('click', ()=>{
          currentSceneId.value = scene.id
         }
 
-        function hasBeenChanged(currentValue){
-          if (elementType() === 0 || elementType() == 1){
-            let obj = currentScene().meta_contents.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10))
-             console.log(obj)
-            let previousValue = obj.content
-            return currentValue != previousValue
-          } else if (elementType() === "character") {
-            let previousValue = currentScene().characters.find(char => char.id === parseInt(editMetaForm.firstChild.id, 10)).name
-            //console.log(previousValue)
-            return currentValue != previousValue
-          }
-        }
+        // function hasBeenChanged(currentValue){
+        //   if (elementType() === 0 || elementType() == 1){
+        //     let metaContentsArray = currentScene().meta_contents
+        //     console.log(metaContentsArray)
+        //     let obj = metaContentsArray.find(meta => meta.id == parseInt(editMetaForm.firstChild.id, 10))
+        //     console.log(obj)
+        //     let previousValue = obj.content
+        //     console.log(previousValue)
+        //     return currentValue != previousValue
+        //   } else if (elementType() === "character") {
+        //     let previousValue = currentScene().characters.find(char => char.id == parseInt(editMetaForm.firstChild.id, 10)).name
+        //     //console.log(previousValue)
+        //     return currentValue != previousValue
+        //   }
+        // }
         function removeChildAndBr(){
           //remove child node
+          editMetaForm.removeChild(editMetaForm.firstChild)
+          //remove deleteButton
           editMetaForm.removeChild(editMetaForm.firstChild)
           //remove <br>
           editMetaForm.removeChild(editMetaForm.firstChild)
@@ -834,7 +842,8 @@ moveSceneButton.addEventListener('click', ()=>{
               },
               body: JSON.stringify(updatedMetaInfo)
             }
-            fetch(`http://localhost:3000/meta-contents/${updatedMetaInfo.id}/update`, configObj)
+            //console.log(updatedMetaInfo)
+            fetch(`http://localhost:3000/meta-contents/${editMetaForm.firstChild.id}/update`, configObj)
             .then(resp => resp.json())
             .then(function(object){
               console.log(object)
@@ -857,7 +866,8 @@ moveSceneButton.addEventListener('click', ()=>{
               },
               body: JSON.stringify(updatedCharacterInfo)
             }
-            fetch(`http://localhost:3000/characters/${updatedCharacterInfo.id}/update`, configObj)
+          //  console.log(updatedCharacterInfo)
+            fetch(`http://localhost:3000/characters/${editMetaForm.firstChild.id}/update`, configObj)
             .then(resp => resp.json())
             .then(function(object){
               console.log(object)
@@ -876,7 +886,7 @@ moveSceneButton.addEventListener('click', ()=>{
             } else {
               elementsArray = currentScene().characters
             }
-            console.log(elementsArray)
+            //console.log(elementsArray)
             elementsArray.forEach(function(element){
               let elementInput = document.createElement("input")
               let deleteButton = document.createElement("button")
@@ -905,6 +915,22 @@ moveSceneButton.addEventListener('click', ()=>{
             })
         }
         function fetchDelete(){
-          console.log("need to route delete request")
+          if (elementType() === "character"){
+            fetch(`http://localhost:3000/characters/${editMetaForm.firstChild.id}/destroy`)
+          } else {
+            fetch(`http://localhost:3000/meta-contents/${editMetaForm.firstChild.id}/destroy`)
+          }
+        }
+        function evaluateForm(){
+          if (editMetaForm.firstChild != document.getElementById("edit-themes")){
+            if (editMetaForm.firstChild.value === ""){
+                fetchDelete()
+                removeChildAndBr()
+              } else {
+                fetchUpdate(elementType())
+                removeChildAndBr()
+              }
+              evaluateForm()
+          }
         }
 })

@@ -5,10 +5,13 @@ Rails.application.routes.draw do
   post '/stories' => 'stories#create'
   post '/meta-contents' => 'meta_contents#create'
   post '/meta-contents/:id/update' => 'meta_contents#update'
+  get 'meta_contents/:id' => 'meta_contents#show'
+  get 'meta_contents/:id/destroy' => 'meta_contents#destroy'
   post '/characters' => 'characters#create'
   post '/characters/:id/update' => 'characters#update'
   get 'characters/:id' => 'characters#show'
+  get 'characters/:id/destroy' => 'characters#destroy'
   post '/scenes' => 'scenes#create'
   post '/scenes/:id' => 'scenes#update'
-  get 'meta_contents/:id' => 'meta_contents#show'
+
 end

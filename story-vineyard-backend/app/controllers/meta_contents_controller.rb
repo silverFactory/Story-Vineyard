@@ -15,4 +15,9 @@ class MetaContentsController < ApplicationController
     scenes = theme.scenes
     render json: scenes
   end
+  def destroy
+    meta_content = MetaContent.find(params[:id])
+    meta_content.destroy
+    redner json: {message: "meta_content destroyed"}
+  end
 end
