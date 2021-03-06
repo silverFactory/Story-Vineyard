@@ -358,31 +358,36 @@ window.addEventListener("load", ()=>{
       //close modal
       editMetaModal.style.display = "none"
       event.preventDefault()
-      if (metaContentsArray != undefined){
-        // go through metaContent inputs and update if they have been changed
+      //if there's anything in the form to evaluate
+      //if (metaContentsArray != undefined){
+        // while the first child is not the submit button
         while (editMetaForm.firstChild != submitMeta){
           // if first metaContent has been changed
-          if (hasBeenChanged(editMetaForm.firstChild.value, 0)){
-            fetchUpdate(0)
-            removeChildAndBr()
-          } else {
-            removeChildAndBr()
-          }
+          if (editMetaForm.firstChild.value === ""){
+              fetchDelete()
+              removeChildAndBr()
+            } else if (hasBeenChanged(editMetaForm.firstChild.value)){
+              fetchUpdate(elementType())
+              removeChildAndBr()
+            } else {
+              removeChildAndBr()
+            }
         }
-      } else {
-        // go through character inputs and update if they have been changed
-        while (editMetaForm.firstChild != submitMeta){
-          // if first character has been changed
-          if (hasBeenChanged(editMetaForm.firstChild.value, 1)){
-            //fetch request to post new info
-            fetchUpdate(1)
-            removeChildAndBr()
-          } else {
-            removeChildAndBr()
-          }
-        }
-      }
-      //when all is said and done, clear and redraw
+      //}
+      // else {
+      //   // go through character inputs and update if they have been changed
+      //   while (editMetaForm.firstChild != submitMeta){
+      //     // if first character has been changed
+      //     if (hasBeenChanged(editMetaForm.firstChild.value, 1)){
+      //       //fetch request to post new info
+      //       fetchUpdate(1)
+      //       removeChildAndBr()
+      //     } else {
+      //       removeChildAndBr()
+      //     }
+      //   }
+      // }
+      //when all inputs have been dealt with, clear and redraw
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       draw()
     })
@@ -795,14 +800,15 @@ moveSceneButton.addEventListener('click', ()=>{
          currentSceneId.value = scene.id
         }
 
-        function hasBeenChanged(inputField, metaOrCharacter){
-          let currentValue = inputField
-          if (metaOrCharacter === 0){
-            let previousValue = currentScene().meta_contents.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10)).content
-            console.log(previousValue)
+        function hasBeenChanged(currentValue){
+          if (elementType() === 0 || elementType() == 1){
+            let obj = currentScene().meta_contents.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10))
+             console.log(obj)
+            let previousValue = obj.content
             return currentValue != previousValue
-          } else if (metaOrCharacter === 1) {
+          } else if (elementType() === "character") {
             let previousValue = currentScene().characters.find(char => char.id === parseInt(editMetaForm.firstChild.id, 10)).name
+            //console.log(previousValue)
             return currentValue != previousValue
           }
         }
@@ -813,7 +819,7 @@ moveSceneButton.addEventListener('click', ()=>{
           editMetaForm.removeChild(editMetaForm.firstChild)
         }
         function fetchUpdate(metaOrCharacter){
-          if (metaOrCharacter === 0) {
+          if (metaOrCharacter === 0 || metaOrCharacter === 1) {
             let updatedMetaInfo = {
               id: editMetaForm.firstChild.id,
               content: editMetaForm.firstChild.value,
@@ -837,7 +843,7 @@ moveSceneButton.addEventListener('click', ()=>{
                let metaToBeUpdated = currentScene().meta_contents.find(theme => theme.id === object.id)
                metaToBeUpdated.content = object.content
             }, false)
-          } else if (metaOrCharacter === 1) {
+          } else if (metaOrCharacter === "character") {
             let updatedCharacterInfo = {
               id: editMetaForm.firstChild.id,
               name: editMetaForm.firstChild.value,
@@ -862,6 +868,7 @@ moveSceneButton.addEventListener('click', ()=>{
             }, false)
           }
         }
+
         function populateEditForm(metaOrCharacter){
             let elementsArray
             if (metaOrCharacter === 0 || metaOrCharacter === 1){
@@ -896,5 +903,8 @@ moveSceneButton.addEventListener('click', ()=>{
               editMetaForm.appendChild(deleteButton)
               editMetaForm.appendChild(lineBreak)
             })
+        }
+        function fetchDelete(){
+          console.log("need to route delete request")
         }
 })
