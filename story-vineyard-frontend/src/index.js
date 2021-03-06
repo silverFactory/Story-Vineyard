@@ -246,53 +246,54 @@ window.addEventListener("load", ()=>{
   //submits new MetaContent or Character to DB
   submitNewMetaButton.addEventListener('click', (event)=>{
     event.preventDefault()
-    let url
-    let elementInfo
-        if (elementType() === "character"){
-          url = "http://localhost:3000/characters"
-          elementInfo = {
-            name: newMetaInputField.value,
-            sceneId: currentSceneId.value
-          }
-        }
-        else {
-          url = "http://localhost:3000/meta-contents"
-          elementInfo = {
-            content: newMetaInputField.value,
-            theme_or_pp: elementType(),
-            sceneId: currentSceneId.value
-        }}
-    let configObj = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(elementInfo)
-    }
-    fetch(url, configObj)
-    .then(resp => resp.json())
-    .then(function(object){
-      if (Object.keys(object).includes("content")){
-        //make a new js object for the meta_content and add it to correct scene in scenesArray
-        let newMeta = new MetaContent(
-          object.id,
-          object.content,
-          object.theme_or_pp
-        )
-        console.log(newMeta)
-        currentScene().meta_contents.push(newMeta)
-      } else{
-        //make a new js object for the character and add it to correct scene in scenesArray
-        let newCharacter = new Character(object.id, object.name)
-        console.log(newCharacter)
-        currentScene().characters.push(newCharacter)
-      }
-      addMetaModal.style.display = "none"
-      newMetaInputField.value = ""
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      draw()
-    })
+    submitNewMeta()
+    // let url
+    // let elementInfo
+    //     if (elementType() === "character"){
+    //       url = "http://localhost:3000/characters"
+    //       elementInfo = {
+    //         name: newMetaInputField.value,
+    //         sceneId: currentSceneId.value
+    //       }
+    //     }
+    //     else {
+    //       url = "http://localhost:3000/meta-contents"
+    //       elementInfo = {
+    //         content: newMetaInputField.value,
+    //         theme_or_pp: elementType(),
+    //         sceneId: currentSceneId.value
+    //     }}
+    // let configObj = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Accept": "application/json"
+    //   },
+    //   body: JSON.stringify(elementInfo)
+    // }
+    // fetch(url, configObj)
+    // .then(resp => resp.json())
+    // .then(function(object){
+    //   if (Object.keys(object).includes("content")){
+    //     //make a new js object for the meta_content and add it to correct scene in scenesArray
+    //     let newMeta = new MetaContent(
+    //       object.id,
+    //       object.content,
+    //       object.theme_or_pp
+    //     )
+    //     console.log(newMeta)
+    //     currentScene().meta_contents.push(newMeta)
+    //   } else{
+    //     //make a new js object for the character and add it to correct scene in scenesArray
+    //     let newCharacter = new Character(object.id, object.name)
+    //     console.log(newCharacter)
+    //     currentScene().characters.push(newCharacter)
+    //   }
+    //   addMetaModal.style.display = "none"
+    //   newMetaInputField.value = ""
+    //   ctx.clearRect(0, 0, canvas.width, canvas.height)
+    //   draw()
+    // })
   }, false)
 
   addMetaButton.addEventListener('click',() => {
@@ -946,5 +947,54 @@ moveSceneButton.addEventListener('click', ()=>{
               }
               evaluateForm()
           }
+        }
+        function submitNewMeta(){
+          let url
+          let elementInfo
+              if (elementType() === "character"){
+                url = "http://localhost:3000/characters"
+                elementInfo = {
+                  name: newMetaInputField.value,
+                  sceneId: currentSceneId.value
+                }
+              }
+              else {
+                url = "http://localhost:3000/meta-contents"
+                elementInfo = {
+                  content: newMetaInputField.value,
+                  theme_or_pp: elementType(),
+                  sceneId: currentSceneId.value
+              }}
+          let configObj = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify(elementInfo)
+          }
+          fetch(url, configObj)
+          .then(resp => resp.json())
+          .then(function(object){
+            if (Object.keys(object).includes("content")){
+              //make a new js object for the meta_content and add it to correct scene in scenesArray
+              let newMeta = new MetaContent(
+                object.id,
+                object.content,
+                object.theme_or_pp
+              )
+              console.log(newMeta)
+              currentScene().meta_contents.push(newMeta)
+            } else{
+              //make a new js object for the character and add it to correct scene in scenesArray
+              let newCharacter = new Character(object.id, object.name)
+              console.log(newCharacter)
+              currentScene().characters.push(newCharacter)
+            }
+            addMetaModal.style.display = "none"
+            newMetaInputField.value = ""
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            draw()
+          })
         }
 })
