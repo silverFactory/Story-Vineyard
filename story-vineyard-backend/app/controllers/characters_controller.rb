@@ -16,8 +16,12 @@ class CharactersController < ApplicationController
     render json: scenes
   end
   def destroy
+    sucess = {
+      message: "character destroyed",
+      id: params[:id]
+    }
     character = Character.find(params[:id])
     character.destroy
-    redner json: {message: "character destroyed"}
+    render json: sucess
   end
 end

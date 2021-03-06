@@ -917,8 +917,17 @@ moveSceneButton.addEventListener('click', ()=>{
         function fetchDelete(){
           if (elementType() === "character"){
             fetch(`http://localhost:3000/characters/${editMetaForm.firstChild.id}/destroy`)
+            .then(resp=>resp.json())
+            .then(function(object){
+              console.log(object)
+              //remove from scenesArray
+              //let charIndex = currentScene().characters.findIndex(char => char.id == object.id)
+              currentScene().characters = currentScene().characters.filter(char => char.id != object.id)
+            })
+
           } else {
             fetch(`http://localhost:3000/meta-contents/${editMetaForm.firstChild.id}/destroy`)
+              //remove from scenesArray && allThemes if applicable
           }
         }
         function evaluateForm(){
