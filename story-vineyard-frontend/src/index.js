@@ -927,7 +927,12 @@ moveSceneButton.addEventListener('click', ()=>{
 
           } else {
             fetch(`http://localhost:3000/meta-contents/${editMetaForm.firstChild.id}/destroy`)
-              //remove from scenesArray && allThemes if applicable
+              .then(resp=>resp.json())
+              .then(function(object){
+                console.log(object)
+                //remove from scenesArray
+                currentScene().meta_contents = currentScene().meta_contents.filter(meta => meta.id != object.id)
+              })
           }
         }
         function evaluateForm(){
