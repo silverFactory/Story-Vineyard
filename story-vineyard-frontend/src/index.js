@@ -389,31 +389,31 @@ window.addEventListener("load", ()=>{
         while (editMetaForm.firstChild != submitMeta){
           // if first metaContent has been changed
           if (hasBeenChanged(editMetaForm.firstChild.value, 0)){
-            // let previousValue = metaContentsArray.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10)).content
-            // console.log(previousValue)
+            fetchUpdate(0)
             //fetch request to post new info
-            let updatedMetaInfo = {
-              id: editMetaForm.firstChild.id,
-              content: editMetaForm.firstChild.value,
-              theme_or_pp: 0,
-              sceneId: currentSceneId.value
-            }
-            let configObj = {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-              },
-              body: JSON.stringify(updatedMetaInfo)
-            }
-            fetch(`http://localhost:3000/meta-contents/${updatedMetaInfo.id}/update`, configObj)
-            .then(resp => resp.json())
-            .then(function(object){
-              console.log(object)
-               //when response happens, update the old js object to reflect changes
-               let metaToBeUpdated = metaContentsArray.find(theme => theme.id === object.id)
-               metaToBeUpdated.content = object.content
-            }, false)
+            // let updatedMetaInfo = {
+            //   id: editMetaForm.firstChild.id,
+            //   content: editMetaForm.firstChild.value,
+            //   theme_or_pp: 0,
+            //   sceneId: currentSceneId.value
+            // }
+            // let configObj = {
+            //   method: "POST",
+            //   headers: {
+            //     "Content-Type": "application/json",
+            //     "Accept": "application/json"
+            //   },
+            //   body: JSON.stringify(updatedMetaInfo)
+            // }
+            // fetch(`http://localhost:3000/meta-contents/${updatedMetaInfo.id}/update`, configObj)
+            // .then(resp => resp.json())
+            // .then(function(object){
+            //   console.log(object)
+            //    //when response happens, update the old js object to reflect changes
+            //    // let metaToBeUpdated = metaContentsArray.find(theme => theme.id === object.id)
+            //    let metaToBeUpdated = currentScene().meta_contents.find(theme => theme.id === object.id)
+            //    metaToBeUpdated.content = object.content
+            // }, false)
             removeChildAndBr()
           } else {
             removeChildAndBr()
@@ -425,27 +425,29 @@ window.addEventListener("load", ()=>{
           // if first character has been changed
           if (hasBeenChanged(editMetaForm.firstChild.value, 1)){
             //fetch request to post new info
-            let updatedCharacterInfo = {
-              id: editMetaForm.firstChild.id,
-              name: editMetaForm.firstChild.value,
-              sceneId: currentSceneId.value
-            }
-            let configObj = {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-              },
-              body: JSON.stringify(updatedCharacterInfo)
-            }
-            fetch(`http://localhost:3000/characters/${updatedCharacterInfo.id}/update`, configObj)
-            .then(resp => resp.json())
-            .then(function(object){
-              console.log(object)
-               //when response happens, update the old js object to reflect changes
-               let characterToBeUpdated = charactersArray.find(char => char.id === object.id)
-               characterToBeUpdated.name = object.name
-            }, false)
+            fetchUpdate(1)
+            // let updatedCharacterInfo = {
+            //   id: editMetaForm.firstChild.id,
+            //   name: editMetaForm.firstChild.value,
+            //   sceneId: currentSceneId.value
+            // }
+            // let configObj = {
+            //   method: "POST",
+            //   headers: {
+            //     "Content-Type": "application/json",
+            //     "Accept": "application/json"
+            //   },
+            //   body: JSON.stringify(updatedCharacterInfo)
+            // }
+            // fetch(`http://localhost:3000/characters/${updatedCharacterInfo.id}/update`, configObj)
+            // .then(resp => resp.json())
+            // .then(function(object){
+            //   console.log(object)
+            //    //when response happens, update the old js object to reflect changes
+            //   // let characterToBeUpdated = charactersArray.find(char => char.id === object.id)
+            //    let characterToBeUpdated = currentScene().characters.find(char => char.id === object.id)
+            //    characterToBeUpdated.name = object.name
+            // }, false)
             removeChildAndBr()
           } else {
             removeChildAndBr()
@@ -871,7 +873,7 @@ moveSceneButton.addEventListener('click', ()=>{
             let previousValue = currentScene().meta_contents.find(meta => meta.id === parseInt(editMetaForm.firstChild.id, 10)).content
             console.log(previousValue)
             return currentValue != previousValue
-          } else {
+          } else if (metaOrCharacter === 1) {
             let previousValue = currentScene().characters.find(char => char.id === parseInt(editMetaForm.firstChild.id, 10)).name
             return currentValue != previousValue
           }
@@ -882,5 +884,54 @@ moveSceneButton.addEventListener('click', ()=>{
           //remove <br>
           editMetaForm.removeChild(editMetaForm.firstChild)
         }
-
+        function fetchUpdate(metaOrCharacter){
+          if (metaOrCharacter === 0) {
+            let updatedMetaInfo = {
+              id: editMetaForm.firstChild.id,
+              content: editMetaForm.firstChild.value,
+              theme_or_pp: 0,
+              sceneId: currentSceneId.value
+            }
+            let configObj = {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+              body: JSON.stringify(updatedMetaInfo)
+            }
+            fetch(`http://localhost:3000/meta-contents/${updatedMetaInfo.id}/update`, configObj)
+            .then(resp => resp.json())
+            .then(function(object){
+              console.log(object)
+               //when response happens, update the old js object to reflect changes
+               // let metaToBeUpdated = metaContentsArray.find(theme => theme.id === object.id)
+               let metaToBeUpdated = currentScene().meta_contents.find(theme => theme.id === object.id)
+               metaToBeUpdated.content = object.content
+            }, false)
+          } else if (metaOrCharacter === 1) {
+            let updatedCharacterInfo = {
+              id: editMetaForm.firstChild.id,
+              name: editMetaForm.firstChild.value,
+              sceneId: currentSceneId.value
+            }
+            let configObj = {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+              body: JSON.stringify(updatedCharacterInfo)
+            }
+            fetch(`http://localhost:3000/characters/${updatedCharacterInfo.id}/update`, configObj)
+            .then(resp => resp.json())
+            .then(function(object){
+              console.log(object)
+               //when response happens, update the old js object to reflect changes
+              // let characterToBeUpdated = charactersArray.find(char => char.id === object.id)
+               let characterToBeUpdated = currentScene().characters.find(char => char.id === object.id)
+               characterToBeUpdated.name = object.name
+            }, false)
+          }
+        }
 })
