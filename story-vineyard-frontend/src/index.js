@@ -246,7 +246,12 @@ window.addEventListener("load", ()=>{
   //submits new MetaContent or Character to DB
   submitNewMetaButton.addEventListener('click', (event)=>{
     event.preventDefault()
-    submitNewMeta()
+    if (chooseExisting.value === "Choose Existing"){
+      submitNewMeta()
+    } else {
+      addExisting()
+    }
+
     // let url
     // let elementInfo
     //     if (elementType() === "character"){
@@ -302,6 +307,9 @@ window.addEventListener("load", ()=>{
     addMetaModal.style.display = "block"
     // clear all previous options
     removeAllChildNodes(chooseExisting)
+    let option = document.createElement("option")
+    option.innerText = "Choose Existing"
+    chooseExisting.appendChild(option)
     //give menu for adding existing character or theme, hide if plot point
     if (elementType() === "character"){
       //change so that only characters that aren't in this scene are gien as options
@@ -996,5 +1004,54 @@ moveSceneButton.addEventListener('click', ()=>{
             ctx.clearRect(0, 0, canvas.width, canvas.height)
             draw()
           })
+        }
+        function addExisting(){
+          // let url
+          // let elementInfo
+          // if (elementType() === "character"){
+          //   let charId = chooseExisting.value.split(" ")[0]
+          //   url = `http://localhost:3000/characters/${charId}/add-scene`
+          //   elementInfo = {
+          //     characterId: charId,
+          //     sceneId: currentSceneId.value
+          //   }
+          // }
+          // else {
+          //   let metaId = chooseExisting.value.split(" ")[0]
+          //   url = `http://localhost:3000/meta-contents/${metaId}/add-scene`
+          //   elementInfo = {
+          //     metaContentId: metaId,
+          //     sceneId: currentSceneId.value
+          // }}
+          // let configObj = {
+          //   method: "POST",
+          //   headers: {
+          //     "Content-Type": "application/json",
+          //     "Accept": "application/json"
+          //   },
+          //   body: JSON.stringify(elementInfo)
+          // }
+          // fetch(url, configObj)
+          // .then(resp => resp.json())
+          // .then(function(object){
+          //   console.log(object)
+          // })
+          let elementInfo = {
+            elementType: elementType(),
+            elementId: chooseExisting.value.split(" ")[0]
+          }
+          let configObj = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+            },
+            body: JSON.stringify(elementInfo)
+          }
+          fetch(`http://localhost:3000/scenes/${currentSceneId.value}/add-element`, configObj)
+            .then(resp => resp.json())
+            .then(function(object){
+              console.log(object)
+            })
         }
 })

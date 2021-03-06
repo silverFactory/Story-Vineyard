@@ -11,4 +11,16 @@ class ScenesController < ApplicationController
     scene.save
     render json: scene
   end
+  def add_element
+    scene = Scene.find(params[:id])
+    if params[:elementType] == "character" 
+      character = Character.find(params[:elementId])
+      scene.characters << character
+    else
+      meta = MetaContent.find(params[:elementId])
+      scene.meta_contents << meta
+    end
+    scene.save
+    render json: scene
+  end
 end
