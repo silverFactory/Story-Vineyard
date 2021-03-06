@@ -344,50 +344,8 @@ window.addEventListener("load", ()=>{
     editMetaModal.style.display = "block"
     // clear form of all previous theme inputs/elements
     removeAllChildNodes(editMetaForm)
-    let charactersArray
-    let metaContentsArray
-    if (elementType() === "character"){
-      charactersArray = currentScene().characters
-      charactersArray.forEach(function(character){
-        let characterElement = document.createElement("input")
-        let deleteButton = document.createElement("button")
-        let lineBreak = document.createElement("br")
-
-        characterElement.type = "text"
-        characterElement.name = character.name
-        characterElement.value = character.name
-        characterElement.id = character.id
-        deleteButton.innerText = "Delete"
-        deleteButton.addEventListener('click', (event)=>{
-          event.preventDefault()
-          characterElement.value = ""
-        })
-        editMetaForm.appendChild(characterElement)
-        editMetaForm.appendChild(deleteButton)
-        editMetaForm.appendChild(lineBreak)
-      })
-    } else {
-      //modal is populated with input elements that contain the current values for the relevant meta_contents
-      metaContentsArray = currentScene().meta_contents.filter(meta => meta.theme_or_pp === elementType())
-      metaContentsArray.forEach(function(meta){
-        let metaElement = document.createElement("input")
-        let deleteButton = document.createElement("button")
-        let lineBreak = document.createElement("br")
-
-        metaElement.type = "text"
-        metaElement.name = meta.content
-        metaElement.value = meta.content
-        metaElement.id = meta.id
-        deleteButton.innerText = "Delete"
-        deleteButton.addEventListener('click', (event)=>{
-          event.preventDefault()
-          metaElement.value = ""
-        })
-        editMetaForm.appendChild(metaElement)
-        editMetaForm.appendChild(deleteButton)
-        editMetaForm.appendChild(lineBreak)
-      })
-    }
+    //fill form with current elements
+    populateEditForm(elementType())
     //create submit button
     let submitMeta = document.createElement("input")
     submitMeta.type = "submit"
@@ -731,7 +689,7 @@ moveSceneButton.addEventListener('click', ()=>{
             }
         }
         function elementType(){
-          //determine if currently editing themes or plot points
+          //determine if currently editing themes, plot points, or characters
           let elementType
           if (addMetaButton.innerText === "Add Theme"){
             elementType = 0
@@ -903,5 +861,40 @@ moveSceneButton.addEventListener('click', ()=>{
                characterToBeUpdated.name = object.name
             }, false)
           }
+        }
+        function populateEditForm(metaOrCharacter){
+            let elementsArray
+            if (metaOrCharacter === 0 || metaOrCharacter === 1){
+              elementsArray = currentScene().meta_contents.filter(meta => meta.theme_or_pp === elementType())
+            } else {
+              elementsArray = currentScene().characters
+            }
+            console.log(elementsArray)
+            elementsArray.forEach(function(element){
+              let elementInput = document.createElement("input")
+              let deleteButton = document.createElement("button")
+              let lineBreak = document.createElement("br")
+
+              elementInput.type = "text"
+
+              if (metaOrCharacter === 0 || metaOrCharacter === 1){
+                elementInput.name = element.content
+                elementInput.value = element.content
+              } else {
+                elementInput.name = element.name
+                elementInput.value = element.name
+              }
+
+              elementInput.id = element.id
+              deleteButton.innerText = "Delete"
+
+              deleteButton.addEventListener('click', (event)=>{
+                event.preventDefault()
+                elementInput.value = ""
+              })
+              editMetaForm.appendChild(elementInput)
+              editMetaForm.appendChild(deleteButton)
+              editMetaForm.appendChild(lineBreak)
+            })
         }
 })
