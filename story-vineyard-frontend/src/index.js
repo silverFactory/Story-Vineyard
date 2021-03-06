@@ -281,12 +281,12 @@ window.addEventListener("load", ()=>{
           object.theme_or_pp
         )
         console.log(newMeta)
-        currentScene.meta_contents.push(newMeta)
+        currentScene().meta_contents.push(newMeta)
       } else{
         //make a new js object for the character and add it to correct scene in scenesArray
         let newCharacter = new Character(object.id, object.name)
         console.log(newCharacter)
-        currentScene.characters.push(newCharacter)
+        currentScene().characters.push(newCharacter)
       }
       addMetaModal.style.display = "none"
       newMetaInputField.value = ""
