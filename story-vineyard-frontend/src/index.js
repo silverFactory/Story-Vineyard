@@ -350,12 +350,20 @@ window.addEventListener("load", ()=>{
       charactersArray = currentScene().characters
       charactersArray.forEach(function(character){
         let characterElement = document.createElement("input")
+        let deleteButton = document.createElement("button")
         let lineBreak = document.createElement("br")
+
         characterElement.type = "text"
         characterElement.name = character.name
         characterElement.value = character.name
         characterElement.id = character.id
+        deleteButton.innerText = "Delete"
+        deleteButton.addEventListener('click', (event)=>{
+          event.preventDefault()
+          characterElement.value = ""
+        })
         editMetaForm.appendChild(characterElement)
+        editMetaForm.appendChild(deleteButton)
         editMetaForm.appendChild(lineBreak)
       })
     } else {
@@ -363,12 +371,20 @@ window.addEventListener("load", ()=>{
       metaContentsArray = currentScene().meta_contents.filter(meta => meta.theme_or_pp === elementType())
       metaContentsArray.forEach(function(meta){
         let metaElement = document.createElement("input")
+        let deleteButton = document.createElement("button")
         let lineBreak = document.createElement("br")
+
         metaElement.type = "text"
         metaElement.name = meta.content
         metaElement.value = meta.content
         metaElement.id = meta.id
+        deleteButton.innerText = "Delete"
+        deleteButton.addEventListener('click', (event)=>{
+          event.preventDefault()
+          metaElement.value = ""
+        })
         editMetaForm.appendChild(metaElement)
+        editMetaForm.appendChild(deleteButton)
         editMetaForm.appendChild(lineBreak)
       })
     }
@@ -390,30 +406,6 @@ window.addEventListener("load", ()=>{
           // if first metaContent has been changed
           if (hasBeenChanged(editMetaForm.firstChild.value, 0)){
             fetchUpdate(0)
-            //fetch request to post new info
-            // let updatedMetaInfo = {
-            //   id: editMetaForm.firstChild.id,
-            //   content: editMetaForm.firstChild.value,
-            //   theme_or_pp: 0,
-            //   sceneId: currentSceneId.value
-            // }
-            // let configObj = {
-            //   method: "POST",
-            //   headers: {
-            //     "Content-Type": "application/json",
-            //     "Accept": "application/json"
-            //   },
-            //   body: JSON.stringify(updatedMetaInfo)
-            // }
-            // fetch(`http://localhost:3000/meta-contents/${updatedMetaInfo.id}/update`, configObj)
-            // .then(resp => resp.json())
-            // .then(function(object){
-            //   console.log(object)
-            //    //when response happens, update the old js object to reflect changes
-            //    // let metaToBeUpdated = metaContentsArray.find(theme => theme.id === object.id)
-            //    let metaToBeUpdated = currentScene().meta_contents.find(theme => theme.id === object.id)
-            //    metaToBeUpdated.content = object.content
-            // }, false)
             removeChildAndBr()
           } else {
             removeChildAndBr()
@@ -426,28 +418,6 @@ window.addEventListener("load", ()=>{
           if (hasBeenChanged(editMetaForm.firstChild.value, 1)){
             //fetch request to post new info
             fetchUpdate(1)
-            // let updatedCharacterInfo = {
-            //   id: editMetaForm.firstChild.id,
-            //   name: editMetaForm.firstChild.value,
-            //   sceneId: currentSceneId.value
-            // }
-            // let configObj = {
-            //   method: "POST",
-            //   headers: {
-            //     "Content-Type": "application/json",
-            //     "Accept": "application/json"
-            //   },
-            //   body: JSON.stringify(updatedCharacterInfo)
-            // }
-            // fetch(`http://localhost:3000/characters/${updatedCharacterInfo.id}/update`, configObj)
-            // .then(resp => resp.json())
-            // .then(function(object){
-            //   console.log(object)
-            //    //when response happens, update the old js object to reflect changes
-            //   // let characterToBeUpdated = charactersArray.find(char => char.id === object.id)
-            //    let characterToBeUpdated = currentScene().characters.find(char => char.id === object.id)
-            //    characterToBeUpdated.name = object.name
-            // }, false)
             removeChildAndBr()
           } else {
             removeChildAndBr()
