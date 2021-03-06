@@ -1006,39 +1006,9 @@ moveSceneButton.addEventListener('click', ()=>{
           })
         }
         function addExisting(){
-          // let url
-          // let elementInfo
-          // if (elementType() === "character"){
-          //   let charId = chooseExisting.value.split(" ")[0]
-          //   url = `http://localhost:3000/characters/${charId}/add-scene`
-          //   elementInfo = {
-          //     characterId: charId,
-          //     sceneId: currentSceneId.value
-          //   }
-          // }
-          // else {
-          //   let metaId = chooseExisting.value.split(" ")[0]
-          //   url = `http://localhost:3000/meta-contents/${metaId}/add-scene`
-          //   elementInfo = {
-          //     metaContentId: metaId,
-          //     sceneId: currentSceneId.value
-          // }}
-          // let configObj = {
-          //   method: "POST",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //     "Accept": "application/json"
-          //   },
-          //   body: JSON.stringify(elementInfo)
-          // }
-          // fetch(url, configObj)
-          // .then(resp => resp.json())
-          // .then(function(object){
-          //   console.log(object)
-          // })
           let elementInfo = {
             elementType: elementType(),
-            elementId: chooseExisting.value.split(" ")[0]
+            elementId: parseInt(chooseExisting.value.split(" ")[0], 10)
           }
           let configObj = {
             method: "POST",
@@ -1052,6 +1022,12 @@ moveSceneButton.addEventListener('click', ()=>{
             .then(resp => resp.json())
             .then(function(object){
               console.log(object)
+              //update scenesArray
+              if (elementType() === "character"){
+                currentScene().characters.push(allCharacters.find(char => char.id === elementInfo.elementId))
+              } else {
+                currentScene().meta_contents.push(allThemes.find(theme => theme.id === elementInfo.elementId))
+              }
             })
         }
 })
