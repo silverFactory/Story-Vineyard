@@ -795,11 +795,15 @@ deleteSceneButton.addEventListener('click', ()=>{
               )
               console.log(newMeta)
               currentScene().meta_contents.push(newMeta)
+              if (newMeta.theme_or_pp === 0){
+                allThemes.push(newMeta)
+              }
             } else{
               //make a new js object for the character and add it to correct scene in scenesArray
               let newCharacter = new Character(object.id, object.name)
               console.log(newCharacter)
               currentScene().characters.push(newCharacter)
+              allCharacters.push(newCharacter)
             }
             addMetaModal.style.display = "none"
             newMetaInputField.value = ""
@@ -831,6 +835,8 @@ deleteSceneButton.addEventListener('click', ()=>{
               } else {
                 currentScene().meta_contents.push(allThemes.find(theme => theme.id === elementInfo.elementId))
               }
+              addMetaModal.style.display = "none"
+              draw()
             })
         }
 
