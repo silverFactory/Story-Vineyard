@@ -136,10 +136,18 @@ window.addEventListener("load", ()=>{
         storiesMenu.appendChild(option)
       })
       //get all story elements associated with selected story
+
       storiesMenu.addEventListener('change', (element)=>{
+        //erase all previous story elements
+        clearAllElements()
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        draw()
+        //console.log(scenesArray.length)
+        //start new story
         if (storiesMenu.value === "create-new-story"){
           newStoryModal.style.display = "inline"
         } else {
+        //retrieve saved story elements
         let storyId = parseInt(storiesMenu.value.split(" ")[0], 10)
         fetch(`http://localhost:3000/stories/${storyId}`)
           .then(resp => resp.json())
@@ -857,6 +865,18 @@ deleteSceneButton.addEventListener('click', ()=>{
             //else shift and push that element to end of array and call delete scene again
             scenesArray.push(scenesArray.shift())
             deleteScene(scene)
+          }
+        }
+
+        function clearAllElements(){
+          clearArray(scenesArray)
+          clearArray(allCharacters)
+          clearArray(allThemes)
+        }
+        function clearArray(array){
+          if (array.length > 0){
+            array.pop()
+            clearArray(array)
           }
         }
 })
