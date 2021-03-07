@@ -457,6 +457,8 @@ deleteSceneButton.addEventListener('click', ()=>{
     .then(resp => resp.json())
     .then(function(object){
       newSceneModal.style.display = "none"
+      newSceneName.value = ""
+      newSceneLocation.value = ""
       console.log(object)
       //make a new scene obj and add to scenesArray
       let scene = new Scene(
@@ -475,17 +477,19 @@ deleteSceneButton.addEventListener('click', ()=>{
 
   //HELPER FUNCTIONS
     function handlePointerMove (event){
-      canvas.addEventListener('click', (event)=>{
-          canvas.removeEventListener('pointermove', handlePointerMove)
-          //modal pops up to make a new scene with name and location fields (xpos and ypos hidden)
-          newSceneModal.style.display = "inline"
-          //set x & y pos inputs on form
-          newSceneX.value = Math.floor(event.clientX)
-          newSceneY.value = Math.floor(event.clientY)-100
-      })
+      canvas.addEventListener('click', handleNewSceneClick)
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         draw()
         ctx.drawImage(vine, Math.floor(event.clientX), Math.floor(event.clientY)-100)
+      }
+      function handleNewSceneClick(){
+        canvas.removeEventListener('pointermove', handlePointerMove)
+        canvas.removeEventListener('click', handleNewSceneClick)
+        //modal pops up to make a new scene with name and location fields (xpos and ypos hidden)
+        newSceneModal.style.display = "inline"
+        //set x & y pos inputs on form
+        newSceneX.value = Math.floor(event.clientX)
+        newSceneY.value = Math.floor(event.clientY)-100
       }
       function handleMoveScene(event){
         canvas.addEventListener('click', setNewLocation)
