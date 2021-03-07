@@ -137,6 +137,8 @@ window.addEventListener("load", ()=>{
       //get all story elements associated with selected story
 
       storiesMenu.addEventListener('change', (element)=>{
+        //adjust menu styling
+        storiesContainer.style.marginLeft= "100px"
         //erase all previous story elements
         clearAllElements()
         ctx.clearRect(0, 0, canvas.width, canvas.height)

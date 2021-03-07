@@ -35,8 +35,12 @@
   text-decoration: none;
   cursor: pointer;
 }
+#welcome{
+  text-align: center;
+}
 #stories-container{
   display: none;
+
 }
 #canvas {
   border: 2px solid black;
@@ -80,24 +84,39 @@
 #highlights-container{
   display: none;
 }
-.drop-down-tools{
-  /* border: 2px solid black; */
+/* .drop-down-tools{
+
   padding: 5px;
   width: min-content;
+  border-right: 2px solid;
 }
 .button-tools{
-  /* border: 2px solid black; */
+
   padding: 5px;
   width: auto;
+  border-right: 2px solid;
+} */
+.tools{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.drop-down{
+  width: min-content;
+  border-right: 2px solid;
+}
+.button{
+  width: auto;
+  border-right: 2px solid;
 }
 .tools-container{
-  border: 2px solid black;
+  /* border: 2px solid black; */
   margin-bottom: 1em;
   display: flex;
   flex-direction: row;
   height: 75px;
   width: auto;
   padding: 10px;
+  justify-content: center;
 }
 .edit-button{
   display: block;
