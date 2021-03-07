@@ -215,6 +215,7 @@ window.addEventListener("load", ()=>{
             // newSceneButton.style.display = "inline"
             // zoomIn.style.display = "inline"
             // zoomOut.style.display = "inline"
+            toolsContainer.style.display = "flex"
             zoomContainer.style.display = "inline"
             sceneContainer.style.display = "inline"
             highlightsContainer.style.display = "inline"
