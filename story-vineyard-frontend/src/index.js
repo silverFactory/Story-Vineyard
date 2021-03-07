@@ -245,6 +245,9 @@ window.addEventListener("load", ()=>{
     } else {
       addExisting()
     }
+    addMetaModal.style.display = "none"
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    draw()
   }, false)
 
   addMetaButton.addEventListener('click',() => {
@@ -323,7 +326,7 @@ window.addEventListener("load", ()=>{
 
   themesMenu.addEventListener('change', ()=>{
     let themeId = parseInt(themesMenu.value.split(" ")[0], 10)
-    fetch(`http://localhost:3000/meta_contents/${themeId}`)
+    fetch(`http://localhost:3000/meta-contents/${themeId}`)
     .then(resp => resp.json())
     .then(function(object){
       let scenesWithTheme = []
@@ -797,6 +800,10 @@ deleteSceneButton.addEventListener('click', ()=>{
               currentScene().meta_contents.push(newMeta)
               if (newMeta.theme_or_pp === 0){
                 allThemes.push(newMeta)
+                let themeOption = document.createElement("option")
+                themeOption.value = newMeta.id + " " + newMeta.content
+                themeOption.innerText = newMeta.content
+                themesMenu.appendChild(themeOption)
               }
             } else{
               //make a new js object for the character and add it to correct scene in scenesArray
@@ -804,6 +811,10 @@ deleteSceneButton.addEventListener('click', ()=>{
               console.log(newCharacter)
               currentScene().characters.push(newCharacter)
               allCharacters.push(newCharacter)
+              let charOption = document.createElement("option")
+              charOption.value = newCharacter.id + " " + newCharacter.name
+              charOption.innerText = newCharacter.name
+              charactersMenu.appendChild(charOption)
             }
             addMetaModal.style.display = "none"
             newMetaInputField.value = ""
@@ -835,8 +846,6 @@ deleteSceneButton.addEventListener('click', ()=>{
               } else {
                 currentScene().meta_contents.push(allThemes.find(theme => theme.id === elementInfo.elementId))
               }
-              addMetaModal.style.display = "none"
-              draw()
             })
         }
 
