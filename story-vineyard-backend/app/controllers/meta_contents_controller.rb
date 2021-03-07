@@ -16,12 +16,12 @@ class MetaContentsController < ApplicationController
     render json: scenes
   end
   def destroy
-    sucess = {
+    success = {
       message: "meta_content destroyed",
       id: params[:id]
     }
     meta_content = MetaContent.find(params[:id])
     meta_content.destroy
-    render json: sucess
+    render json: success
   end
 end

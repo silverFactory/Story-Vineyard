@@ -12,6 +12,7 @@ window.addEventListener("load", ()=>{
   const newStoryModalClose = document.querySelector("#close-new-story")
 
   const moveSceneButton = document.querySelector("#move-scene")
+  const deleteSceneButton = document.querySelector("#delete-scene")
 
   const newSceneButton = document.querySelector("#new-scene")
   const newSceneModal = document.querySelector("#new-scene-modal")
@@ -607,7 +608,15 @@ moveSceneButton.addEventListener('click', ()=>{
 
   // ctx.drawImage(vine, Math.floor(event.clientX), Math.floor(event.clientY)-100)
 })
-
+deleteSceneButton.addEventListener('click', ()=>{
+  fetch(`http://localhost:3000/scenes/${currentSceneId.value}/destroy`)
+    .then(resp => resp.json())
+    .then(function(object){
+      console.log(object)
+      deleteScene(currentScene())
+      draw()
+    })
+})
 //vine png follows pointer around screen, locks in place on click
   newSceneButton.onclick = function(){
     canvas.addEventListener('pointermove', handlePointerMove)
@@ -1029,5 +1038,15 @@ moveSceneButton.addEventListener('click', ()=>{
                 currentScene().meta_contents.push(allThemes.find(theme => theme.id === elementInfo.elementId))
               }
             })
+        }
+        function deleteScene(scene){
+          //if the first element is scenesArray === scene then unshift
+          if (scenesArray[0] === currentScene()){
+            scenesArray.shift()
+          } else {
+            //else shift and push that element to end of array and call delete scene again
+            scenesArray.push(scenesArray.shift())
+            deleteScene(scene)
+          }
         }
 })
