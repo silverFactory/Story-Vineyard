@@ -32,7 +32,7 @@ window.addEventListener("load", ()=>{
 
   const currentSceneId = document.querySelector("#scene-id")
 
-  const addMetaButton = document.querySelector(".add-meta-content")
+  const addMetaButton = document.querySelector("#add-meta-content")
   const addMetaModal = document.querySelector("#add-meta-modal")
   const addMetaLabel = document.querySelector("#add-meta-form label")
   const addMetaModalClose = document.querySelector("#close-add-meta")
@@ -40,7 +40,7 @@ window.addEventListener("load", ()=>{
   const chooseExisting = document.querySelector("#choose-existing")
   const submitNewMetaButton = document.querySelector("#submit-new-meta")
 
-  const editMetaButton = document.querySelector(".edit-meta-content")
+  const editMetaButton = document.querySelector("#edit-meta-content")
   const editMetaModal = document.querySelector("#edit-meta-modal")
   const editMetaModalClose = document.querySelector("#close-edit-meta")
   const editMetaForm = document.querySelector("#edit-meta-form")

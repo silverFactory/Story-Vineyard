@@ -80,16 +80,24 @@
 #highlights-container{
   display: none;
 }
-/* .tools{
-  border: 2px solid black;
-} */
+.drop-down-tools{
+  /* border: 2px solid black; */
+  padding: 5px;
+  width: min-content;
+}
+.button-tools{
+  /* border: 2px solid black; */
+  padding: 5px;
+  width: auto;
+}
 .tools-container{
   border: 2px solid black;
   margin-bottom: 1em;
   display: flex;
   flex-direction: row;
-  height: 68px;
-  width: 1000px;
+  height: 75px;
+  width: auto;
+  padding: 10px;
 }
 .edit-button{
   display: block;
