@@ -43,8 +43,10 @@
 
 }
 #canvas {
-  border: 2px solid black;
+  border: 2px solid #6C233A;
   display: block;
+  margin-left: 20px;
+  background-color: #F3F9E3;
   /* width: 1000px;
   height: 1000px; */
 }
@@ -84,6 +86,9 @@
 #highlights-container{
   display: none;
 }
+#header {
+  width: 1000px;
+}
 /* .drop-down-tools{
 
   padding: 5px;
@@ -120,4 +125,8 @@
 }
 .edit-button{
   display: block;
+  margin-bottom: 5px;
+}
+body{
+  background-color: #DEF9DC;
 }
