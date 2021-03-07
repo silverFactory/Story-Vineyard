@@ -129,7 +129,6 @@ window.addEventListener("load", ()=>{
       userButton.style.display = "none"
       storiesContainer.style.display = "inline"
       modalLogIn.style.display = "none";
-      //console.log(objext.stories)
       object.stories.forEach(function(story){
         let option = document.createElement("option")
         option.value = story.id + " " + story.title
@@ -138,7 +137,6 @@ window.addEventListener("load", ()=>{
       })
       //get all story elements associated with selected story
       storiesMenu.addEventListener('change', (element)=>{
-        //console.log(storiesMenu.value)
         if (storiesMenu.value === "create-new-story"){
           newStoryModal.style.display = "inline"
         } else {
@@ -207,16 +205,11 @@ window.addEventListener("load", ()=>{
             draw()
             newSceneButton.style.display = "inline"
             console.log(scenesArray)
-            //make variables to click and unclick info bubbles
-            // scenesArray.forEach(function(scene){
-            //
-            // })
           })
         }
-      }) //stories menu event listener change end
-      console.log(object)
-    }) //end fetch response
-  }, false)//end log in listener
+      })
+    })
+  }, false)
 
   //subnmits new story to db
   submitNewStoryButton.addEventListener('click', (event)=>{
@@ -252,54 +245,6 @@ window.addEventListener("load", ()=>{
     } else {
       addExisting()
     }
-
-    // let url
-    // let elementInfo
-    //     if (elementType() === "character"){
-    //       url = "http://localhost:3000/characters"
-    //       elementInfo = {
-    //         name: newMetaInputField.value,
-    //         sceneId: currentSceneId.value
-    //       }
-    //     }
-    //     else {
-    //       url = "http://localhost:3000/meta-contents"
-    //       elementInfo = {
-    //         content: newMetaInputField.value,
-    //         theme_or_pp: elementType(),
-    //         sceneId: currentSceneId.value
-    //     }}
-    // let configObj = {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Accept": "application/json"
-    //   },
-    //   body: JSON.stringify(elementInfo)
-    // }
-    // fetch(url, configObj)
-    // .then(resp => resp.json())
-    // .then(function(object){
-    //   if (Object.keys(object).includes("content")){
-    //     //make a new js object for the meta_content and add it to correct scene in scenesArray
-    //     let newMeta = new MetaContent(
-    //       object.id,
-    //       object.content,
-    //       object.theme_or_pp
-    //     )
-    //     console.log(newMeta)
-    //     currentScene().meta_contents.push(newMeta)
-    //   } else{
-    //     //make a new js object for the character and add it to correct scene in scenesArray
-    //     let newCharacter = new Character(object.id, object.name)
-    //     console.log(newCharacter)
-    //     currentScene().characters.push(newCharacter)
-    //   }
-    //   addMetaModal.style.display = "none"
-    //   newMetaInputField.value = ""
-    //   ctx.clearRect(0, 0, canvas.width, canvas.height)
-    //   draw()
-    // })
   }, false)
 
   addMetaButton.addEventListener('click',() => {
@@ -369,37 +314,6 @@ window.addEventListener("load", ()=>{
       editMetaModal.style.display = "none"
       event.preventDefault()
       evaluateForm()
-      //if there's anything in the form to evaluate
-      //if (metaContentsArray != undefined){
-        // while the first child is not the submit button
-        // while (editMetaForm.firstChild != submitMeta){
-        //   console.log(editMetaForm.firstChild.value)
-        //   removeChildAndBr()
-        //   // if first metaContent has been changed
-        //   // if (editMetaForm.firstChild.value === ""){
-        //   //     fetchDelete()
-        //   //     removeChildAndBr()
-        //   //   } else if (hasBeenChanged(editMetaForm.firstChild.value)){
-        //   //     fetchUpdate(elementType())
-        //   //     removeChildAndBr()
-        //   //   } else {
-        //   //     removeChildAndBr()
-        //   //   }
-        // }
-      //}
-      // else {
-      //   // go through character inputs and update if they have been changed
-      //   while (editMetaForm.firstChild != submitMeta){
-      //     // if first character has been changed
-      //     if (hasBeenChanged(editMetaForm.firstChild.value, 1)){
-      //       //fetch request to post new info
-      //       fetchUpdate(1)
-      //       removeChildAndBr()
-      //     } else {
-      //       removeChildAndBr()
-      //     }
-      //   }
-      // }
       //when all inputs have been dealt with, clear and redraw
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       draw()
@@ -447,31 +361,24 @@ window.addEventListener("load", ()=>{
     canvas.width = 1000
     let scaleFactor = 1
     zoomIn.addEventListener("click", ()=>{
-    //ctx.restore()
     ctx.resetTransform()
     scaleFactor += 0.25
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.scale(scaleFactor, scaleFactor)
     console.log(scaleFactor)
-  //  ctx.save()
     draw()
   })
   zoomOut.addEventListener("click", ()=>{
-  //  ctx.restore()
     ctx.resetTransform()
     scaleFactor -= 0.25
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.scale(scaleFactor, scaleFactor)
     console.log(scaleFactor)
-  //  ctx.save()
     draw()
   })
   function draw(){
-    //ctx.fillRect(150, 150, 200, 200)
-    //ctx.drawImage(vine, 100, 100)
     //draw each element in scenesArray
     scenesArray.forEach(function(scene){
-      //console.log(`${scene.x_pos} ${scene.y_pos}`)
       ctx.drawImage(vine, scene.x_pos, scene.y_pos)
       ctx.fillRect(scene.x_pos-5, scene.y_pos+60, 80, 40)
       ctx.clearRect(scene.x_pos, scene.y_pos+65, 70, 30)
@@ -491,104 +398,20 @@ window.addEventListener("load", ()=>{
           if (x > ((scene.x_pos+grapesLeft)*scaleFactor) && x < ((scene.x_pos+grapesRight)*scaleFactor)
               && y > ((scene.y_pos+grapesTop)*scaleFactor) && y < ((scene.y_pos+grapesBottom)*scaleFactor)) {
                 drawCharactersBubble(scene)
-                console.log("clicked grapes")
-               //  //draw info bubble
-               //  let bubbleX = (scene.x_pos+grapesLeft) + 30
-               //  let bubbleY = (scene.y_pos+grapesTop) + 141
-               // ctx.beginPath();
-               // ctx.moveTo(bubbleX, bubbleY);
-               // ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX+50, bubbleY-37.5);
-               // ctx.quadraticCurveTo(bubbleX+50, bubbleY-75, bubbleX+25, bubbleY-75);
-               // ctx.lineTo(bubbleX-10, bubbleY-100);
-               // ctx.lineTo(bubbleX+10, bubbleY-75);
-               // ctx.quadraticCurveTo(bubbleX-50, bubbleY-75, bubbleX-50, bubbleY-37.5);
-               // ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX, bubbleY);
-               // ctx.stroke();
-               // //fill in bubble with character names
-               // ctx.font = "8px sans-serif"
-               // let xTextPos = bubbleX - 40
-               // let yTextPos = bubbleY - 50
-               // scene.characters.forEach(function(char){
-               //   ctx.fillText(char.name, xTextPos, yTextPos)
-               //   //create a new line as a factor of text size
-               //   yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
-               // })
-               // setButtons("Character")
-               // currentScene()Id.value = scene.id
           }
           //registers a click on left red leaf
           else if (x > ((scene.x_pos+themeLeft)*scaleFactor) && x < ((scene.x_pos+themeRight)*scaleFactor)
                   && y > ((scene.y_pos+themeTop)*scaleFactor) && y < ((scene.y_pos+themeBottom)*scaleFactor)) {
-            //alert(`clicked on the left red leaf of ${scene.name}`)
-            // let bubbleX = 210
-            // let bubbleY = 20
             drawThemesBubble(scene)
-            // //draw info bubble
-            // let bubbleX = (scene.x_pos+themeLeft) + 62
-            // let bubbleY = (scene.y_pos+themeTop) - 95
-            //  ctx.beginPath();
-            //  ctx.moveTo(bubbleX, bubbleY);
-            //  ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
-            //  ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
-            //  ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
-            //  ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
-            //  ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
-            //  ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
-            //  ctx.stroke();
-            //  //fill in info bubble with MetaContent(theme) data
-            //  ctx.font = "8px sans-serif"
-            //  let sceneThemes = scene.meta_contents.filter(meta => meta.theme_or_pp === 0)
-            //  let xTextPos = bubbleX - 45
-            //  let yTextPos = bubbleY + 30
-            //  sceneThemes.forEach(function(theme){
-            //    ctx.fillText(theme.content, xTextPos, yTextPos)
-            //    //create a new line as a factor of text size
-            //    yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
-            //  })
-            //  setButtons("Theme")
-            //  //set scene id to one connected to leaf
-            //  currentScene()Id.value = scene.id
           }
           //registers a click on right red leaf
           else if (x > ((scene.x_pos+ppLeft)*scaleFactor) && x < ((scene.x_pos+ppRight)*scaleFactor)
                   && y > ((scene.y_pos+ppTop)*scaleFactor) && y < ((scene.y_pos+ppBottom)*scaleFactor)){
-            //alert(`clicked on the right red leaf of ${scene.name}`)
-            // let bubbleX = 330
-            // let bubbleY = 10
-            // console.log(scene.x_pos+ppLeft)
-            // console.log(scene.y_pos+ppTop)
             drawPlotPointsBubble(scene)
-           //  //draw info bubble
-           //  let bubbleX = (scene.x_pos+ppLeft) + 58
-           //  let bubbleY = (scene.y_pos+ppTop) - 101
-           // ctx.beginPath();
-           // ctx.moveTo(bubbleX, bubbleY);
-           // ctx.quadraticCurveTo(bubbleX-50, bubbleY, bubbleX-50, bubbleY+37.5);
-           // ctx.quadraticCurveTo(bubbleX-50, bubbleY+75, bubbleX-25, bubbleY+75);
-           // ctx.quadraticCurveTo(bubbleX-25, bubbleY+95, bubbleX-45, bubbleY+100);
-           // ctx.quadraticCurveTo(bubbleX-15, bubbleY+95, bubbleX-10, bubbleY+75);
-           // ctx.quadraticCurveTo(bubbleX+50, bubbleY+75, bubbleX+50, bubbleY+37.5);
-           // ctx.quadraticCurveTo(bubbleX+50, bubbleY, bubbleX, bubbleY);
-           // ctx.stroke();
-           // //fill in info bubble with MetaContent(plot point) data
-           // ctx.font = "8px sans-serif"
-           // let scenePlotPoints = scene.meta_contents.filter(meta => meta.theme_or_pp === 1)
-           // let xTextPos = bubbleX - 45
-           // let yTextPos = bubbleY + 30
-           // scenePlotPoints.forEach(function(pp){
-           //   ctx.fillText(pp.content, xTextPos, yTextPos)
-           //   //create a new line as a factor of text size
-           //   yTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
-           // })
-           // setButtons("Plot Point")
-           // //set scene id to one connected to leaf
-           // currentScene()Id.value = scene.id
-
           }
           //registers a click anywhere on vine image (to be used for selecting a scene to move it around canvas)
           else if (x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor
                   && y > (scene.y_pos * scaleFactor) && y < (scene.y_pos + vinePNGHeight)* scaleFactor) {
-                //alert(`clicked on ${scene.name}`)
                 editMetaContentsContainer.style.display = "none"
                 ctx.clearRect(0, 0, canvas.width, canvas.height)
                 draw()
@@ -597,16 +420,7 @@ window.addEventListener("load", ()=>{
         }, false)
 
 moveSceneButton.addEventListener('click', ()=>{
-
-  // ctx.drawImage(vine, scene.x_pos, scene.y_pos)
-  // ctx.fillRect(scene.x_pos-5, scene.y_pos+60, 80, 40)
-  // ctx.clearRect(scene.x_pos, scene.y_pos+65, 70, 30)
-  // ctx.strokeRect(scene.x_pos+2, scene.y_pos+67, 66, 26)
-  // ctx.fillText(`${scene.name}:`, scene.x_pos+5, scene.y_pos+77)
-  // ctx.fillText(scene.location, scene.x_pos+5, scene.y_pos+90)
   canvas.addEventListener('pointermove', handleMoveScene)
-
-  // ctx.drawImage(vine, Math.floor(event.clientX), Math.floor(event.clientY)-100)
 })
 deleteSceneButton.addEventListener('click', ()=>{
   fetch(`http://localhost:3000/scenes/${currentSceneId.value}/destroy`)
@@ -624,7 +438,7 @@ deleteSceneButton.addEventListener('click', ()=>{
   submitNewSceneButton.addEventListener('click', (event)=>{
     event.preventDefault()
     let newSceneInfo = {
-      storyTitle: storiesMenu.value.split(" ")[1],
+      storyId: storiesMenu.value.split(" ")[0],
       name: newSceneName.value,
       location: newSceneLocation.value,
       x_pos: newSceneX.value,
@@ -657,14 +471,7 @@ deleteSceneButton.addEventListener('click', ()=>{
       scenesArray.push(scene)
       draw()
     })
-    //on fetch response make a new object and add to scenes array
   })
-
-  // const allCharacters = []
-  // scenesArray.forEach(function(char){
-  //
-  // })
-
 
   //HELPER FUNCTIONS
     function handlePointerMove (event){
@@ -821,21 +628,6 @@ deleteSceneButton.addEventListener('click', ()=>{
          currentSceneId.value = scene.id
         }
 
-        // function hasBeenChanged(currentValue){
-        //   if (elementType() === 0 || elementType() == 1){
-        //     let metaContentsArray = currentScene().meta_contents
-        //     console.log(metaContentsArray)
-        //     let obj = metaContentsArray.find(meta => meta.id == parseInt(editMetaForm.firstChild.id, 10))
-        //     console.log(obj)
-        //     let previousValue = obj.content
-        //     console.log(previousValue)
-        //     return currentValue != previousValue
-        //   } else if (elementType() === "character") {
-        //     let previousValue = currentScene().characters.find(char => char.id == parseInt(editMetaForm.firstChild.id, 10)).name
-        //     //console.log(previousValue)
-        //     return currentValue != previousValue
-        //   }
-        // }
         function removeChildAndBr(){
           //remove child node
           editMetaForm.removeChild(editMetaForm.firstChild)
@@ -860,13 +652,11 @@ deleteSceneButton.addEventListener('click', ()=>{
               },
               body: JSON.stringify(updatedMetaInfo)
             }
-            //console.log(updatedMetaInfo)
             fetch(`http://localhost:3000/meta-contents/${editMetaForm.firstChild.id}/update`, configObj)
             .then(resp => resp.json())
             .then(function(object){
               console.log(object)
                //when response happens, update the old js object to reflect changes
-               // let metaToBeUpdated = metaContentsArray.find(theme => theme.id === object.id)
                let metaToBeUpdated = currentScene().meta_contents.find(theme => theme.id === object.id)
                metaToBeUpdated.content = object.content
             }, false)
@@ -884,13 +674,11 @@ deleteSceneButton.addEventListener('click', ()=>{
               },
               body: JSON.stringify(updatedCharacterInfo)
             }
-          //  console.log(updatedCharacterInfo)
             fetch(`http://localhost:3000/characters/${editMetaForm.firstChild.id}/update`, configObj)
             .then(resp => resp.json())
             .then(function(object){
               console.log(object)
                //when response happens, update the old js object to reflect changes
-              // let characterToBeUpdated = charactersArray.find(char => char.id === object.id)
                let characterToBeUpdated = currentScene().characters.find(char => char.id === object.id)
                characterToBeUpdated.name = object.name
             }, false)
@@ -904,7 +692,6 @@ deleteSceneButton.addEventListener('click', ()=>{
             } else {
               elementsArray = currentScene().characters
             }
-            //console.log(elementsArray)
             elementsArray.forEach(function(element){
               let elementInput = document.createElement("input")
               let deleteButton = document.createElement("button")
@@ -932,6 +719,7 @@ deleteSceneButton.addEventListener('click', ()=>{
               editMetaForm.appendChild(lineBreak)
             })
         }
+
         function fetchDelete(){
           if (elementType() === "character"){
             fetch(`http://localhost:3000/characters/${editMetaForm.firstChild.id}/destroy`)
@@ -939,7 +727,6 @@ deleteSceneButton.addEventListener('click', ()=>{
             .then(function(object){
               console.log(object)
               //remove from scenesArray
-              //let charIndex = currentScene().characters.findIndex(char => char.id == object.id)
               currentScene().characters = currentScene().characters.filter(char => char.id != object.id)
             })
 
@@ -953,6 +740,7 @@ deleteSceneButton.addEventListener('click', ()=>{
               })
           }
         }
+
         function evaluateForm(){
           if (editMetaForm.firstChild != document.getElementById("edit-themes")){
             if (editMetaForm.firstChild.value === ""){
@@ -965,6 +753,7 @@ deleteSceneButton.addEventListener('click', ()=>{
               evaluateForm()
           }
         }
+
         function submitNewMeta(){
           let url
           let elementInfo
@@ -1014,6 +803,7 @@ deleteSceneButton.addEventListener('click', ()=>{
             draw()
           })
         }
+
         function addExisting(){
           let elementInfo = {
             elementType: elementType(),
@@ -1039,6 +829,7 @@ deleteSceneButton.addEventListener('click', ()=>{
               }
             })
         }
+
         function deleteScene(scene){
           //if the first element is scenesArray === scene then unshift
           if (scenesArray[0] === currentScene()){
