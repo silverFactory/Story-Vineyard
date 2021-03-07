@@ -11,6 +11,8 @@ window.addEventListener("load", ()=>{
   const newStoryTitle = document.querySelector("#new-story-title")
   const newStoryModalClose = document.querySelector("#close-new-story")
 
+  const sceneContainer = document.querySelector("#scene-container")
+  const highlightsContainer = document.querySelector("#highlights-container")
   const moveSceneButton = document.querySelector("#move-scene")
   const deleteSceneButton = document.querySelector("#delete-scene")
 
@@ -47,7 +49,7 @@ window.addEventListener("load", ()=>{
   // const addPPsModal = document.querySelector("#add-pps-modal")
   // const addPPsModalClose = document.querySelector("#close-add-pps")
   // const submitNewPPButton = document.querySelector("#submit-new-pp")
-
+  const zoomContainer = document.querySelector("#zoom-container")
   const zoomIn = document.querySelector("#zoom-in")
   const zoomOut = document.querySelector("#zoom-out")
   const canvas = document.querySelector("#canvas")
@@ -208,9 +210,12 @@ window.addEventListener("load", ()=>{
               scenesArray.push(newScene)
             })
             draw()
-            newSceneButton.style.display = "inline"
-            zoomIn.style.display = "inline"
-            zoomOut.style.display = "inline"
+            // newSceneButton.style.display = "inline"
+            // zoomIn.style.display = "inline"
+            // zoomOut.style.display = "inline"
+            zoomContainer.style.display = "inline"
+            sceneContainer.style.display = "inline"
+            highlightsContainer.style.display = "inline"
             console.log(scenesArray)
           })
         }

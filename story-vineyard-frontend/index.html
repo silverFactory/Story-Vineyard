@@ -25,36 +25,39 @@
       </form>
     </div>
   </div>
-  <div id="stories-container">
+<div class="tools-container">
+  <div class="tools" id="stories-container">
     <label for="storiesMenu">Choose a story:</label>
     <select name="stories" id="storiesMenu">
         <option value="">--Please choose an option--</option>
         <option value="create-new-story">Create New Story</option>
     </select>
-    <div id="highlights-container">
-      <label for="all-characters">Highlight a Character:</label>
-      <select name="all-characters" id="all-characters">
-          <option value="">--Please choose an option--</option>
-      </select>
-      <label for="all-themes">Highlight a Theme:</label>
-      <select name="all-themes" id="all-themes">
-          <option value="">--Please choose an option--</option>
-      </select>
-    </div>
   </div>
-  <div id="scenes-container">
-    <button id="new-scene">New Scene</button>
-    <button id="move-scene">Move Scene</button>
-    <button id="delete-scene">Delete Scene</button>
+  <div class="tools" id="highlights-container">
+    <label for="all-characters">Highlight a Character:</label>
+    <select name="all-characters" id="all-characters">
+        <option value="">--Please choose an option--</option>
+    </select><br>
+    <label for="all-themes">Highlight a Theme:</label>
+    <select name="all-themes" id="all-themes">
+        <option value="">--Please choose an option--</option>
+    </select>
   </div>
-  <div id="zoom-container">
-    <button type="button" id="zoom-in">Zoom In</button>
-    <button type="button" id="zoom-out">Zoom Out</button>
-  <div>
-  <div id="edit-meta-contents-container">
+  <div class="tools" id="scene-container">
+    <button class="edit-button" id="new-scene">New Scene</button>
+    <button class="edit-button" id="move-scene">Move Scene</button>
+    <button class="edit-button" id="delete-scene">Delete Scene</button>
+  </div>
+  <div class="tools" id="edit-meta-contents-container">
     <button type="button" class="add-meta-content"></button>
     <button type="button" class="edit-meta-content"></button>
   </div>
+  <div class="tools" id="zoom-container">
+    <button type="button" class="edit-button" id="zoom-in">Zoom In</button>
+    <button type="button" class="edit-button" id="zoom-out">Zoom Out</button>
+  </div>
+</div>
+
   <div class="modal" id="add-meta-modal">
     <div class="modal-content">
       <span id="close-add-meta">&times;</span>
@@ -102,9 +105,9 @@
       </form>
     </div>
   </div>
+  <canvas id="canvas"></canvas>
   <div id="images">
   <image src="./images/vine_alt_xs.png" id="vine">
   </div>
-  <canvas id="canvas"></canvas>
   </body>
 </html>

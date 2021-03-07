@@ -56,18 +56,41 @@
 #new-scene-modal{
   display: none;
 }
-#new-scene{
+/* #new-scene{
   display: none;
-}
+} */
 #new-story-modal{
   display: none;
 }
 #user-button{
   margin-bottom: 2em;
 }
-#zoom-in{
+/* #zoom-in{
   display: none;
 }
 #zoom-out{
   display: none;
+} */
+#zoom-container{
+  display: none;
+}
+#scene-container{
+  display: none;
+}
+#highlights-container{
+  display: none;
+}
+/* .tools{
+  border: 2px solid black;
+} */
+.tools-container{
+  border: 2px solid black;
+  margin-bottom: 1em;
+  display: flex;
+  flex-direction: row;
+  height: 68px;
+  width: 1000px;
+}
+.edit-button{
+  display: block;
 }
