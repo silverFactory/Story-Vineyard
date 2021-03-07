@@ -35,7 +35,7 @@
   text-decoration: none;
   cursor: pointer;
 }
-#storiesContainer{
+#stories-container{
   display: none;
 }
 #canvas {
@@ -50,7 +50,7 @@
 #grapes{
   transform: scale(0.25)
 }
-#editMetaContentsContainer{
+#edit-meta-contents-container{
   display: none;
 }
 #new-scene-modal{
@@ -60,5 +60,14 @@
   display: none;
 }
 #new-story-modal{
+  display: none;
+}
+#user-button{
+  margin-bottom: 2em;
+}
+#zoom-in{
+  display: none;
+}
+#zoom-out{
   display: none;
 }

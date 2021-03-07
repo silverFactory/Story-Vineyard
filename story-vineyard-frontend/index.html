@@ -12,43 +12,46 @@
       <h1>Welcome to the Story Vineyard!</h1>
    </div>
    <!-- Trigger/Open The Modal -->
-  <button id="userButton">Sign In/Sign Up</button>
+  <button id="user-button">Sign In/Sign Up</button>
   <!-- The Modal -->
-  <div class="modal" id="userForm">
+  <div class="modal" id="user-form">
     <!-- Modal content -->
     <div class="modal-content">
-      <span id="closeLogIn">&times;</span>
+      <span id="close-login">&times;</span>
       <form action="http://localhost:3000/login" method="POST">
       <label>Username: <input type="text" name="username" id="username"></label><br>
       <label>Password: <input type="password" name="password" id="password"></label><br>
-      <input type="submit" name="submit" id="logIn" value="Log In">
+      <input type="submit" name="submit" id="log-in" value="Log In">
       </form>
     </div>
   </div>
-  <div id="storiesContainer">
+  <div id="stories-container">
     <label for="storiesMenu">Choose a story:</label>
     <select name="stories" id="storiesMenu">
         <option value="">--Please choose an option--</option>
         <option value="create-new-story">Create New Story</option>
     </select>
-    <button id="new-scene">New Scene</button>
-    <button id="move-scene">Move Scene</button>
-    <button id="delete-scene">Delete Scene</button>
-    <div id="characters-container">
-      <label for="all-characters">Choose a Character:</label>
+    <div id="highlights-container">
+      <label for="all-characters">Highlight a Character:</label>
       <select name="all-characters" id="all-characters">
           <option value="">--Please choose an option--</option>
       </select>
-    </div>
-    <div id="themes-container">
-      <label for="all-themes">Choose a Theme:</label>
+      <label for="all-themes">Highlight a Theme:</label>
       <select name="all-themes" id="all-themes">
           <option value="">--Please choose an option--</option>
       </select>
     </div>
   </div>
-
-  <div id="editMetaContentsContainer">
+  <div id="scenes-container">
+    <button id="new-scene">New Scene</button>
+    <button id="move-scene">Move Scene</button>
+    <button id="delete-scene">Delete Scene</button>
+  </div>
+  <div id="zoom-container">
+    <button type="button" id="zoom-in">Zoom In</button>
+    <button type="button" id="zoom-out">Zoom Out</button>
+  <div>
+  <div id="edit-meta-contents-container">
     <button type="button" class="add-meta-content"></button>
     <button type="button" class="edit-meta-content"></button>
   </div>
@@ -103,7 +106,5 @@
   <image src="./images/vine_alt_xs.png" id="vine">
   </div>
   <canvas id="canvas"></canvas>
-  <button type="button" class="zoomIn">Zoom In</button>
-  <button type="button" class="zoomOut">Zoom Out</button>
   </body>
 </html>

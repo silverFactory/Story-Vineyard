@@ -1,10 +1,10 @@
 window.addEventListener("load", ()=>{
-  const modalLogIn = document.querySelector("#userForm");
-  const userButton = document.querySelector("#userButton");
+  const modalLogIn = document.querySelector("#user-form");
+  const userButton = document.querySelector("#user-button");
   const welcome = document.querySelector("div#welcome  h1")
   // Get the <span> element that closes the modal
-  const modalLogInClose = document.querySelector("#closeLogIn");
-  const logInButton = document.querySelector("#logIn")
+  const modalLogInClose = document.querySelector("#close-login");
+  const logInButton = document.querySelector("#log-in")
 
   const newStoryModal = document.querySelector("#new-story-modal")
   const submitNewStoryButton = document.querySelector("#submit-new-story")
@@ -23,12 +23,10 @@ window.addEventListener("load", ()=>{
   const newSceneX = document.querySelector("#scene-x-pos")
   const newSceneY = document.querySelector("#scene-y-pos")
 
-  const storiesContainer = document.querySelector("#storiesContainer")
+  const storiesContainer = document.querySelector("#stories-container")
   const storiesMenu = document.querySelector("#storiesMenu")
 
-  const editMetaContentsContainer = document.querySelector("#editMetaContentsContainer")
-  // const editThemesContainer = document.querySelector("#editThemesContainer")
-  // const editPPsContainer = document.querySelector("#editPPsContainer")
+  const editMetaContentsContainer = document.querySelector("#edit-meta-contents-container")
 
   const currentSceneId = document.querySelector("#scene-id")
 
@@ -50,20 +48,19 @@ window.addEventListener("load", ()=>{
   // const addPPsModalClose = document.querySelector("#close-add-pps")
   // const submitNewPPButton = document.querySelector("#submit-new-pp")
 
-  const zoomIn = document.querySelector(".zoomIn")
-  const zoomOut = document.querySelector(".zoomOut")
+  const zoomIn = document.querySelector("#zoom-in")
+  const zoomOut = document.querySelector("#zoom-out")
   const canvas = document.querySelector("#canvas")
   const canvasLeft = canvas.offsetLeft + canvas.clientLeft
   const canvasTop = canvas.offsetTop + canvas.clientTop
   const ctx = canvas.getContext("2d")
   const vine = document.getElementById("vine")
   const grapes = document.getElementById("grapes")
+
   const scenesArray = []
   const allCharacters = []
-  const charactersContainer = document.querySelector("#characters-container")
   const charactersMenu = document.querySelector("#all-characters")
   const allThemes = []
-  const themesContainer = document.querySelector("#themes-container")
   const themesMenu = document.querySelector("#all-themes")
   //dimensions of entire vine png
   const vinePNGHeight = 80
@@ -212,6 +209,8 @@ window.addEventListener("load", ()=>{
             })
             draw()
             newSceneButton.style.display = "inline"
+            zoomIn.style.display = "inline"
+            zoomOut.style.display = "inline"
             console.log(scenesArray)
           })
         }
