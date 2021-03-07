@@ -1,6 +1,7 @@
 window.addEventListener("load", ()=>{
-  const modalLogIn = document.querySelector("#user-form");
-  const userButton = document.querySelector("#user-button");
+  const modalLogIn = document.querySelector("#user-form")
+  const userButton = document.querySelector("#user-button")
+  const tutorialButton = document.querySelector("#tutorial-button")
   const welcome = document.querySelector("div#welcome  h1")
   // Get the <span> element that closes the modal
   const modalLogInClose = document.querySelector("#close-login");
@@ -25,6 +26,7 @@ window.addEventListener("load", ()=>{
   const newSceneX = document.querySelector("#scene-x-pos")
   const newSceneY = document.querySelector("#scene-y-pos")
 
+  const toolsContainer = document.querySelector(".tools-container")
   const storiesContainer = document.querySelector("#stories-container")
   const storiesMenu = document.querySelector("#storiesMenu")
 
@@ -126,6 +128,8 @@ window.addEventListener("load", ()=>{
     .then(function(object) {
       welcome.innerText = `${object["username"]}'s Story Vineyard`
       userButton.style.display = "none"
+      tutorialButton.style.display = "none"
+      toolsContainer.style.display = "flex"
       storiesContainer.style.display = "inline"
       modalLogIn.style.display = "none";
       object.stories.forEach(function(story){
@@ -375,7 +379,7 @@ window.addEventListener("load", ()=>{
     })
   })
 
-    canvas.height = 1000
+    canvas.height = 800
     canvas.width = 1000
     let scaleFactor = 1
     zoomIn.addEventListener("click", ()=>{
