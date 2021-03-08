@@ -12,6 +12,5 @@ class SessionsController < ApplicationController
       else
         render json: {message: "invalid password"}
       end
-
   end
 end

@@ -15,13 +15,25 @@
       <button id="tutorial-button">View Tutorial</button>
    </div>
   <div class="modal" id="user-form">
-    <div class="modal-content">
+    <div class="modal-content login">
       <span id="close-login">&times;</span>
-      <form action="http://localhost:3000/login" method="POST">
-      <label>Username: <input type="text" name="username" id="username"></label><br>
-      <label>Password: <input type="password" name="password" id="password"></label><br>
-      <input type="submit" name="submit" id="log-in" value="Log In">
-      </form>
+      <div>
+        <h3>Sign In</h3>
+        <form action="http://localhost:3000/login" method="POST">
+        <label>Username: <input type="text" name="username" id="username"></label><br>
+        <label>Password: <input type="password" name="password" id="password"></label><br>
+        <input type="submit" name="submit" id="log-in" value="Log In">
+        </form>
+      </div>
+      <div>
+        <h3>Sign Up</h3>
+        <form action="http://localhost:3000/users" method="POST">
+        <label>Username: <input type="text" name="username" id="username"></label><br>
+        <label>Password: <input type="password" name="password" id="password"></label><br>
+        <label>Confirm Password: <input type="password" name="confirm-password" id="confirm-password"></label><br>
+        <input type="submit" name="submit" id="sign-up" value="Sign Up">
+        </form>
+      </div>
     </div>
   </div>
 <div class="tools-container">

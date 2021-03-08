@@ -17,5 +17,5 @@ Rails.application.routes.draw do
   post '/scenes/:id' => 'scenes#update'
   post '/scenes/:id/add-element' => 'scenes#add_element'
   get '/scenes/:id/destroy' => 'scenes#destroy'
-
+  post '/users' => 'users#create'
 end

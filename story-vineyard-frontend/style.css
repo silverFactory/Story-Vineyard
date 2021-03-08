@@ -18,9 +18,26 @@
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 53%; /* Could be more or less, depending on screen size */
 }
-
+.login{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.login span{
+  margin-right: auto;
+}
+.login div{
+  text-align: end;
+  padding: 10px;
+}
+div h3{
+  padding-right: 12%;
+}
+form input{
+  margin-bottom: 3px;
+}
 /* The Close Button */
 .close {
   color: #aaa;
