@@ -299,6 +299,7 @@ window.addEventListener("load", ()=>{
         //console.log(scenesArray.length)
         //start new story
         if (storiesMenu.value === "create-new-story"){
+          console.log("change")
           newStoryModal.style.display = "inline"
         } else {
         //retrieve saved story elements
@@ -682,7 +683,7 @@ deleteSceneButton.addEventListener('click', ()=>{
       canvas.addEventListener('click', handleNewSceneClick)
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         draw()
-        ctx.drawImage(vine, Math.floor(event.clientX), Math.floor(event.clientY)-100)
+        ctx.drawImage(vine, Math.floor(event.clientX)-25, Math.floor(event.clientY)-240)
       }
       function handleNewSceneClick(){
         canvas.removeEventListener('pointermove', handlePointerMove)
@@ -690,8 +691,8 @@ deleteSceneButton.addEventListener('click', ()=>{
         //modal pops up to make a new scene with name and location fields (xpos and ypos hidden)
         newSceneModal.style.display = "inline"
         //set x & y pos inputs on form
-        newSceneX.value = Math.floor(event.clientX)
-        newSceneY.value = Math.floor(event.clientY)-100
+        newSceneX.value = Math.floor(event.clientX)-25
+        newSceneY.value = Math.floor(event.clientY)-240
       }
       function handleMoveScene(event){
         canvas.addEventListener('click', setNewLocation)
