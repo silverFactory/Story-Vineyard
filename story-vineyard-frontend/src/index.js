@@ -30,7 +30,7 @@ window.addEventListener("load", ()=>{
 
   const toolsContainer = document.querySelector(".tools-container")
   const storiesContainer = document.querySelector("#stories-container")
-  const storiesMenu = document.querySelector("#storiesMenu")
+  const storiesMenu = document.querySelector("#stories-menu")
 
   const editMetaContentsContainer = document.querySelector("#edit-meta-contents-container")
 
@@ -287,96 +287,10 @@ window.addEventListener("load", ()=>{
         option.innerText = story.title
         storiesMenu.appendChild(option)
       })
-      //get all story elements associated with selected story
-
-      storiesMenu.addEventListener('change', (element)=>{
-        //adjust menu styling
-        storiesContainer.style.marginLeft= "100px"
-        //erase all previous story elements
-        clearAllElements()
-        ctx.clearRect(0, 0, canvas.width, canvas.height)
-        draw()
-        //console.log(scenesArray.length)
-        //start new story
-        if (storiesMenu.value === "create-new-story"){
-          console.log("change")
-          newStoryModal.style.display = "inline"
-        } else {
-        //retrieve saved story elements
-        let storyId = parseInt(storiesMenu.value.split(" ")[0], 10)
-        fetch(`http://localhost:3000/stories/${storyId}`)
-          .then(resp => resp.json())
-          .then(function(json) {
-            json.all_characters.forEach(function(char){
-              let newChar = new Character(
-                char.id,
-                char.name
-                )
-                allCharacters.push(newChar)
-                let charOption = document.createElement("option")
-                charOption.value = char.id + " " + char.name
-                charOption.innerText = char.name
-                charactersMenu.appendChild(charOption)
-            })
-            console.log(allCharacters)
-            json.all_themes.forEach(function(theme){
-              let newTheme = new MetaContent(
-                theme.id,
-                theme.content,
-                theme.theme_or_pp
-              )
-              allThemes.push(newTheme)
-              let themeOption = document.createElement("option")
-              themeOption.value = theme.id + " " + theme.content
-              themeOption.innerText = theme.content
-              themesMenu.appendChild(themeOption)
-            })
-            console.log(allThemes)
-            //make a scene object for each scene and add to scenesArray
-            json.scenes.forEach(function(scene){
-              let characters = []
-              scene.characters.forEach(function(char){
-                //make a new character object
-                let newChar = new Character(
-                  char.id,
-                  char.name
-                  )
-                  characters.push(newChar)
-              })
-              let meta_contents =[]
-              scene.meta_contents.forEach(function(meta){
-                //make a new meta object
-                let newMeta = new MetaContent(
-                  meta.id,
-                  meta.content,
-                  meta.theme_or_pp
-                )
-                meta_contents.push(newMeta)
-              })
-              let newScene = new Scene(
-                scene.id,
-                scene.name,
-                scene.location,
-                scene.x_pos,
-                scene.y_pos,
-                characters,
-                meta_contents
-              )
-
-              scenesArray.push(newScene)
-            })
-            draw()
-            displayTools()
-            // toolsContainer.style.display = "flex"
-            // zoomContainer.style.display = "inline"
-            // sceneContainer.style.display = "inline"
-            // highlightsContainer.style.display = "inline"
-            console.log(scenesArray)
-          })
-        }
-      })
-    })
   }, false)
+}) // end login button listener
+
+storiesMenu.addEventListener('change', storiesMenuChange)
 
   signUpButton.addEventListener('click', (event)=>{
     event.preventDefault()
@@ -1076,5 +990,87 @@ deleteSceneButton.addEventListener('click', ()=>{
           zoomContainer.style.display = "inline"
           sceneContainer.style.display = "inline"
           highlightsContainer.style.display = "inline"
+        }
+        function storiesMenuChange(){
+          //adjust menu styling
+          storiesContainer.style.marginLeft= "100px"
+          //erase all previous story elements
+          clearAllElements()
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+          draw()
+          //console.log(scenesArray.length)
+          //start new story
+          console.log("change")
+          if (storiesMenu.value === "create-new-story"){
+            newStoryModal.style.display = "inline"
+          } else {
+          //retrieve saved story elements
+          let storyId = parseInt(storiesMenu.value.split(" ")[0], 10)
+          fetch(`http://localhost:3000/stories/${storyId}`)
+            .then(resp => resp.json())
+            .then(function(json) {
+              json.all_characters.forEach(function(char){
+                let newChar = new Character(
+                  char.id,
+                  char.name
+                  )
+                  allCharacters.push(newChar)
+                  let charOption = document.createElement("option")
+                  charOption.value = char.id + " " + char.name
+                  charOption.innerText = char.name
+                  charactersMenu.appendChild(charOption)
+              })
+              console.log(allCharacters)
+              json.all_themes.forEach(function(theme){
+                let newTheme = new MetaContent(
+                  theme.id,
+                  theme.content,
+                  theme.theme_or_pp
+                )
+                allThemes.push(newTheme)
+                let themeOption = document.createElement("option")
+                themeOption.value = theme.id + " " + theme.content
+                themeOption.innerText = theme.content
+                themesMenu.appendChild(themeOption)
+              })
+              console.log(allThemes)
+              //make a scene object for each scene and add to scenesArray
+              json.scenes.forEach(function(scene){
+                let characters = []
+                scene.characters.forEach(function(char){
+                  //make a new character object
+                  let newChar = new Character(
+                    char.id,
+                    char.name
+                    )
+                    characters.push(newChar)
+                })
+                let meta_contents =[]
+                scene.meta_contents.forEach(function(meta){
+                  //make a new meta object
+                  let newMeta = new MetaContent(
+                    meta.id,
+                    meta.content,
+                    meta.theme_or_pp
+                  )
+                  meta_contents.push(newMeta)
+                })
+                let newScene = new Scene(
+                  scene.id,
+                  scene.name,
+                  scene.location,
+                  scene.x_pos,
+                  scene.y_pos,
+                  characters,
+                  meta_contents
+                )
+
+                scenesArray.push(newScene)
+              })
+              draw()
+              displayTools()
+              console.log(scenesArray)
+            })
+          }
         }
 })
