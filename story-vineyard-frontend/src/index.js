@@ -254,13 +254,6 @@ window.addEventListener("load", ()=>{
         tutorialStep = 0
         break
       default:
-      ctx.drawImage(vine, scene.x_pos, scene.y_pos)
-      ctx.fillRect(scene.x_pos-5, scene.y_pos+60, 80, 40)
-      ctx.clearRect(scene.x_pos, scene.y_pos+65, 70, 30)
-      ctx.strokeRect(scene.x_pos+2, scene.y_pos+67, 66, 26)
-      ctx.fillText(`${scene.name}:`, scene.x_pos+5, scene.y_pos+77)
-      ctx.fillText(scene.location, scene.x_pos+5, scene.y_pos+90)
-        console.log("finished")
     }
   })
   //logIn form default-submit prevented and fetch data from API
@@ -414,7 +407,7 @@ window.addEventListener("load", ()=>{
       alert("passwords don't match")
     }
   })
-  //subnmits new story to db
+  //submits new story to db
   submitNewStoryButton.addEventListener('click', (event)=>{
     event.preventDefault()
     let newStoryInfo = {
@@ -621,6 +614,7 @@ window.addEventListener("load", ()=>{
           else if (x > (scene.x_pos * scaleFactor) && x < (scene.x_pos + vinePNGWidth)* scaleFactor
                   && y > (scene.y_pos * scaleFactor) && y < (scene.y_pos + vinePNGHeight)* scaleFactor) {
                 editMetaContentsContainer.style.display = "none"
+                currentSceneId.value = scene.id
                 ctx.clearRect(0, 0, canvas.width, canvas.height)
                 draw()
             }
@@ -702,8 +696,8 @@ deleteSceneButton.addEventListener('click', ()=>{
       function handleMoveScene(event){
         canvas.addEventListener('click', setNewLocation)
 
-        currentScene().x_pos = Math.floor(event.clientX)
-        currentScene().y_pos = Math.floor(event.clientY)-100
+        currentScene().x_pos = Math.floor(event.clientX)-25
+        currentScene().y_pos = Math.floor(event.clientY)-240
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         draw()
       }
