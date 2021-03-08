@@ -2,6 +2,7 @@ window.addEventListener("load", ()=>{
   const modalLogIn = document.querySelector("#user-form")
   const userButton = document.querySelector("#user-button")
   const tutorialButton = document.querySelector("#tutorial-button")
+  let tutorialStep = 0
   const welcome = document.querySelector("div#welcome  h1")
   // Get the <span> element that closes the modal
   const modalLogInClose = document.querySelector("#close-login");
@@ -61,7 +62,8 @@ window.addEventListener("load", ()=>{
   const canvasTop = 220
   const ctx = canvas.getContext("2d")
   const vine = document.getElementById("vine")
-  const grapes = document.getElementById("grapes")
+
+  //const grapes = document.getElementById("grapes")
 
   const scenesArray = []
   const allCharacters = []
@@ -109,6 +111,158 @@ window.addEventListener("load", ()=>{
       editMetaModal.style.display = "none"
     }
   }
+  tutorialButton.addEventListener('click', ()=>{
+    switch(tutorialStep){
+      case 0:
+        tutorialButton.innerText = "Continue Tutorial"
+        ctx.font = '24px vollkorn'
+        ctx.fillText('Story Vineyard is a graphical outlining tool,', 100, 100)
+        ctx.fillText('designed to give writers an easily digestible birds eye view of their project.', 100, 150)
+        tutorialStep ++
+        break
+      case 1:
+        ctx.clearRect(0, 0, canvas.width, 170)
+        ctx.fillText('In the vineyard, a story is broken up into discrete chunks called scenes,', 100, 100)
+        ctx.fillText('which are represented graphically by the image of a vine.', 100, 150)
+        tutorialStep ++
+        break
+      case 2:
+        ctx.drawImage(vine, 400, 240)
+        tutorialStep ++
+        break
+      case 3:
+        ctx.clearRect(0, 0, canvas.width, 170)
+        ctx.fillText('Each scene has three special clickable areas:', 100, 100)
+        tutorialStep ++
+        break
+      case 4:
+        ctx.fillText('the grapes', 460, 355)
+        tutorialStep ++
+        break
+      case 5:
+        ctx.fillText('left red leaf', 340, 240)
+        tutorialStep ++
+        break
+      case 6:
+        ctx.fillText('right red leaf', 530, 230)
+        tutorialStep ++
+        break
+      case 7:
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.fillText('The grapes represent characters', 100, 100)
+        ctx.drawImage(vine, 400, 240)
+        let charBubbleX = 509
+        let charBubbleY = 405
+         ctx.beginPath();
+         ctx.moveTo(charBubbleX, charBubbleY);
+         ctx.quadraticCurveTo(charBubbleX+50, charBubbleY, charBubbleX+50, charBubbleY-37.5);
+         ctx.quadraticCurveTo(charBubbleX+50, charBubbleY-75, charBubbleX+25, charBubbleY-75);
+         ctx.lineTo(charBubbleX-10, charBubbleY-100);
+         ctx.lineTo(charBubbleX+10, charBubbleY-75);
+         ctx.quadraticCurveTo(charBubbleX-50, charBubbleY-75, charBubbleX-50, charBubbleY-37.5);
+         ctx.quadraticCurveTo(charBubbleX-50, charBubbleY, charBubbleX, charBubbleY);
+         ctx.stroke();
+         //fill in bubble with character names
+         ctx.font = "8px sans-serif"
+         let charXTextPos = charBubbleX - 40
+         let charYTextPos = charBubbleY - 50
+         let characters = ["Hero", "Best Friend", "Villain"]
+         characters.forEach(function(char){
+           ctx.fillText(char, charXTextPos, charYTextPos)
+           //create a new line as a factor of text size
+           charYTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+         })
+         tutorialStep ++
+         break
+      case 8:
+        ctx.clearRect(0, 0, canvas.width, 170)
+        ctx.font = '24px vollkorn'
+        ctx.fillText('The left red leaf represents themes', 100, 100)
+        let themeBubbleX = 510
+        let themeBubbleY = 160
+         ctx.beginPath();
+         ctx.moveTo(themeBubbleX, themeBubbleY);
+         ctx.quadraticCurveTo(themeBubbleX-50, themeBubbleY, themeBubbleX-50, themeBubbleY+37.5);
+         ctx.quadraticCurveTo(themeBubbleX-50, themeBubbleY+75, themeBubbleX-25, themeBubbleY+75);
+         ctx.quadraticCurveTo(themeBubbleX-25, themeBubbleY+95, themeBubbleX-45, themeBubbleY+100);
+         ctx.quadraticCurveTo(themeBubbleX-15, themeBubbleY+95, themeBubbleX-10, themeBubbleY+75);
+         ctx.quadraticCurveTo(themeBubbleX+50, themeBubbleY+75, themeBubbleX+50, themeBubbleY+37.5);
+         ctx.quadraticCurveTo(themeBubbleX+50, themeBubbleY, themeBubbleX, themeBubbleY);
+         ctx.stroke();
+         //fill in info bubble with MetaContent(theme) data
+         ctx.font = "8px sans-serif"
+         let themeXTextPos = themeBubbleX - 45
+         let themeYTextPos = themeBubbleY + 30
+         let themes = ["Good vs Evil", "Green symbolizes Greed"]
+         themes.forEach(function(theme){
+           ctx.fillText(theme, themeXTextPos, themeYTextPos)
+           //create a new line as a factor of text size
+           themeYTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+         })
+         tutorialStep ++
+         break
+      case 9:
+        ctx.clearRect(0, 0, canvas.width, 160)
+        ctx.font = '24px vollkorn'
+        ctx.fillText('The right red leaf represents plot points', 100, 100)
+        let plotBubbleX = 620
+        let plotBubbleY = 140
+         ctx.beginPath();
+         ctx.moveTo(plotBubbleX, plotBubbleY);
+         ctx.quadraticCurveTo(plotBubbleX-50, plotBubbleY, plotBubbleX-50, plotBubbleY+37.5);
+         ctx.quadraticCurveTo(plotBubbleX-50, plotBubbleY+75, plotBubbleX-25, plotBubbleY+75);
+         ctx.quadraticCurveTo(plotBubbleX-25, plotBubbleY+95, plotBubbleX-45, plotBubbleY+100);
+         ctx.quadraticCurveTo(plotBubbleX-15, plotBubbleY+95, plotBubbleX-10, plotBubbleY+75);
+         ctx.quadraticCurveTo(plotBubbleX+50, plotBubbleY+75, plotBubbleX+50, plotBubbleY+37.5);
+         ctx.quadraticCurveTo(plotBubbleX+50, plotBubbleY, plotBubbleX, plotBubbleY);
+         ctx.stroke();
+         //fill in info bubble with MetaContent(plot point) data
+         ctx.font = "8px sans-serif"
+         let plotXTextPos = plotBubbleX - 45
+         let plotYTextPos = plotBubbleY + 30
+         plotPoints = ["Hero gets a quest", "Villain hatches a scheme"]
+         plotPoints.forEach(function(pp){
+           ctx.fillText(pp, plotXTextPos, plotYTextPos)
+           //create a new line as a factor of text size
+           plotYTextPos += parseInt(ctx.font.split("px")[0], 10) + 2
+         })
+         tutorialStep ++
+         break
+      case 10:
+        ctx.font = '24px vollkorn'
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.drawImage(vine, 400, 240)
+        ctx.fillText("To clear the bubbles, simply click a portion of the vine", 100, 100)
+        ctx.fillText(' that is not one of these elements.', 100, 150)
+        tutorialStep ++
+        break
+      case 11:
+        ctx.clearRect(0, 0, canvas.width, 160)
+        ctx.fillText("Above the vineyard are all the tools you'll need", 100, 100)
+        ctx.fillText('to map your story.', 100, 150)
+        // toolsContainer.style.display = "flex"
+        storiesContainer.style.display = "inline"
+        displayTools()
+        tutorialButton.innerText = "Finish Tutorial"
+        tutorialStep ++
+        break
+      case 12:
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        ctx.fillText("Sign Up to continue exploring!", 100, 100)
+        toolsContainer.style.display = "none"
+        tutorialButton.innerText = "View Tutorial"
+        tutorialStep = 0
+        break
+      default:
+      ctx.drawImage(vine, scene.x_pos, scene.y_pos)
+      ctx.fillRect(scene.x_pos-5, scene.y_pos+60, 80, 40)
+      ctx.clearRect(scene.x_pos, scene.y_pos+65, 70, 30)
+      ctx.strokeRect(scene.x_pos+2, scene.y_pos+67, 66, 26)
+      ctx.fillText(`${scene.name}:`, scene.x_pos+5, scene.y_pos+77)
+      ctx.fillText(scene.location, scene.x_pos+5, scene.y_pos+90)
+        console.log("finished")
+    }
+  })
   //logIn form default-submit prevented and fetch data from API
   logInButton.addEventListener("click", (event)=>{
     event.preventDefault()
