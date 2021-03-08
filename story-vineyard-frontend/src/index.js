@@ -6,6 +6,7 @@ window.addEventListener("load", ()=>{
   // Get the <span> element that closes the modal
   const modalLogInClose = document.querySelector("#close-login");
   const logInButton = document.querySelector("#log-in")
+  const signUpButton = document.querySelector("#sign-up")
 
   const newStoryModal = document.querySelector("#new-story-modal")
   const submitNewStoryButton = document.querySelector("#submit-new-story")
@@ -230,6 +231,36 @@ window.addEventListener("load", ()=>{
     })
   }, false)
 
+  signUpButton.addEventListener('click', (event)=>{
+    event.preventDefault()
+    //add something to check that password and password confirmation match
+    if (document.querySelector("#new-password").value === document.querySelector("#confirm-password").value){
+      let newUserInfo = {
+        username: document.querySelector("#new-username").value,
+        password: document.querySelector("#new-password").value
+      }
+      let configObj = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(newUserInfo)
+      }
+      fetch("http://localhost:3000/users", configObj)
+      .then(resp=>resp.json())
+      .then(function(object){
+        welcome.innerText = `${object["username"]}'s Story Vineyard`
+        userButton.style.display = "none"
+        tutorialButton.style.display = "none"
+        toolsContainer.style.display = "flex"
+        storiesContainer.style.display = "inline"
+        modalLogIn.style.display = "none";
+      })
+    } else {
+      alert("passwords don't match")
+    }
+  })
   //subnmits new story to db
   submitNewStoryButton.addEventListener('click', (event)=>{
     event.preventDefault()
