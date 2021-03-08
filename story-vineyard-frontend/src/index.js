@@ -217,13 +217,11 @@ window.addEventListener("load", ()=>{
               scenesArray.push(newScene)
             })
             draw()
-            // newSceneButton.style.display = "inline"
-            // zoomIn.style.display = "inline"
-            // zoomOut.style.display = "inline"
-            toolsContainer.style.display = "flex"
-            zoomContainer.style.display = "inline"
-            sceneContainer.style.display = "inline"
-            highlightsContainer.style.display = "inline"
+            displayTools()
+            // toolsContainer.style.display = "flex"
+            // zoomContainer.style.display = "inline"
+            // sceneContainer.style.display = "inline"
+            // highlightsContainer.style.display = "inline"
             console.log(scenesArray)
           })
         }
@@ -285,6 +283,8 @@ window.addEventListener("load", ()=>{
       newStory.innerText = object.title
       storiesMenu.appendChild(newStory)
       newStory.selected = true
+      newStoryModal.style.display = "none"
+      displayTools()
     })
   }, false)
   //submits new MetaContent or Character to DB
@@ -920,5 +920,11 @@ deleteSceneButton.addEventListener('click', ()=>{
             array.pop()
             clearArray(array)
           }
+        }
+        function displayTools(){
+          toolsContainer.style.display = "flex"
+          zoomContainer.style.display = "inline"
+          sceneContainer.style.display = "inline"
+          highlightsContainer.style.display = "inline"
         }
 })
