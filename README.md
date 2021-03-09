@@ -1,1 +1,3 @@
 # Story-Vineyard
+Story Vineyard is a graphical outlining tool, designed to give writers an easily digestible birds eye view of their project. It is a single page application, with various events triggering AJAX calls to the Rails API on the backend.
+To check it out, fork and clone this repository, then navigate into the backend folder. Run bundle install, rails db:migrate, and rails s to start up the server. Open the index.html file from the frontend folder in your browser of choice. I recomend viewing the tutorial to get a better feel for the use of this application, then make a user account to start experimenting with the graphical intereface.
