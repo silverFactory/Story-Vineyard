@@ -4,7 +4,6 @@ window.addEventListener("load", ()=>{
   const tutorialButton = document.querySelector("#tutorial-button")
   let tutorialStep = 0
   const welcome = document.querySelector("div#welcome  h1")
-  // Get the <span> element that closes the modal
   const modalLogInClose = document.querySelector("#close-login");
   const logInButton = document.querySelector("#log-in")
   const signUpButton = document.querySelector("#sign-up")
@@ -49,21 +48,14 @@ window.addEventListener("load", ()=>{
   const editMetaModalClose = document.querySelector("#close-edit-meta")
   const editMetaForm = document.querySelector("#edit-meta-form")
 
-  // const addPPsButton = document.querySelector(".add-plot-point")
-  // const addPPsModal = document.querySelector("#add-pps-modal")
-  // const addPPsModalClose = document.querySelector("#close-add-pps")
-  // const submitNewPPButton = document.querySelector("#submit-new-pp")
   const zoomContainer = document.querySelector("#zoom-container")
   const zoomIn = document.querySelector("#zoom-in")
   const zoomOut = document.querySelector("#zoom-out")
   const canvas = document.querySelector("#canvas")
   const canvasLeft = canvas.offsetLeft + canvas.clientLeft
-  // const canvasTop = canvas.offsetTop + canvas.clientTop
   const canvasTop = 220
   const ctx = canvas.getContext("2d")
   const vine = document.getElementById("vine")
-
-  //const grapes = document.getElementById("grapes")
 
   const scenesArray = []
   const allCharacters = []
@@ -91,6 +83,9 @@ window.addEventListener("load", ()=>{
   const ppTop = 1
   const ppBottom = 19
 
+  canvas.height = 800
+  canvas.width = 1000
+  let scaleFactor = 1
 
   // When the user clicks on the button, open the modal
   userButton.onclick = function() {
@@ -294,7 +289,6 @@ storiesMenu.addEventListener('change', storiesMenuChange)
 
   signUpButton.addEventListener('click', (event)=>{
     event.preventDefault()
-    //add something to check that password and password confirmation match
     if (document.querySelector("#new-password").value === document.querySelector("#confirm-password").value){
       let newUserInfo = {
         username: document.querySelector("#new-username").value,
@@ -473,15 +467,11 @@ storiesMenu.addEventListener('change', storiesMenuChange)
     })
   })
 
-    canvas.height = 800
-    canvas.width = 1000
-    let scaleFactor = 1
-    zoomIn.addEventListener("click", ()=>{
+  zoomIn.addEventListener("click", ()=>{
     ctx.resetTransform()
     scaleFactor += 0.25
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.scale(scaleFactor, scaleFactor)
-    console.log(scaleFactor)
     draw()
   })
   zoomOut.addEventListener("click", ()=>{
@@ -489,7 +479,6 @@ storiesMenu.addEventListener('change', storiesMenuChange)
     scaleFactor -= 0.25
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.scale(scaleFactor, scaleFactor)
-    console.log(scaleFactor)
     draw()
   })
   function draw(){
@@ -505,7 +494,6 @@ storiesMenu.addEventListener('change', storiesMenuChange)
   }
 
   canvas.addEventListener('click', ()=> {
-    console.log(event)
     let x = event.pageX - canvasLeft
     let y = event.pageY - canvasTop
 
@@ -998,7 +986,6 @@ deleteSceneButton.addEventListener('click', ()=>{
           clearAllElements()
           ctx.clearRect(0, 0, canvas.width, canvas.height)
           draw()
-          //console.log(scenesArray.length)
           //start new story
           console.log("change")
           if (storiesMenu.value === "create-new-story"){
